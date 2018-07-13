@@ -1,0 +1,40 @@
+{
+  "main": "main.js",
+  "name": "@tars/rpc",
+  "version": "1.4.0",
+  "description": "基于tars4nodejs的rpc通信框架，开发的牛牛游戏",
+  "homepage": "",
+  "author": {
+    "name": "czzou",
+    "email": "czzou@tencent.com",
+    "url": ""
+  },
+  "keywords": [
+    "tars",
+    "tup",
+    "proxy",
+    "server"
+  ],
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "contributors": [
+    {
+      "name": "邹健",
+      "email": "iwof920125@hotmail.com",
+      "url": ""
+    }
+  ],
+  "dependencies": {
+    "@tars/dyeing": "latest",
+    "@tars/monitor": "latest",
+    "@tars/registry": "latest",
+    "@tars/stream": "latest",
+    "@tars/utils": "latest",
+    "@types/lodash": "latest",
+    "lodash": "latest"
+  },
+  "readmeFilename": "README.md",
+  "license": "BSD-3-Clause"
+}
