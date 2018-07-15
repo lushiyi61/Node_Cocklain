@@ -1,0 +1,18 @@
+module GAMEENUM
+{
+    const short nVersion = 1;   // 协议号
+
+    enum E_FROM_ROOM {
+        GAMECREATE    = 10,         // 创建游戏
+        GAMEPREPARE     ,           // 玩家准备
+        GAMESTART       ,           // 游戏开始
+        GAMEACTION      ,           // 游戏动作
+        GAMEFINNISH     ,           // 游戏结束
+        GAMEDISMISS     ,           // 游戏解散
+        GAMERESULT      ,           // 游戏结果
+    };
+
+    enum E_ERROR_CODE {
+        
+    };
+};
