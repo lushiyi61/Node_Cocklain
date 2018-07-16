@@ -13,8 +13,8 @@ module TarsGame
     struct TReqMessage
     {
         0 require short nVer = nVersion;    // 版本
-        1 require short nGameCmd = 0;       // 指令（玩家提供/或RoomServer提供）
-        2 require string sTableNo;          // 桌子号  (必须知道桌子号，RoomServer提供）
+        1 require short nMsgID;             // 指令（RoomServer提供）
+        2 require string sTableNo;          // 桌子号  (RoomServer提供）
         3 require short nChairIdx = -1;     // 座位序号 默认为RoomServer的消息（RoomServer提供）
         4 optional vector<byte> vecData;    // 消息数据（玩家消息直接转发）
     };
