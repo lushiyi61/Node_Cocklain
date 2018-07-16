@@ -2,6 +2,34 @@ module TarsGame
 {
     const short nVersion = 1;   // 协议号（每次正式发布数值+1）
 
+    enum E_GAME_MSGID {
+        GAMECREATE      = 10,           // 创建游戏
+        GAMEPREPARE         ,           // 玩家准备
+        GAMERECONNECT       ,           // 玩家重连
+        GAMESTART           ,           // 游戏开始
+        GAMEFINNISH         ,           // 游戏结束
+        GAMEDISMISS         ,           // 游戏解散
+        GAMERESULT          ,           // 游戏结果
+
+        /**
+        * 游戏动作分类抽象设计
+        * 原因：不同的游戏动作，其请求的结构和返回的结构不一样
+        * - Room请求游戏开始
+        * - 游戏开始1：玩家游戏动作指令默认GAMEACTION1（如执行抢庄操作）
+        * - 游戏开始2：玩家游戏动作指令默认GAMEACTION2（如执行吃碰杠）
+        * - ......
+        */
+        GAMEACTION1     = 50,           // 游戏动作1类
+        GAMEACTION2         ,           // 游戏动作2类
+        GAMEACTION3         ,           // 游戏动作...
+        GAMEACTION4         ,           // 游戏动作...
+        GAMEACTION5         ,           // 游戏动作...
+        GAMEACTION6         ,           // 游戏动作...
+        GAMEACTION7         ,           // 游戏动作...
+        GAMEACTION8         ,           // 游戏动作...
+        GAMEACTION9         ,           // 游戏动作...
+    };
+
     enum EGameMsgType
     {
         ENOTIFYDATA = 0 ,   // vecNotifyData
