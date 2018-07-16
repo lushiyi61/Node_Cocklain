@@ -1,4 +1,4 @@
-module GameNodeMsg
+module TarsGame
 {
     const short nVersion = 1;   // 协议号（每次正式发布数值+1）
 
