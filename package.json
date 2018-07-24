@@ -28,6 +28,7 @@
   ],
   "dependencies": {
     "@tars/dyeing": "latest",
+    "@tars/logs": "latest",
     "@tars/monitor": "latest",
     "@tars/registry": "latest",
     "@tars/stream": "latest",

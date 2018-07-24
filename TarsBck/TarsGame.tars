@@ -1,10 +1,24 @@
 module TarsGame
 {
+    /**
+    * 由于该规则由Room创建，所以必须满足开放性要求，不做具体限制
+    */
+    struct TGameCreate 
+    {
+        0 require string rules;         // 房间规则（json to string）
+    };
+
+    struct TGamgStart
+    {
+        0 require vector<long> vecUserID;
+    };
+
+    /////////////////////////游戏的基本数据结构///////////////////////////    
     enum E_GAME_MSGID {
         GAMECREATE      = 10,           // 创建游戏
-        GAMEPREPARE     = 11,           // 玩家准备
-        GAMERECONNECT   = 12,           // 玩家重连
-        GAMESTART       = 13,           // 游戏开始
+        GAMERECONNECT   = 11,           // 玩家重连
+        GAMESTART       = 12,           // 游戏开始
+        GAMETIMEOUT     = 13,           // 游戏超时
         GAMEFINNISH     = 14,           // 游戏结束
         GAMEDISMISS     = 15,           // 游戏解散
         GAMERESULT      = 16,           // 游戏结果
@@ -45,12 +59,12 @@ module TarsGame
         4 optional vector<byte> vecData;    // 消息数据（玩家消息直接转发）
     };
 
-    struct TRespMessage
+    struct TData
     {
-        1 require EGameMsgType eMsgType;    // 消息类型
-        2 optional TGameData stGameData;    // 消息数据
+        0 require short nMsgID;
+        1 require vector<byte> vecData;                 // 一份数据，将vecData发给玩家
     };
-
+    
     /**
     * 游戏返回数据
     * =======================
@@ -63,10 +77,13 @@ module TarsGame
         2 optional vector<TData> vecRespAllData;        // N份，需分别发给座位上的玩家
     };
 
-    struct TData
+    struct TRespMessage
     {
-        0 require vector<byte> vecData;                 // 一份数据，将vecData发给玩家
+        0 require short nTimeout = 0;           // 下一状态倒计时
+        1 require EGameMsgType  eMsgType;       // 消息类型
+        2 optional TGameData    stGameData;     // 消息数据
     };
+
 
     interface IGameMessage
     {
@@ -74,7 +91,8 @@ module TarsGame
         * 通往游戏的协议（单向）
         * @return 0：正常，>0：请求其他指令（该值，消息数据为空）, <0：错误码
         */
-        short doGameMessage(TReqMessage tReqMessage, out TRespMessage tRespMessage);
+        short doRoomMessage(TReqMessage tReqMessage, out TRespMessage tRespMessage);
+        short doClientMessage(TReqMessage tReqMessage, out TRespMessage tRespMessage);
     };
 };
 

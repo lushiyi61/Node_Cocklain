@@ -1,63 +1,46 @@
 
 module CocklainStruct
 {
-	// ¿Í»§¶Ë·¢³öµÄÏûÏ¢
+	// å®¢æˆ·ç«¯å‘å‡ºçš„æ¶ˆæ¯
 	enum E_CLIENT_MSG
 	{
-		CM_Agree = 100,			// ×¼±¸
+		CM_Snatchbanker = 100,		// æŠ¢åº„
 
-		CM_RoomOwnerStartGame,	// ·¿Ö÷¿ªÊ¼ÓÎÏ·
+		CM_ChooseBaseScore,		// å«åˆ†
 
-		CM_Snatchbanker,		// ÇÀ×¯
+		CM_SellScore,			// å–åˆ†
+		CM_BuyScore,			// ä¹°åˆ†
 
-		CM_ChooseBaseScore,		// ½Ğ·Ö
+		CM_GetGameData,			// æ–­çº¿é‡è¿å–æ¸¸æˆæ•°æ®
 
-		CM_SellScore,			// Âô·Ö
-		CM_BuyScore,			// Âò·Ö
-
-		CM_ChooseCardPattern,	// Ñ¡ÅÆĞÍ
-
-		CM_GetGameData,			// ¶ÏÏßÖØÁ¬È¡ÓÎÏ·Êı¾İ
-
-		CM_UserHead,			// ¼ÇÂ¼Íæ¼ÒêÇ³ÆÍ·Ïñ
-
-		CM_RequestDismiss,		// Íæ¼ÒÉêÇë½âÉ¢
-		CM_AgreeDismiss,		// Íæ¼ÒÍ¬Òâ½âÉ¢
+		CM_UserHead,			// è®°å½•ç©å®¶æ˜µç§°å¤´åƒ
 	};
 
-	// ·şÎñ¶Ë·¢³öµÄÏûÏ¢
+	// æœåŠ¡ç«¯å‘å‡ºçš„æ¶ˆæ¯
 	enum E_SERVER_MSG
 	{
-		SM_CM_Agree = 100,		// ¹ã²¥Íæ¼Ò×¼±¸ÏûÏ¢
+		SM_SendCard = 200,			// å‘å‰4å¼ ç‰Œ
 
-		SM_SendCard,			// ·¢Ç°4ÕÅÅÆ
+		SM_Snatchbanker,		// å¼€å§‹æŠ¢åº„
+		SM_SnatchbankerFinish,	// æŠ¢åº„ç»“æŸ
 
-		SM_Snatchbanker,		// ¿ªÊ¼ÇÀ×¯
-		SM_CM_Snatchbanker,		// ¹ã²¥Íæ¼ÒÇÀ×¯ÏûÏ¢
-		SM_SnatchbankerFinish,	// ÇÀ×¯½áÊø
+		SM_ChooseBaseScore,		// å¼€å§‹å«åˆ†
+		SM_CM_ChooseBaseScore,	// å¹¿æ’­ç©å®¶å«åˆ†æ¶ˆæ¯
+		SM_ChooseBaseScoreFinish,// å«åˆ†ç»“æŸ
 
-		SM_ChooseBaseScore,		// ¿ªÊ¼½Ğ·Ö
-		SM_CM_ChooseBaseScore,	// ¹ã²¥Íæ¼Ò½Ğ·ÖÏûÏ¢
-		SM_ChooseBaseScoreFinish,// ½Ğ·Ö½áÊø
+		SM_ScoreSellBuy,		// å¼€å§‹ä¹°å–åˆ†
+		SM_ScoreSellBuyRecord,	// å¹¿æ’­ä¹°å–åˆ†è®°å½•
 
-		SM_ScoreSellBuy,		// ¿ªÊ¼ÂòÂô·Ö
-		SM_ScoreSellBuyRecord,	// ¹ã²¥ÂòÂô·Ö¼ÇÂ¼
+		SM_SendLastCard,		// å‘æœ€å1å¼ ç‰Œã€ç»“ç®—
 
-		SM_SendLastCard,		// ·¢×îºó1ÕÅÅÆ¡¢½áËã
+		SM_RoundEnd,			// å›åˆç»“æŸ
 
-		SM_RoundEnd,			// »ØºÏ½áÊø
+		SM_GameEnd,				// æˆ¿å¡æ¸¸æˆç»“æŸ
 
-		SM_GameEnd,				// ·¿¿¨ÓÎÏ·½áÊø
-
-		SM_GameData,			// ·¢ËÍÓÎÏ·Êı¾İ
-		
-		SM_CM_RequestDismiss,	// ¹ã²¥Íæ¼ÒÉêÇë½âÉ¢
-		SM_Dismiss,				// ½âÉ¢
-
-		SM_EM_RoomOwnerStartGameFail, // ·¿Ö÷¿ªÊ¼ÓÎÏ·Ê§°Ü
+		SM_GameData,			// å‘é€æ¸¸æˆæ•°æ®
 	};
 	
-	// Í¨ÓÃµÄintÏûÏ¢
+	// é€šç”¨çš„intæ¶ˆæ¯
 	struct TIntMsg
 	{
 		0 require int			iValue;
@@ -65,81 +48,67 @@ module CocklainStruct
 	
 	struct TUserHead
 	{
-		0 require string				strNickname;		// êÇ³Æ
-		1 require string				strHeadImgURL;		// Í·Ïñ
-	};
-
-	// ¹ã²¥·¢ËÍÍæ¼Ò×¼±¸ÏûÏ¢
-	struct TAgreeUser
-	{
-		0 require unsigned int	uiUserID;		// Íæ¼ÒID
-		1 require unsigned int	uiChairIndex;	// ×ùÒÎºÅ
+		0 require string				strNickname;		// æ˜µç§°
+		1 require string				strHeadImgURL;		// å¤´åƒ
 	};
 
 	struct TUserCard
 	{
-		0 require unsigned int			uiUserID;			// Íæ¼ÒID
-		1 require unsigned int			uiChairIndex;		// ×ùÒÎºÅ
-		2 require vector<unsigned int>	vecCards;			// 5ÕÅÅÆ
+		0 require vector<unsigned int>	vecCards;			// 5å¼ ç‰Œ
 	};
-	struct TSendCardData // ·¢ÅÆÏûÏ¢
+	struct TSendCardData // å‘ç‰Œæ¶ˆæ¯
 	{
-		0 require vector<TUserCard>		vecUserCards;		// ×î¶à6¸öÍæ¼ÒµÄÅÆ
-		1 require unsigned int			uiCurrRound;		// µ±Ç°¾ÖÊı
+		0 require vector<TUserCard>		vecUserCards;		// æœ€å¤š6ä¸ªç©å®¶çš„ç‰Œ
+		1 require unsigned int			uiCurrRound;		// å½“å‰å±€æ•°
 	};
 	
-	struct TUserSnatchbankerMultiple // Íæ¼ÒÇÀ×¯
+	struct TUserSnatchbankerMultiple // ç©å®¶æŠ¢åº„
 	{
-		0 optional unsigned int			uiUserID;			// Íæ¼ÒID
-		1 optional unsigned int			uiChairIndex;		// ×ùÒÎºÅ
-		2 require unsigned int			uiMultiple;			// ±¶Êı
+		0 optional unsigned int			uiChairIndex;		// åº§æ¤…å·
+		2 require unsigned int			uiMultiple;			// å€æ•°
 	};
 	
-	struct TUserBolusConf // Íæ¼ÒÍÆ×¢ÉèÖÃ
+	struct TUserBolusConf // ç©å®¶æ¨æ³¨è®¾ç½®
 	{
-		0 require unsigned int			uiUserID;			// Íæ¼ÒID
-		1 require unsigned int			uiChairIndex;		// ×ùÒÎºÅ
-		2 require unsigned int			uiBolus;			// ¿ÉÍÆ×¢±¶Êı
+		0 require unsigned int			uiChairIndex;		// åº§æ¤…å·
+		1 require unsigned int			uiBolus;			// å¯æ¨æ³¨å€æ•°
 	};
-	struct TBaseScoreConf // Ñ¡µ×·ÖÉèÖÃ
+	struct TBaseScoreConf // é€‰åº•åˆ†è®¾ç½®
 	{
-		0 require unsigned int			uiBaseScore1;		// µ×·Ö1
-		1 require unsigned int			uiBaseScore2;		// µ×·Ö2
-		2 require vector<TUserBolusConf> vecUserBolusConf;	// ¸÷Íæ¼Ò¿ÉÍÆ×¢±¶Êı
+		0 require unsigned int			uiBaseScore1;		// åº•åˆ†1
+		1 require unsigned int			uiBaseScore2;		// åº•åˆ†2
+		2 require vector<TUserBolusConf> vecUserBolusConf;	// å„ç©å®¶å¯æ¨æ³¨å€æ•°
 	};
 
-	struct TUserChooseBaseScore // Íæ¼ÒÑ¡Ôñµ×·Ö
+	struct TUserChooseBaseScore // ç©å®¶é€‰æ‹©åº•åˆ†
 	{
-		0 optional unsigned int			uiUserID;			// Íæ¼ÒID
-		1 optional unsigned int			uiChairIndex;		// ×ùÒÎºÅ
-		2 require unsigned int			uiBaseScore;		// ½Ğ·Ö
-		3 optional bool					bBolus = false;		// ÍÆ×¢
+		0 optional unsigned int			uiChairIndex;		// åº§æ¤…å·
+		1 require unsigned int			uiBaseScore;		// å«åˆ†
 	};
 	struct TUserChooseBaseScoreRecord
 	{
 		0 require vector<TUserChooseBaseScore>	vecUserBaseScore;
 	};
 
-	// ÂòÂô·ÖÉèÖÃ
+	// ä¹°å–åˆ†è®¾ç½®
 	struct TScoreSellBuyConf
 	{
 		0 require vector<unsigned int>	vecSellBuyScores;
 	};
-	// Íæ¼ÒÂòÂô·Ö¼ÇÂ¼
+	// ç©å®¶ä¹°å–åˆ†è®°å½•
 	struct TUserScoreSellBuy
 	{
-		0 require unsigned int			uiUserID;			// Íæ¼ÒID
-		1 require unsigned int			uiChairIndex;		// ×ùÒÎºÅ
-		2 require unsigned int			uiSellScore;		// Âô·Ö
-		3 require bool					bSelled;			// ½»Ò×³É¹¦
-		4 require unsigned int			uiBuyedScore;		// ÒÑÂò·Ö
+		0 require unsigned int			uiChairIndex;		// åº§æ¤…å·
+		1 require unsigned int			uiSellScore;		// å–åˆ†
+		2 require bool					bSelled;			// äº¤æ˜“æˆåŠŸ
+		3 require unsigned int			uiBuyedScore;		// å·²ä¹°åˆ†
 	};	
 	struct TScoreSellBuyRecord
 	{
 		0 require vector<TUserScoreSellBuy>	vecUserScoreSellBuy;
 	};
 	
-	// ÅÆĞÍ
+	// ç‰Œå‹
 	enum E_CARD_PATTERN
 	{
 		, CP_Niu0 = 100
@@ -155,27 +124,27 @@ module CocklainStruct
 
 		, CP_Niuniu
 
-		, CP_Hulu			// ºùÂ«Å£
-		, CP_Shunzi			// Ë³×ÓÅ£
-		, CP_Tonghua		// Í¬»¨Å£
-		, CP_YinNiu			// ÒøÅ£
-		, CP_Zhadan			// Õ¨µ¯Å£
-		, CP_Tonghuashun	// Í¬»¨Ë³
-		, CP_5XiaoNiu		// 5Ğ¡Å£
-		, CP_5HuaNiu		// 5»¨Å£
+		, CP_Hulu			// è‘«èŠ¦ç‰›
+		, CP_Shunzi			// é¡ºå­ç‰›
+		, CP_Tonghua		// åŒèŠ±ç‰›
+		, CP_YinNiu			// é“¶ç‰›
+		, CP_Zhadan			// ç‚¸å¼¹ç‰›
+		, CP_Tonghuashun	// åŒèŠ±é¡º
+		, CP_5XiaoNiu		// 5å°ç‰›
+		, CP_5HuaNiu		// 5èŠ±ç‰›
 	};
 	
-	// »ØºÏ½áËã
+	// å›åˆç»“ç®—
 	struct TUserRoundResult
 	{
 		0 require TUserCard				userCard;
 		
-		1 optional E_CARD_PATTERN		eCardPattern;		// ÅÆĞÍ
-		2 optional vector<unsigned int>	vecNiuCards;		// 3ÕÅÅ£ÅÆ
+		1 optional E_CARD_PATTERN		eCardPattern;		// ç‰Œå‹
+		2 optional vector<unsigned int>	vecNiuCards;		// 3å¼ ç‰›ç‰Œ
 
-		3 require int					iGainScore;			// ±¾¾ÖÕı¸º·Ö
-		4 require int					iRemainScore;		// Ê£Óà·ÖÊı
-		5 require bool					bBanker;			// ÊÇ·ñ×¯¼Ò
+		3 require int					iGainScore;			// æœ¬å±€æ­£è´Ÿåˆ†
+		4 require int					iRemainScore;		// å‰©ä½™åˆ†æ•°
+		5 require bool					bBanker;			// æ˜¯å¦åº„å®¶
 	};
 	struct TRoundResult
 	{
@@ -183,76 +152,69 @@ module CocklainStruct
 	};
 	
 	
-	// ÓÎÏ·×Ü½áËã
+	// æ¸¸æˆæ€»ç»“ç®—
 	struct TUserGameResult
 	{
-		0 require unsigned int			uiUserID;			// Íæ¼ÒID
-		1 require unsigned int			uiChairIndex;		// ×ùÒÎºÅID
+		0 require unsigned int			uiUserID;			// ç©å®¶ID
 
-		2 require int					iRemainScore;		// ·ÖÊı
+		1 require int					iRemainScore;		// åˆ†æ•°
 		
-		3 require string				strNickname;		// êÇ³Æ
-		4 require string				strHeadImgURL;		// Í·Ïñ
+		2 require string				strNickname;		// æ˜µç§°
+		3 require string				strHeadImgURL;		// å¤´åƒ
 	};
 	struct TGameResult
 	{
 		0 require vector<TUserGameResult> vecUserGameResult;
-	};	
+	};
 
-	// ÓÎÏ·×´Ì¬
+	// æ¸¸æˆçŠ¶æ€
 	enum E_GAME_STATUS
 	{
-		GS_None = 10,
-		GS_Waiting,			// µÈ´ı
-		GS_SendCard,		// ·¢ÅÆ
-		GS_Snatchbanker,	// ÇÀ×¯
-		GS_ChooseBaseScore, // ½Ğ·Ö
-		GS_ScoreSellBuy,	// ÂòÂô·Ö
-		GS_SendLastCard,	// ·¢×îºóÒ»ÕÅÅÆ
+		GS_SendCard = 10,	// å‘ç‰Œ
+		GS_Snatchbanker,	// æŠ¢åº„
+		GS_ChooseBaseScore, // å«åˆ†
+		GS_ScoreSellBuy,	// ä¹°å–åˆ†
+		GS_SendLastCard,	// å‘æœ€åä¸€å¼ ç‰Œ
+		GS_RoundEnd,		// å±€é—´ç­‰å¾…
 	};
 	
-	// Íæ¼ÒĞÅÏ¢
+	// ç©å®¶ä¿¡æ¯
 	struct TUserDetail
 	{
-		0 require unsigned int			uiUserID;			// Íæ¼ÒID
-		1 require unsigned int			uiChairIndex;		// ×ùÒÎºÅ
-		2 require bool					bReady;				// ÒÑ×¼±¸
-		3 require bool					bOffline;			// ÀëÏß
-		4 require bool					bBanker;			// ÊÇ·ñ×¯¼Ò
-		5 require unsigned int			uiSnatchbankerMutiple; // ÇÀ×¯±¶Êı
-		6 require unsigned int			uiBaseScore;		// ½Ğ·Ö
-		7 require int					iRemainScore;		// Ê£Óà·ÖÊı
+		0 require bool					bBanker;			// æ˜¯å¦åº„å®¶
+		1 require unsigned int			uiSnatchbankerMutiple; // æŠ¢åº„å€æ•°
+		2 require unsigned int			uiBaseScore;		// å«åˆ†
+		3 require int					iRemainScore;		// å‰©ä½™åˆ†æ•°
 	};
 
-	// µ¹¼ÆÊ±
+	// å€’è®¡æ—¶
 	struct TMsgCountdownTime
 	{
 		0 require E_SERVER_MSG			msg;
 		1 require unsigned int			uiTime;
 	};
 	
-	// Íæ¼Ò¶ÏÏßÖØÁ¬»ñÈ¡µÄÓÎÏ·Êı¾İ
+	// ç©å®¶æ–­çº¿é‡è¿è·å–çš„æ¸¸æˆæ•°æ®
 	struct TGameData
 	{
-		0 require vector<TMsgCountdownTime> vecMsgCountdownTime; // µ¹¼ÆÊ±
-		1 require vector<unsigned int>	vecOdds;			// ¸÷ÖÖÅÆĞÍµÄ±¶ÂÊ
+		0 require vector<TMsgCountdownTime> vecMsgCountdownTime; // å€’è®¡æ—¶
+		1 require vector<unsigned int>	vecOdds;			// å„ç§ç‰Œå‹çš„å€ç‡
 		
-		2 require unsigned int			uiCurrRound;		// µ±Ç°¾ÖÊı
-		3 require E_GAME_STATUS			eGameStatus;		// ÓÎÏ·µ±Ç°×´Ì¬
-		4 require unsigned int			uiCurrCountdownTime;// µ±Ç°×´Ì¬Ê£Óàµ¹¼ÆÊ±¼ä
+		2 require unsigned int			uiCurrRound;		// å½“å‰å±€æ•°
+		3 require E_GAME_STATUS			eGameStatus;		// æ¸¸æˆå½“å‰çŠ¶æ€
+		4 require unsigned int			uiCurrCountdownTime;// å½“å‰çŠ¶æ€å‰©ä½™å€’è®¡æ—¶é—´
 		
-		5 require vector<TUserDetail>	vecUserDetail;		// ËùÓĞÍæ¼ÒĞÅÏ¢
+		5 require vector<TUserDetail>	vecUserDetail;		// æ‰€æœ‰ç©å®¶ä¿¡æ¯
 	
-		6 optional TSendCardData		sendCardData;		// Íæ¼ÒÒÑ·¢µÄÅÆ
+		6 optional TSendCardData		sendCardData;		// ç©å®¶å·²å‘çš„ç‰Œ
 		
-		7 optional TBaseScoreConf		baseScoreConf;		// ½Ğ·ÖÉèÖÃ
+		7 optional TBaseScoreConf		baseScoreConf;		// å«åˆ†è®¾ç½®
 
-		8 optional TScoreSellBuyConf	scoreSellBuyConf;	// ÂòÂô·ÖÉèÖÃ
-		9 optional TScoreSellBuyRecord	scoreSellBuyRecord;	// ÂòÂô·Ö¼ÇÂ¼
+		8 optional TScoreSellBuyConf	scoreSellBuyConf;	// ä¹°å–åˆ†è®¾ç½®
+		9 optional TScoreSellBuyRecord	scoreSellBuyRecord;	// ä¹°å–åˆ†è®°å½•
 
-		10 require TRoundResult			roundResult;		// ½áËãÊı¾İ
+		10 require TRoundResult			roundResult;		// ç»“ç®—æ•°æ®
 
-		11 require unsigned int			uiUserID;
-		12 require unsigned int			uiChairIndex;
+		11 require unsigned int			uiChairIndex;
 	};
 };
