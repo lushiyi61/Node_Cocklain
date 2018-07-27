@@ -64,7 +64,7 @@ tars.RequestPacket.prototype.toString = function () {
     return this._proto_struct_name_;
 }
 tars.RequestPacket.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -126,7 +126,7 @@ tars.ResponsePacket.prototype.toString = function () {
     return this._proto_struct_name_;
 }
 tars.ResponsePacket.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }

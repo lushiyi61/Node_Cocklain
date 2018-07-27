@@ -32,7 +32,7 @@ class RoomMsg
 
         this.reqMsgStream = null;
         if (null != tReqMessage){
-            this.reqMsgStream = new TarsStream.InputStream(tReqMessage.vecData);
+            this.reqMsgStream = new TarsStream.TarsInputStream(tReqMessage.vecData);
         }
 
         this.tRespMessage = tRespMessage;

@@ -55,7 +55,7 @@ stream.prototype.compose = function ($protoMessage) {
     }
 
     //对请求结构体打包
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     os.setHeaderLength(0);
     req._writeTo(os);
     os.setHeaderLength(os.getBinBuffer().length);
@@ -92,7 +92,7 @@ stream.prototype.feed = function (data) {
             break;
         }
 
-        var is      = new TarsStream.InputStream(new TarsStream.BinBuffer(BinBuffer.slice(pos + 4, pos + Length)));
+        var is      = new TarsStream.TarsInputStream(new TarsStream.BinBuffer(BinBuffer.slice(pos + 4, pos + Length)));
         var message = new ProtoMessageResponse();
         message.origin      = TarsPacket.ResponsePacket._readFrom(is);
         message.iRequestId  = message.origin.iRequestId;

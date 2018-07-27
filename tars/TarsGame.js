@@ -35,10 +35,10 @@ TarsGame.E_GAME_MSGID._write = function(os, tag, val) { return os.writeInt32(tag
 TarsGame.E_GAME_MSGID._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
 
 TarsGame.EGameMsgType = {
-    ENOTIFYDATA : 0,
-    ERESPONEDATA : 1,
-    ERESPALLDATA : 2,
-    EMIXTUREDATA : 3
+    E_NOTIFY_DATA : 0,
+    E_RESPONE_DATA : 1,
+    E_RESPALL_DATA : 2,
+    E_MIXTURE_DATA : 3
 };
 TarsGame.EGameMsgType._write = function(os, tag, val) { return os.writeInt32(tag, val); }
 TarsGame.EGameMsgType._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
@@ -79,7 +79,7 @@ TarsGame.TGameCreate.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("rules") || (this.rules = json.rules);
 }
 TarsGame.TGameCreate.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -126,7 +126,7 @@ TarsGame.TGamgStart.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecUserID") || (this.vecUserID.readFromObject(json.vecUserID));
 }
 TarsGame.TGamgStart.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -193,7 +193,7 @@ TarsGame.TReqMessage.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecData") || (this.vecData.readFromObject(json.vecData));
 }
 TarsGame.TReqMessage.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -245,7 +245,7 @@ TarsGame.TData.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecData") || (this.vecData.readFromObject(json.vecData));
 }
 TarsGame.TData.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -257,8 +257,8 @@ TarsGame.TData.create = function (is) {
 }
 
 TarsGame.TGameData = function() {
-    this.stRespOneData = new TarsGame.TData();
-    this.stNotifyData = new TarsGame.TData();
+    this.tRespOneData = new TarsGame.TData();
+    this.tNotifyData = new TarsGame.TData();
     this.vecRespAllData = new TarsStream.List(TarsGame.TData);
     this._classname = "TarsGame.TGameData";
 };
@@ -268,14 +268,14 @@ TarsGame.TGameData._write = function (os, tag, value) { os.writeStruct(tag, valu
 TarsGame.TGameData._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
 TarsGame.TGameData._readFrom = function (is) {
     var tmp = new TarsGame.TGameData();
-    tmp.stRespOneData = is.readStruct(0, false, TarsGame.TData);
-    tmp.stNotifyData = is.readStruct(1, false, TarsGame.TData);
+    tmp.tRespOneData = is.readStruct(0, false, TarsGame.TData);
+    tmp.tNotifyData = is.readStruct(1, false, TarsGame.TData);
     tmp.vecRespAllData = is.readList(2, false, TarsStream.List(TarsGame.TData));
     return tmp;
 };
 TarsGame.TGameData.prototype._writeTo = function (os) {
-    os.writeStruct(0, this.stRespOneData);
-    os.writeStruct(1, this.stNotifyData);
+    os.writeStruct(0, this.tRespOneData);
+    os.writeStruct(1, this.tNotifyData);
     os.writeList(2, this.vecRespAllData);
 };
 TarsGame.TGameData.prototype._equal = function (anItem) {
@@ -290,19 +290,19 @@ TarsGame.TGameData.prototype._genKey = function () {
 TarsGame.TGameData.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.stRespOneData = this.stRespOneData.toObject();
-    tmp.stNotifyData = this.stNotifyData.toObject();
+    tmp.tRespOneData = this.tRespOneData.toObject();
+    tmp.tNotifyData = this.tNotifyData.toObject();
     tmp.vecRespAllData = this.vecRespAllData.toObject();
     
     return tmp;
 }
 TarsGame.TGameData.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("stRespOneData") || (this.stRespOneData.readFromObject(json.stRespOneData));
-    !json.hasOwnProperty("stNotifyData") || (this.stNotifyData.readFromObject(json.stNotifyData));
+    !json.hasOwnProperty("tRespOneData") || (this.tRespOneData.readFromObject(json.tRespOneData));
+    !json.hasOwnProperty("tNotifyData") || (this.tNotifyData.readFromObject(json.tNotifyData));
     !json.hasOwnProperty("vecRespAllData") || (this.vecRespAllData.readFromObject(json.vecRespAllData));
 }
 TarsGame.TGameData.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -315,8 +315,8 @@ TarsGame.TGameData.create = function (is) {
 
 TarsGame.TRespMessage = function() {
     this.nTimeout = 0;
-    this.eMsgType = TarsGame.EGameMsgType.ENOTIFYDATA;
-    this.stGameData = new TarsGame.TGameData();
+    this.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
+    this.tGameData = new TarsGame.TGameData();
     this._classname = "TarsGame.TRespMessage";
 };
 TarsGame.TRespMessage._classname = "TarsGame.TRespMessage";
@@ -326,14 +326,14 @@ TarsGame.TRespMessage._read  = function (is, tag, def) { return is.readStruct(ta
 TarsGame.TRespMessage._readFrom = function (is) {
     var tmp = new TarsGame.TRespMessage();
     tmp.nTimeout = is.readInt16(0, true, 0);
-    tmp.eMsgType = is.readInt32(1, true, TarsGame.EGameMsgType.ENOTIFYDATA);
-    tmp.stGameData = is.readStruct(2, false, TarsGame.TGameData);
+    tmp.eMsgType = is.readInt32(1, true, TarsGame.EGameMsgType.E_NOTIFY_DATA);
+    tmp.tGameData = is.readStruct(2, true, TarsGame.TGameData);
     return tmp;
 };
 TarsGame.TRespMessage.prototype._writeTo = function (os) {
     os.writeInt16(0, this.nTimeout);
     os.writeInt32(1, this.eMsgType);
-    os.writeStruct(2, this.stGameData);
+    os.writeStruct(2, this.tGameData);
 };
 TarsGame.TRespMessage.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
@@ -349,17 +349,17 @@ TarsGame.TRespMessage.prototype.toObject = function() {
 
     tmp.nTimeout = this.nTimeout;
     tmp.eMsgType = this.eMsgType;
-    tmp.stGameData = this.stGameData.toObject();
+    tmp.tGameData = this.tGameData.toObject();
     
     return tmp;
 }
 TarsGame.TRespMessage.prototype.readFromObject = function(json) { 
     !json.hasOwnProperty("nTimeout") || (this.nTimeout = json.nTimeout);
     !json.hasOwnProperty("eMsgType") || (this.eMsgType = json.eMsgType);
-    !json.hasOwnProperty("stGameData") || (this.stGameData.readFromObject(json.stGameData));
+    !json.hasOwnProperty("tGameData") || (this.tGameData.readFromObject(json.tGameData));
 }
 TarsGame.TRespMessage.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -389,7 +389,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                                 tup.writeInt32("", _ret);
                                 current.doResponse(tup.encode());
                         }else{
-                                var os = new TarsStream.OutputStream();
+                                var os = new TarsStream.TarsOutputStream();
                                 os.writeInt32(0, _ret);
                                 current.doResponse(os.getBinBuffer());
                         }
@@ -405,7 +405,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                 var tReqMessage = tup.readStruct("tReqMessage", TarsGame.TReqMessage);
                 var tRespMessage = tup.readStruct("tRespMessage", TarsGame.TRespMessage, new TarsGame.TRespMessage());
             } else {
-                var is = new TarsStream.InputStream(BinBuffer);
+                var is = new TarsStream.TarsInputStream(BinBuffer);
                 var tReqMessage = is.readStruct(1, true, TarsGame.TReqMessage);
                 var tRespMessage = is.readStruct(2, false, TarsGame.TRespMessage);
             }
@@ -418,7 +418,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
 
                     current.doResponse(tup.encode());
                 } else {
-                    var os = new TarsStream.OutputStream();
+                    var os = new TarsStream.TarsOutputStream();
                     os.writeInt16(0, _ret);
                     os.writeStruct(2, tRespMessage);
 
@@ -438,7 +438,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                 var tReqMessage = tup.readStruct("tReqMessage", TarsGame.TReqMessage);
                 var tRespMessage = tup.readStruct("tRespMessage", TarsGame.TRespMessage, new TarsGame.TRespMessage());
             } else {
-                var is = new TarsStream.InputStream(BinBuffer);
+                var is = new TarsStream.TarsInputStream(BinBuffer);
                 var tReqMessage = is.readStruct(1, true, TarsGame.TReqMessage);
                 var tRespMessage = is.readStruct(2, false, TarsGame.TRespMessage);
             }
@@ -451,7 +451,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
 
                     current.doResponse(tup.encode());
                 } else {
-                    var os = new TarsStream.OutputStream();
+                    var os = new TarsStream.TarsOutputStream();
                     os.writeInt16(0, _ret);
                     os.writeStruct(2, tRespMessage);
 

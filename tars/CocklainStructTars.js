@@ -108,7 +108,7 @@ CocklainStruct.TIntMsg.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("iValue") || (this.iValue = json.iValue);
 }
 CocklainStruct.TIntMsg.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -159,7 +159,7 @@ CocklainStruct.TUserHead.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("strHeadImgURL") || (this.strHeadImgURL = json.strHeadImgURL);
 }
 CocklainStruct.TUserHead.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -205,7 +205,7 @@ CocklainStruct.TUserCard.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecCards") || (this.vecCards.readFromObject(json.vecCards));
 }
 CocklainStruct.TUserCard.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -256,7 +256,7 @@ CocklainStruct.TSendCardData.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("uiCurrRound") || (this.uiCurrRound = json.uiCurrRound);
 }
 CocklainStruct.TSendCardData.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -307,7 +307,7 @@ CocklainStruct.TUserSnatchbankerMultiple.prototype.readFromObject = function(jso
     !json.hasOwnProperty("uiMultiple") || (this.uiMultiple = json.uiMultiple);
 }
 CocklainStruct.TUserSnatchbankerMultiple.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -358,7 +358,7 @@ CocklainStruct.TUserBolusConf.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("uiBolus") || (this.uiBolus = json.uiBolus);
 }
 CocklainStruct.TUserBolusConf.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -414,7 +414,7 @@ CocklainStruct.TBaseScoreConf.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecUserBolusConf") || (this.vecUserBolusConf.readFromObject(json.vecUserBolusConf));
 }
 CocklainStruct.TBaseScoreConf.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -465,7 +465,7 @@ CocklainStruct.TUserChooseBaseScore.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("uiBaseScore") || (this.uiBaseScore = json.uiBaseScore);
 }
 CocklainStruct.TUserChooseBaseScore.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -511,7 +511,7 @@ CocklainStruct.TUserChooseBaseScoreRecord.prototype.readFromObject = function(js
     !json.hasOwnProperty("vecUserBaseScore") || (this.vecUserBaseScore.readFromObject(json.vecUserBaseScore));
 }
 CocklainStruct.TUserChooseBaseScoreRecord.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -557,7 +557,7 @@ CocklainStruct.TScoreSellBuyConf.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecSellBuyScores") || (this.vecSellBuyScores.readFromObject(json.vecSellBuyScores));
 }
 CocklainStruct.TScoreSellBuyConf.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -618,7 +618,7 @@ CocklainStruct.TUserScoreSellBuy.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("uiBuyedScore") || (this.uiBuyedScore = json.uiBuyedScore);
 }
 CocklainStruct.TUserScoreSellBuy.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -664,7 +664,7 @@ CocklainStruct.TScoreSellBuyRecord.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecUserScoreSellBuy") || (this.vecUserScoreSellBuy.readFromObject(json.vecUserScoreSellBuy));
 }
 CocklainStruct.TScoreSellBuyRecord.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -735,7 +735,7 @@ CocklainStruct.TUserRoundResult.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("bBanker") || (this.bBanker = json.bBanker);
 }
 CocklainStruct.TUserRoundResult.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -781,7 +781,7 @@ CocklainStruct.TRoundResult.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecUserResult") || (this.vecUserResult.readFromObject(json.vecUserResult));
 }
 CocklainStruct.TRoundResult.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -842,7 +842,7 @@ CocklainStruct.TUserGameResult.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("strHeadImgURL") || (this.strHeadImgURL = json.strHeadImgURL);
 }
 CocklainStruct.TUserGameResult.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -888,7 +888,7 @@ CocklainStruct.TGameResult.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("vecUserGameResult") || (this.vecUserGameResult.readFromObject(json.vecUserGameResult));
 }
 CocklainStruct.TGameResult.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -949,7 +949,7 @@ CocklainStruct.TUserDetail.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("iRemainScore") || (this.iRemainScore = json.iRemainScore);
 }
 CocklainStruct.TUserDetail.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -1000,7 +1000,7 @@ CocklainStruct.TMsgCountdownTime.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("uiTime") || (this.uiTime = json.uiTime);
 }
 CocklainStruct.TMsgCountdownTime.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
@@ -1101,7 +1101,7 @@ CocklainStruct.TGameData.prototype.readFromObject = function(json) {
     !json.hasOwnProperty("uiChairIndex") || (this.uiChairIndex = json.uiChairIndex);
 }
 CocklainStruct.TGameData.prototype.toBinBuffer = function () {
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }

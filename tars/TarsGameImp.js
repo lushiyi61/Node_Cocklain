@@ -20,3 +20,5 @@ TarsGame.IGameMessageImp.prototype.doRoomMessage = function (current, tReqMessag
 TarsGame.IGameMessageImp.prototype.doClientMessage = function (current, tReqMessage, tRespMessage) {
     handleClientMessage(current, tReqMessage, tRespMessage);
 }
+
+

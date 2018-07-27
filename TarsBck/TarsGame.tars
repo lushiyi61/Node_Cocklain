@@ -3,7 +3,7 @@ module TarsGame
     /**
     * 由于该规则由Room创建，所以必须满足开放性要求，不做具体限制
     */
-    struct TGameCreate 
+    struct TGameCreate
     {
         0 require string rules;         // 房间规则（json to string）
     };
@@ -13,7 +13,7 @@ module TarsGame
         0 require vector<long> vecUserID;
     };
 
-    /////////////////////////游戏的基本数据结构///////////////////////////    
+    /////////////////////////游戏的基本数据结构///////////////////////////
     enum E_GAME_MSGID {
         GAMECREATE      = 10,           // 创建游戏
         GAMERECONNECT   = 11,           // 玩家重连
@@ -44,10 +44,10 @@ module TarsGame
 
     enum EGameMsgType
     {
-        ENOTIFYDATA     = 0 ,   // stNotifyData
-        ERESPONEDATA    = 1 ,   // stRespOneData
-        ERESPALLDATA    = 2 ,   // vecRespAllData
-        EMIXTUREDATA    = 3 ,   // stNotifyData & stRespOneData
+        E_NOTIFY_DATA     = 0 ,   // stNotifyData
+        E_RESPONE_DATA    = 1 ,   // stRespOneData
+        E_RESPALL_DATA    = 2 ,   // vecRespAllData
+        E_MIXTURE_DATA    = 3 ,   // stNotifyData & stRespOneData
     };
 
     struct TReqMessage
@@ -64,7 +64,7 @@ module TarsGame
         0 require short nMsgID;
         1 require vector<byte> vecData;                 // 一份数据，将vecData发给玩家
     };
-    
+
     /**
     * 游戏返回数据
     * =======================
@@ -72,8 +72,8 @@ module TarsGame
     */
     struct TGameData
     {
-        0 optional TData stRespOneData;                 // 一份，需推送给请求座位序号
-        1 optional TData stNotifyData;                  // 一份，需广播给座位上的玩家
+        0 optional TData tRespOneData;                 // 一份，需推送给请求座位序号
+        1 optional TData tNotifyData;                  // 一份，需广播给座位上的玩家
         2 optional vector<TData> vecRespAllData;        // N份，需分别发给座位上的玩家
     };
 
@@ -81,7 +81,7 @@ module TarsGame
     {
         0 require short nTimeout = 0;           // 下一状态倒计时
         1 require EGameMsgType  eMsgType;       // 消息类型
-        2 optional TGameData    stGameData;     // 消息数据
+        2 require TGameData    tGameData;     // 消息数据
     };
 
 

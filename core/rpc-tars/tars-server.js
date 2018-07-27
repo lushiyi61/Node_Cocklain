@@ -46,7 +46,7 @@ stream.prototype.composeTARS = function ($protoMessage) {
     }
 
     //02 将TarsPacket.ResponsePacket打包
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     os.setHeaderLength(0);
     response._writeTo(os);
     os.setHeaderLength(os.getBinBuffer().length);
@@ -75,7 +75,7 @@ stream.prototype.composeTUP = function ($protoMessage) {
     }
 
     //将TarsPacket.RequestPacket打包
-    var os = new TarsStream.OutputStream();
+    var os = new TarsStream.TarsOutputStream();
     os._binBuffer.writeInt32(0);
     response._writeTo(os);
 
@@ -118,7 +118,7 @@ stream.prototype.feed = function (data) {
         }
 
         //已经发现一个完整的请求包，现在开始解包
-        var is      = new TarsStream.InputStream(new TarsStream.BinBuffer(BinBuffer.slice(pos + 4, pos + Length)));
+        var is      = new TarsStream.TarsInputStream(new TarsStream.BinBuffer(BinBuffer.slice(pos + 4, pos + Length)));
         var message = new ProtoMessageRequest();
         message.iResultCode =  0;
         message.sResultDesc = "";
