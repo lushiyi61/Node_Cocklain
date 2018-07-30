@@ -46,6 +46,27 @@ export class IS_UserMng {
         return true;
     }
 
+    /**
+     * 更新指定玩家抢分
+     * @param chairIdx 座位序号
+     * @param score 分数
+     */
+    UpdateUserChooseScore(chairIdx: number, score: number) {
+        this.listUserInfo[chairIdx].hasChooseScore = true;
+        this.listUserInfo[chairIdx].chooseScore = score;
+    }
+
+    CheckChooseScore(): boolean {
+        let tmplist = _.filter(this.listUserInfo, userInfo => { return userInfo.hasChooseScore == false });
+        if (tmplist.length > 0) {
+            return false;
+        }
+        return true;
+    }
+
+
+
+
 };
 
 
@@ -53,22 +74,22 @@ export class IS_UserMng {
  * 当前局内有效玩家数据
  */
 export class IS_UserInfo {
-    constructor(userID: Number) {
+    constructor(userID: number) {
         this.userID = userID;
     }
 
-    userID: Number; // 玩家ID
-    arrCards: Number[] = [];		// 5张牌
-    hasSnatchbanker: Boolean = false;       // 已抢庄
-    snatchbankerMutiple: Number = 0;        // 抢庄倍数
-    hasChooseBaseScore: Boolean = false;    // 已叫分
-    baseScore: Number = 0; // 叫分
-    sellScore: Number = 0; // 卖分
-    sellToChairIdx: Number = 0; // 买家座椅号
+    userID: number;                         // 玩家ID
+    arrCards: number[] = [];		        // 5张牌
+    hasSnatchbanker: boolean = false;       // 已抢庄
+    snatchbankerMutiple: number = 0;        // 抢庄倍数
+    hasChooseScore: boolean = false;        // 已叫分
+    chooseScore: number = 0;                // 叫分分数
 
-    mapBuyScore = new Map;	// 买分记录
+    sellScore: number = 0;                  // 卖分
+    sellToChairIdx: number = 0;             // 买家座椅号
+
+    mapBuyScore = new Map;	                // 买分记录
     chairIdxeCardPattern = 0;
     niuCards = new Array(3);	// 3张牛牌
     gainScore = 0;
-
 }

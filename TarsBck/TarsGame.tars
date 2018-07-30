@@ -5,7 +5,7 @@ module TarsGame
         GAMECREATE      = 11,           // 创建游戏 TGameCreate
         GAMESTART       = 12,           // 游戏开始 TGamgStart
         GAMETIMEOUT     = 13,           // 游戏超时 无参数
-        GAMEFINNISH     = 14,           // 游戏结束 无参数
+        GAMEFINISH     = 14,           // 游戏结束 无参数
         GAMEDISMISS     = 15,           // 游戏解散 无参数
         GAMERESULT      = 16,           // 游戏结果 无参数
         GAMEACTION      = 17,           // 游戏动作 无参数
