@@ -8,6 +8,7 @@ module TarsGame
         GAMEFINNISH     = 14,           // 游戏结束 无参数
         GAMEDISMISS     = 15,           // 游戏解散 无参数
         GAMERESULT      = 16,           // 游戏结果 无参数
+        GAMEACTION      = 17,           // 游戏动作 无参数
     };
 
     /**
@@ -67,10 +68,10 @@ module TarsGame
     */
     struct TReqRoomTranspondMsg
     {
-        1 require short nMsgID;             // 指令 TReqClientMsg.nMsgID
-        2 require string sTableNo;          // 桌子号   (RoomServer提供）
-        3 require short nChairIdx;          // 座位序号 （RoomServer提供）
-        4 optional vector<byte> vecData;    // 消息数据 TReqClientMsg.vecData
+        1 require short nMsgID;                 // 指令 TReqClientMsg.nMsgID
+        2 require string sTableNo;              // 桌子号   (RoomServer提供）
+        3 require unsigned short nChairIdx;     // 座位序号 （RoomServer提供）
+        4 optional vector<byte> vecData;        // 消息数据 TReqClientMsg.vecData
     };
 
     /**

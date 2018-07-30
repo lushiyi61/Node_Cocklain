@@ -4,42 +4,80 @@ module CocklainStruct
 	// 客户端发出的消息
 	enum E_CLIENT_MSG
 	{
-		CM_Snatchbanker = 100,		// 抢庄
-
-		CM_ChooseBaseScore,		// 叫分
-
-		CM_SellScore,			// 卖分
-		CM_BuyScore,			// 买分
-
-		CM_GetGameData,			// 断线重连取游戏数据
-
-		CM_UserHead,			// 记录玩家昵称头像
+		EC_SNATCHBANKER = 0,		// 抢庄	TReqSnatchbanker
+		EC_CHOOSESCORE,				// 叫分
+		EC_SELLSCORE,				// 卖分
+		EC_BUYSCORE,				// 买分
+		EC_GETGAMEDATA,				// 断线重连取游戏数据
+		EC_USERHEAD,				// 记录玩家昵称头像
 	};
 
 	// 服务端发出的消息
 	enum E_SERVER_MSG
 	{
+		ES_GAME_START 		= 0,			// 游戏开始		 TRespGameStart
+		ES_GAME_SNATCHBANKER    ,			// 抢庄		     TRespSnatchbanker
+		ES_GAME_CHOOSESCORE     ,			// 开始叫分		    
+
+
 		SM_SendCard = 200,			// 发前4张牌
-
-		SM_Snatchbanker,		// 开始抢庄
-		SM_SnatchbankerFinish,	// 抢庄结束
-
-		SM_ChooseBaseScore,		// 开始叫分
-		SM_CM_ChooseBaseScore,	// 广播玩家叫分消息
-		SM_ChooseBaseScoreFinish,// 叫分结束
-
-		SM_ScoreSellBuy,		// 开始买卖分
-		SM_ScoreSellBuyRecord,	// 广播买卖分记录
-
+		SM_Snatchbanker,			// 开始抢庄
+		SM_SnatchbankerFinish,		// 抢庄结束
+		SM_ChooseBaseScore,			// 开始叫分
+		SM_CM_ChooseBaseScore,		// 广播玩家叫分消息
+		SM_ChooseBaseScoreFinish,	// 叫分结束
+		SM_ScoreSellBuy,			// 开始买卖分
+		SM_ScoreSellBuyRecord,		// 广播买卖分记录
 		SM_SendLastCard,		// 发最后1张牌、结算
-
 		SM_RoundEnd,			// 回合结束
-
 		SM_GameEnd,				// 房卡游戏结束
-
 		SM_GameData,			// 发送游戏数据
 	};
 	
+	/**
+	* 回合信息
+	*/
+	struct TRoundInfo
+	{
+		0 require byte flag;
+	};
+
+	struct TCardInfo
+	{
+		0 require vector<byte>	cards;	// 某位玩家的牌
+	};
+
+	// 通知游戏开始
+	struct TRespGameStart
+	{
+		0 require byte		currRound;				// 当前局数
+		1 require TRoundInfo roundInfo;				// 当前回合
+		2 require vector<TCardInfo>	listCardInfo;	// 座位上所有玩家的牌
+	};
+
+	// 玩家请求抢庄
+	struct TReqSnatchbanker 				
+	{
+		0 require unsigned byte	multiple;			// 倍数
+	};
+
+	struct TRespSnatchbanker 				
+	{
+		0 require TRoundInfo 		roundInfo;			// 当前回合
+		1 require unsigned short	chairIdx;			// 座位序号
+		2 require unsigned byte		multiple;			// 倍数
+	};
+
+
+	struct TBaseScoreConf // 选底分设置
+	{
+		0 require unsigned int			uiBaseScore1;		// 底分1
+		1 require unsigned int			uiBaseScore2;		// 底分2
+		2 require vector<TUserBolusConf> vecUserBolusConf;	// 各玩家可推注倍数
+	};
+
+
+
 	// 通用的int消息
 	struct TIntMsg
 	{
