@@ -19,7 +19,9 @@ module CocklainStruct
 		ES_GAME_SNATCHBANKER    		,	// 抢庄		     		TRespSnatchbanker
 		ES_GAME_SNATCHBANKERFINISH    	,	// 抢庄结束,选分开始	 TNotifySnatchbanker 
 		ES_GAME_CHOOSESCORE     		,	// 选分		    		TRespChooseScore
-		ES_GAME_CHOOSESCOREFINISH       ,	// 选分结束，买卖分开始	
+		ES_GAME_CHOOSESCOREFINISH       ,	// 选分结束，买卖分开始	  TPlaceholder
+		ES_GAME_SELLSCORE       		,	// 卖分					TRespSellScore
+		ES_GAME_BUYSCORE      			,	// 买分					TRespBuyScore
 
 
 
@@ -36,6 +38,15 @@ module CocklainStruct
 		SM_GameEnd,				// 房卡游戏结束
 		SM_GameData,			// 发送游戏数据
 	};
+
+	/*
+	* @description 通用的占位数据结构（适应无参请求&返回）
+	* =====================================
+	*/
+    struct TPlaceholder
+    {
+        0 require   byte		placeholder = 0;			// 占位，无意义
+    };
 	
 	/**
 	* 回合信息
@@ -82,12 +93,12 @@ module CocklainStruct
 	};
 
 
-
 	struct TUserBolus 		// 玩家推注设置
 	{
 		0 require unsigned short		chairIdx;		// 座椅号
 		1 require unsigned byte			multiple;		// 可推注倍数
 	};
+	
 	// 抢庄结束,选分开始
 	struct TNotifySnatchbanker // 选底分设置
 	{
@@ -101,11 +112,22 @@ module CocklainStruct
 	{
 		0 require unsigned byte			score;  		// 分数
 	};
-	
+
+	struct TRespSellScore
+	{
+		1 require unsigned short	chairIdx;			// 座位序号
+		2 require unsigned byte			score;  		// 分数
+	};
+
 	// 买分
 	struct TReqBuyScore
 	{
-		0 require unsigned short		chairIdx;  		// 买卖对象
+		0 require unsigned short		chairIdx;  		// 买卖对象（卖家）
+	};
+
+	struct TRespBuyScore
+	{
+		0 require unsigned short		chairIdx;  		// 买卖对象（卖家）
 	};
 
 
@@ -121,6 +143,17 @@ module CocklainStruct
 		4 require int					iRemainScore;		// 剩余分数
 		5 require bool					bBanker;			// 是否庄家
 	};
+
+
+
+
+
+
+
+
+
+
+
 
 
 

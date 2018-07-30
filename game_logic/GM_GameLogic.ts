@@ -1,6 +1,7 @@
 import { GM_GameData } from "../game_data/GM_GameData";
 import { CM_ROUNDFLAG } from "../comm_enum/CM_RoundFlag";
 import { tarsLogs } from "@tars/logs";
+import { CM_RETCODE } from "../comm_enum/CM_RetCode";
 var logger = new tarsLogs('TarsDate');
 
 
@@ -28,12 +29,12 @@ export function handleGameStart(gameData: GM_GameData, listUser: number[]) {
  */
 export function handleSnatchbanker(gameData: GM_GameData, chairIdx: number, multiple: number): number {
 
-    // 需校验
+    // 校验
 
     // 更新抢庄
     gameData.userMng.UpdateUserSnatchbanker(chairIdx, multiple);
 
-    return 0;
+    return CM_RETCODE.E_COMMON_SUCCESS;
 }
 
 /**
@@ -50,7 +51,7 @@ export function handleChooseScore(gameData: GM_GameData, chairIdx: number, score
     // 更新抢庄
     gameData.userMng.UpdateUserChooseScore(chairIdx, score);
 
-    return 0;
+    return CM_RETCODE.E_COMMON_SUCCESS;
 }
 
 /**
@@ -61,8 +62,13 @@ export function handleChooseScore(gameData: GM_GameData, chairIdx: number, score
  * @param score 卖的分数
  */
 export function handleSellSocre(gameData: GM_GameData, chairIdx: number, score: number): number {
-    
-    return 0;
+
+    // 需校验
+
+    // 更新玩家卖分
+    gameData.userMng.UpdateUserSellSocre(chairIdx, score);
+
+    return CM_RETCODE.E_COMMON_SUCCESS;
 }
 
 /**
@@ -72,7 +78,12 @@ export function handleSellSocre(gameData: GM_GameData, chairIdx: number, score: 
  * @param chairIdxFrom 卖家座位号
  */
 export function handleBuySocre(gameData: GM_GameData, chairIdx: number, chairIdxFrom: number): number {
-    return 0;
+    // 需校验
+
+    // 更新玩家买分
+    gameData.userMng.UpdateUserBuySocre(chairIdx, chairIdxFrom);
+
+    return CM_RETCODE.E_COMMON_SUCCESS;
 }
 
 
@@ -86,11 +97,11 @@ export function handleBuySocre(gameData: GM_GameData, chairIdx: number, chairIdx
 export function handleGameAction(gameData: GM_GameData) {
 
     switch (gameData.roundInfo.flag) {
-        case CM_ROUNDFLAG.GAME_SNATCHBANKER:     // 抢庄
+        case CM_ROUNDFLAG.GAME_SNATCHBANKER:       // 抢庄
             break;
         case CM_ROUNDFLAG.GAME_CHOOSESCORE:        // 选分
             break;
-        case CM_ROUNDFLAG.GAME_SELLBUYSCORE:      // 买卖分
+        case CM_ROUNDFLAG.GAME_SELLBUYSCORE:       // 买卖分
             break;
         default:
             logger.error("handleGameAction:the flag is error,flag is ", gameData.roundInfo.flag);

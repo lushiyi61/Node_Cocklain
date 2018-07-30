@@ -12,7 +12,8 @@ var {
     handleSnatchbanker,
     handleChooseScore,
     handleSellSocre,
-    handleBuySocre
+    handleBuySocre,
+    handleGameAction
 } = require("../game_logic/GM_GameLogic");
 
 // 信号管理
@@ -27,44 +28,15 @@ var mapClientMsgExpectStatus = new Map([
     [CocklainStruct.E_CLIENT_MSG.CM_BuyScore, CocklainStruct.E_GAME_STATUS.GS_ScoreSellBuy],
 ]);
 
-{
-    // 返回RoomServer数据
-
-    // module.exports = {
-    //     handleRoomMessage: function (current, tReqMessage, tRespMessage) {
-    //         let tableMgr = null;
-    //         if (TarsGame.E_GAME_MSGID.GAMECREATE == tReqMessage.nCmd) {
-    //             tableMgr = new TableMgr;
-    //             mapTableMgr.set(tReqMessage.sTableNo, tableMgr);
-    //         }
-    //         else {
-    //             tableMgr = mapTableMgr.get(tReqMessage.sTableNo);
-    //         }
-
-    //         let roomMsg = new RoomMsg(current, tReqMessage, tRespMessage);
-
-    //         emitter_room.emit(msgIn.nCmd, roomMsg, tableMgr);
-    //     },
-
-    //     handleClientMessage: function (current, tReqMessage, tRespMessage) {
-    //         let tableMgr = mapTableMgr.get(tReqMessage.sTableNo);
-
-    //         let expectStatus = mapClientMsgExpectStatus.get(msgIn.nCmd);
-    //         if (expectStatus != undefined) {
-    //             if (expectStatus != tableMgr.tableData.gameStatus) {
-    //                 return;
-    //             }
-    //         }
-
-    //         let roomMsg = new RoomMsg(current, tReqMessage, tRespMessage);
-
-    //         emitter_client.emit(msgIn.nCmd, roomMsg, tableMgr, tReqMessage.nChairIdx);
-    //     }
-    // };
-}
-
 module.exports = {
     handleRoomMessage: function (current, tReqRoomMsg, tRespMessage) {
+        if (!mapTableMng.has(tReqRoomMsg.sTableNo) && tReqRoomMsg.nCmd != TarsGame.E_GAME_MSGID.GAMECREATE) {
+            logger.error("to RoomServer:the table don't exist,tableNo is ", tReqRoomMsg.sTableNo);
+            logger.error("=====================================");
+            current.sendResponse(-999, tRespMessage);
+            return;
+        }
+
         emitter_room.emit(tReqRoomMsg.nCmd, current, tReqRoomMsg, tRespMessage);
     },
 
@@ -104,13 +76,6 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMECREATE, function (current, tReqRoomMsg
 emitter_room.on(TarsGame.E_GAME_MSGID.GAMESTART, function (current, tReqRoomMsg, tRespMessage) {
     logger.info("TarsGame.E_GAME_MSGID.GAMESTART");
 
-    if (!mapTableMng.has(tReqRoomMsg.sTableNo)) {
-        logger.error("to RoomServer:the table don't exist,tableNo is ", tReqRoomMsg.sTableNo);
-        logger.error("=====================================");
-        current.sendResponse(-999, tRespMessage);
-        return;
-    }
-
     const gameData = mapTableMng.get(tReqRoomMsg.sTableNo);
     const tGameStart_t = new TarsGame.TGamgStart.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
     const tGameStart = tGameStart_t.toObject();
@@ -133,22 +98,45 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMESTART, function (current, tReqRoomMsg,
 // 超时
 emitter_room.on(TarsGame.E_GAME_MSGID.GAMETIMEOUT, function (current, tReqRoomMsg, tRespMessage) {
     logger.info("TarsGame.E_GAME_MSGID.GAMETIMEOUT");
+    doGameAction(current, tReqRoomMsg, tRespMessage);
 });
 
-// 结束游戏
+// 回合结束
 emitter_room.on(TarsGame.E_GAME_MSGID.GAMEFINISH, function (current, tReqRoomMsg, tRespMessage) {
     logger.info("TarsGame.E_GAME_MSGID.GAMEFINISH");
+    const gameData = mapTableMng.get(tReqRoomMsg.sTableNo);
+
 });
 
 // 解散游戏
 emitter_room.on(TarsGame.E_GAME_MSGID.GAMEDISMISS, function (current, tReqRoomMsg, tRespMessage) {
     logger.info("TarsGame.E_GAME_MSGID.GAMEDISMISS");
+    mapTableMng.delete(tReqRoomMsg.sTableNo);
+});
+
+// 游戏结束
+emitter_room.on(TarsGame.E_GAME_MSGID.GAMEOVER, function (current, tReqRoomMsg, tRespMessage) {
+    logger.info("TarsGame.E_GAME_MSGID.GAMEOVER");
+
+    const gameData = mapTableMng.get(tReqRoomMsg.sTableNo);
+
+
+
+
+    mapTableMng.delete(tReqRoomMsg.sTableNo);
 });
 
 // 游戏动作
 emitter_room.on(TarsGame.E_GAME_MSGID.GAMEACTION, function (current, tReqRoomMsg, tRespMessage) {
     logger.info("TarsGame.E_GAME_MSGID.GAMEACTION");
+    doGameAction(current, tReqRoomMsg, tRespMessage);
 });
+
+
+function doGameAction(current, tReqRoomMsg, tRespMessage) {
+    const gameData = mapTableMng.get(tReqRoomMsg.sTableNo);
+    handleGameAction(gameData);
+}
 
 
 ///////////////////////////////////////ClientMessage//////////////////////////////////////////////
