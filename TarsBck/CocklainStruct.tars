@@ -64,7 +64,7 @@ module CocklainStruct
 	// 通知游戏开始
 	struct TRespGameStart
 	{
-		0 require byte		currRound;				// 当前局数
+		0 require byte		roundCurr;				// 当前局数
 		2 require vector<TCardInfo>	listCardInfo;	// 座位上所有玩家的牌
 	};
 

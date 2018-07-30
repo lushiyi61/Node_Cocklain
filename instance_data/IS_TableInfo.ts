@@ -2,8 +2,9 @@
 
 
 export class IS_TableInfo {
-    type: number;       // 桌子类型
-    currRound: number = 0;
+    type: number;           // 桌子类型
+    roundCurr: number = 0;  // 当前局数
+    roundMax: number = 1;   // 总局数
     mapUserInfo: Map<number, IS_TableUserInfo> = new Map();        // 玩家总成绩
     listWinUser: number[] = [];                                    // 胜利玩家列表
 
@@ -13,7 +14,7 @@ export class IS_TableInfo {
 
 
     UpdateRound() {
-        this.currRound += 1;
+        this.roundCurr += 1;
     }
 }
 

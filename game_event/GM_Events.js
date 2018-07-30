@@ -83,7 +83,7 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMESTART, function (current, tReqRoomMsg,
 
     // 游戏数据
     const tRespGameStart_t = new CocklainStruct.TRespGameStart();
-    tRespGameStart_t.currRound = gameData.tableInfo.currRound;
+    tRespGameStart_t.roundCurr = gameData.tableInfo.roundCurr;
     tRespGameStart_t.listCardInfo.readFromObject(gameData.userMng.listUserInfo);
 
     const tData_t = new TarsGame.TData();

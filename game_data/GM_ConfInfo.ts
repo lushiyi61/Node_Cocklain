@@ -1,46 +1,44 @@
-var CocklainStruct = require("../tars/CocklainStructTars").CocklainStruct;
+import { CM_CARDPATTERN } from "../comm_enum/CM_CardPattern";
+import { CM_ROUNDFLAG } from "../comm_enum/CM_RoundFlag";
 
-var GameConf = {
+export class GameConf {
     // 买卖分种类
-    arrSellBuyScore : [20,50,100,200],
+    arrSellBuyScore: number[] = [20, 50, 100, 200];
 
     // 每种状态时间
-    mapStatusCoundown : new Map([
-        [CocklainStruct.E_GAME_STATUS.GS_SendCard, 4],
-        [CocklainStruct.E_GAME_STATUS.GS_Snatchbanker, 8],
-        [CocklainStruct.E_GAME_STATUS.GS_ChooseBaseScore, 8],
-        [CocklainStruct.E_GAME_STATUS.GS_ScoreSellBuy, 12],
-        [CocklainStruct.E_GAME_STATUS.GS_SendLastCard, 8],
-    ]),
-    
+    mapTimeout: Map<number, number> = new Map([
+        [CM_ROUNDFLAG.GAME_SNATCHBANKER, 8],
+        [CM_ROUNDFLAG.GAME_CHOOSESCORE, 8],
+        [CM_ROUNDFLAG.GAME_SELLBUYSCORE, 12],
+    ]);
+
     // 赔率
-    mapOdds : new Map([
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu0, 1],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu1, 1],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu2, 1],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu3, 1],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu4, 1],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu5, 1],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu6, 1],
+    mapOdds: Map<number, number> = new Map([
+        [CM_CARDPATTERN.CP_Niu0, 1],
+        [CM_CARDPATTERN.CP_Niu1, 1],
+        [CM_CARDPATTERN.CP_Niu2, 1],
+        [CM_CARDPATTERN.CP_Niu3, 1],
+        [CM_CARDPATTERN.CP_Niu4, 1],
+        [CM_CARDPATTERN.CP_Niu5, 1],
+        [CM_CARDPATTERN.CP_Niu6, 1],
 
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu7, 2],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu8, 2],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niu9, 2],
+        [CM_CARDPATTERN.CP_Niu7, 2],
+        [CM_CARDPATTERN.CP_Niu8, 2],
+        [CM_CARDPATTERN.CP_Niu9, 2],
 
-        [ CocklainStruct.E_CARD_PATTERN.CP_Niuniu, 3],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Hulu, 3],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Shunzi, 3],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Tonghua, 3],
+        [CM_CARDPATTERN.CP_Niuniu, 3],
+        [CM_CARDPATTERN.CP_Hulu, 3],
+        [CM_CARDPATTERN.CP_Shunzi, 3],
+        [CM_CARDPATTERN.CP_Tonghua, 3],
 
-        [ CocklainStruct.E_CARD_PATTERN.CP_YinNiu, 4],
+        [CM_CARDPATTERN.CP_YinNiu, 4],
 
-        [ CocklainStruct.E_CARD_PATTERN.CP_Zhadan, 5],
-        [ CocklainStruct.E_CARD_PATTERN.CP_Tonghuashun, 5],
+        [CM_CARDPATTERN.CP_Zhadan, 5],
+        [CM_CARDPATTERN.CP_Tonghuashun, 5],
 
-        [ CocklainStruct.E_CARD_PATTERN.CP_5XiaoNiu, 6],
+        [CM_CARDPATTERN.CP_5XiaoNiu, 6],
 
-        [ CocklainStruct.E_CARD_PATTERN.CP_5HuaNiu, 7],
+        [CM_CARDPATTERN.CP_5HuaNiu, 7],
     ])
 }
 
-module.exports = GameConf;
