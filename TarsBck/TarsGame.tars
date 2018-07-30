@@ -89,10 +89,10 @@ module TarsGame
     */
     struct TGameData
     {
-        0 optional TData tRespOneData;                 // 一份，需推送给请求座位序号
-        1 optional TData tNotifyOtherData;             // 一份，需广播给座位上的玩家
-        2 optional TData tNotifyOnlookerData;          // 一份，需广播给非座位上的玩家（旁观者）
-        3 optional vector<TData> vecRespAllData;       // N份，需分别发给座位上的玩家
+        0 optional TData tRespOneData;                  // 一份，需推送给请求座位序号
+        1 optional TData tNotifyData;                   // 一份，需广播给座位上的玩家
+        2 optional TData tNotifyOnlookerData;           // 一份，需广播给非座位上的玩家（旁观者）
+        3 optional vector<TData> vecRespAllData;        // N份，需分别发给座位上的玩家
     };
 
     /**
@@ -112,6 +112,7 @@ module TarsGame
         /**
         * 通往游戏的协议（单向）
         * @return 0：正常，>0：请求其他指令（该值，消息数据为空）, <0：错误码
+        * 错误由Game打印日志输出，RoomServer将忽略
         */
         short doRoomMessage(TReqRoomMsg tReqRoomMsg, out TRespMessage tRespMessage);
         short doClientMessage(TReqRoomTranspondMsg tReqRoomTranspondMsg, out TRespMessage tRespMessage);
