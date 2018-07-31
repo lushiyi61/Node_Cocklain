@@ -4,108 +4,119 @@ module CocklainStruct
 	// 客户端发出的消息
 	enum E_CLIENT_MSG
 	{
-		EC_SNATCHBANKER = 0,		// 抢庄	TReqSnatchbanker
-		EC_CHOOSESCORE,				// 叫分 TReqChooseScore
-		EC_SELLSCORE,				// 卖分	TReqSellScore
-		EC_BUYSCORE,				// 买分	TReqBuyScore
-		EC_GETGAMEDATA,				// 断线重连取游戏数据
-		EC_USERHEAD,				// 记录玩家昵称头像
+		EC_GAMECONFIG		= 10,	// 拉取游戏配置
+		EC_SNATCHBANKER 		,	// 抢庄	TReqSnatchbanker
+		EC_CHOOSESCORE			,	// 叫分 TReqChooseScore
+		EC_SELLSCORE			,	// 卖分	TReqSellScore
+		EC_BUYSCORE				,	// 买分	TReqBuyScore
+		EC_GETGAMEDATA			,	// 断线重连取游戏数据
 	};
 
 	// 服务端发出的消息
 	enum E_SERVER_MSG
 	{
-		ES_GAME_START 				= 0	,	// 游戏开始		 		 TRespGameStart
-		ES_GAME_SNATCHBANKER    		,	// 抢庄		     		TRespSnatchbanker
-		ES_GAME_SNATCHBANKERFINISH    	,	// 抢庄结束,选分开始	 TNotifySnatchbanker 
-		ES_GAME_CHOOSESCORE     		,	// 选分		    		TRespChooseScore
-		ES_GAME_CHOOSESCOREFINISH       ,	// 选分结束，买卖分开始	  TPlaceholder
-		ES_GAME_SELLSCORE       		,	// 卖分					TRespSellScore
-		ES_GAME_BUYSCORE      			,	// 买分					TRespBuyScore
+		ES_GAME_CONFIG 				= 10,	// 游戏配置广播	 	 				TNotifyGameConfig
+		ES_GAME_START 				 	,	// 游戏开始	发前4张牌 开始抢庄	 	 TRespGameStart
+		ES_GAME_SNATCHBANKER    		,	// 抢庄广播	     		           TNotifySnatchbanker
+		ES_GAME_SNATCHBANKERFINISH    	,	// 抢庄结果			               TNotifySnatchbankerFinish
+		ES_GAME_CHOOSESCOREBEGIN    	,	// 选分开始(单独通知)				TRespChooseScoreBegin
+		ES_GAME_CHOOSESCORE     		,	// 选分广播		    		        TNotifyChooseScore
+		ES_GAME_CHOOSESCOREFINISH       ,	// 选分结果广播					    TNotifyChooseScoreFinish
+		ES_GAME_SELLBUYBEGIN       		,	// 买卖分开始(单独通知)	 			TRespSellBuyBegin
+		ES_GAME_SELLSCORE       		,	// 卖分广播							TNotifySellScore
+		ES_GAME_BUYSCORE      			,	// 买分广播							TNotifyBuyScore
+		ES_GAME_FINISH      			,	// 回合结束广播						TNotifyGameFinish
+		ES_GAME_OVER      				,	// 游戏结束广播						TNotifyGameOver
 
 
-
-		SM_SendCard = 200,			// 发前4张牌
-		SM_Snatchbanker,			// 开始抢庄
-		SM_SnatchbankerFinish,		// 抢庄结束
-		SM_ChooseBaseScore,			// 开始叫分
-		SM_CM_ChooseBaseScore,		// 广播玩家叫分消息
-		SM_ChooseBaseScoreFinish,	// 叫分结束
-		SM_ScoreSellBuy,			// 开始买卖分
-		SM_ScoreSellBuyRecord,		// 广播买卖分记录
-		SM_SendLastCard,		// 发最后1张牌、结算
-		SM_RoundEnd,			// 回合结束
-		SM_GameEnd,				// 房卡游戏结束
-		SM_GameData,			// 发送游戏数据
+		ES_GAME_DATA      			= 50,	// 游戏断线重连数据					TRespGameData
 	};
 
-	/*
-	* @description 通用的占位数据结构（适应无参请求&返回）
-	* =====================================
-	*/
+	// 通用的占位数据结构（适应无参请求&返回）
     struct TPlaceholder
     {
         0 require   byte		placeholder = 0;			// 占位，无意义
     };
-	
-	/**
-	* 回合信息
-	*/
-	struct TRoundInfo
-	{
-		0 require byte flag;
-	};
 
+	struct TNotifyGameConfig
+	{
+		0 require   byte		placeholder = 0;			// 先放这里吧
+	};
+	
+	// 手牌列表
 	struct TCardInfo
 	{
 		0 require vector<byte>	cards;	// 某位玩家的牌
 	};
 
 	// 通知游戏开始
+	// 发四张牌
+	// 准备抢庄
 	struct TRespGameStart
 	{
-		0 require byte		roundCurr;				// 当前局数
-		2 require vector<TCardInfo>	listCardInfo;	// 座位上所有玩家的牌
+		0 require byte					roundCurr;			// 当前局数
+		1 require vector<TCardInfo>		listCardInfo;		// 座位上所有玩家的牌
 	};
 
-	// 玩家抢庄
+	// 玩家请求抢庄
 	struct TReqSnatchbanker 				
 	{
-		0 require unsigned byte	multiple;			// 倍数
+		0 require unsigned byte		multiple;				// 倍数
 	};
 
-	struct TRespSnatchbanker 				
+	// 广播玩家抢庄
+	struct TNotifySnatchbanker 				
 	{
 		1 require unsigned short	chairIdx;			// 座位序号
 		2 require unsigned byte		multiple;			// 倍数
 	};
 
-	// 玩家选分
-	struct TReqChooseScore				
+	// 抢庄结果
+	struct TNotifySnatchbankerFinish 
 	{
-		0 require unsigned byte	chooseScore;			// 选分分数
+		0 require unsigned short		dealer;  			// 庄家座位号
 	};
 
-	struct TRespChooseScore 				
-	{
-		1 require unsigned short	chairIdx;			// 座位序号
-		2 require unsigned byte		chooseScore;	    // 分数
-	};
-
-
-	struct TUserBolus 		// 玩家推注设置
+	// 玩家推注设置
+	struct TUserBolus 		
 	{
 		0 require unsigned short		chairIdx;		// 座椅号
 		1 require unsigned byte			multiple;		// 可推注倍数
 	};
-	
-	// 抢庄结束,选分开始
-	struct TNotifySnatchbanker // 选底分设置
+
+	// 通知选分开始
+	struct TRespChooseScoreBegin
 	{
 		0 require unsigned byte			baseScore1;		// 底分1
 		1 require unsigned byte			baseScore2;		// 底分2
 		2 require vector<TUserBolus> 	listTUserBolus;	// 各玩家可推注倍数
 	};
+
+	// 玩家选分
+	struct TReqChooseScore				
+	{
+		0 require unsigned byte		chooseScore;			// 选分分数
+	};
+
+	// 广播玩家选分
+	struct TNotifyChooseScore 				
+	{
+		1 require unsigned short	chairIdx;			// 座位序号
+		2 require unsigned byte		chooseScore;	    // 分数
+	};
+
+	// 选分结果
+	struct TNotifyChooseScoreFinish
+	{
+		0 require vector<TNotifyChooseScore>	listUserScore;
+	};
+
+	// 买卖分开始
+	struct TRespSellBuyBegin
+	{
+		0 require vector<unsigned int>	vecSellBuyScores;
+	};
+
 
 	// 卖分
 	struct TReqSellScore
@@ -113,7 +124,8 @@ module CocklainStruct
 		0 require unsigned byte			score;  		// 分数
 	};
 
-	struct TRespSellScore
+	// 广播玩家卖分
+	struct TNotifySellScore
 	{
 		1 require unsigned short	chairIdx;			// 座位序号
 		2 require unsigned byte			score;  		// 分数
@@ -125,214 +137,61 @@ module CocklainStruct
 		0 require unsigned short		chairIdx;  		// 买卖对象（卖家）
 	};
 
-	struct TRespBuyScore
+	// 广播玩家买分	
+	struct TNotifyBuyScore
 	{
-		0 require unsigned short		chairIdx;  		// 买卖对象（卖家）
+		0 require unsigned short		chairIdx;  		// 买家
+		1 require unsigned short		chairIdxFrom;	// 卖家
 	};
 
+	// 玩家回合结果
+	struct TRoundResult
+	{
+		0 require TCardInfo				cardInfo;			// 玩家的牌
+		1 optional E_CARD_PATTERN		cardPattern;		// 牌型
+		2 require  int					winScore;			// 本局正负分
+		3 require  int					remainScore;		// 剩余分数
+	};
 
 	// 回合结束
 	struct TNotifyGameFinish
 	{
-		0 require TUserCard				userCard;
-		
-		1 optional E_CARD_PATTERN		eCardPattern;		// 牌型
-		2 optional vector<unsigned int>	vecNiuCards;		// 3张牛牌
-
-		3 require int					iGainScore;			// 本局正负分
-		4 require int					iRemainScore;		// 剩余分数
-		5 require bool					bBanker;			// 是否庄家
+		0 require vector<TRoundResult>		listRoundResult;		// 座位上所有玩家的牌
 	};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// 通用的int消息
-	struct TIntMsg
-	{
-		0 require int			iValue;
-	};
-	
-	struct TUserHead
-	{
-		0 require string				strNickname;		// 昵称
-		1 require string				strHeadImgURL;		// 头像
-	};
-
-	struct TUserCard
-	{
-		0 require vector<unsigned int>	vecCards;			// 5张牌
-	};
-	struct TSendCardData // 发牌消息
-	{
-		0 require vector<TUserCard>		vecUserCards;		// 最多6个玩家的牌
-		1 require unsigned int			uiCurrRound;		// 当前局数
-	};
-	
-	struct TUserSnatchbankerMultiple // 玩家抢庄
-	{
-		0 optional unsigned int			uiChairIndex;		// 座椅号
-		2 require unsigned int			uiMultiple;			// 倍数
-	};
-	
-	struct TUserBolusConf // 玩家推注设置
-	{
-		0 require unsigned int			uiChairIndex;		// 座椅号
-		1 require unsigned int			uiBolus;			// 可推注倍数
-	};
-	struct TBaseScoreConf // 选底分设置
-	{
-		0 require unsigned int			uiBaseScore1;		// 底分1
-		1 require unsigned int			uiBaseScore2;		// 底分2
-		2 require vector<TUserBolusConf> vecUserBolusConf;	// 各玩家可推注倍数
-	};
-
-	struct TUserChooseBaseScore // 玩家选择底分
-	{
-		0 optional unsigned int			uiChairIndex;		// 座椅号
-		1 require unsigned int			uiBaseScore;		// 叫分
-	};
-	struct TUserChooseBaseScoreRecord
-	{
-		0 require vector<TUserChooseBaseScore>	vecUserBaseScore;
-	};
-
-	// 买卖分设置
-	struct TScoreSellBuyConf
-	{
-		0 require vector<unsigned int>	vecSellBuyScores;
-	};
-	// 玩家买卖分记录
-	struct TUserScoreSellBuy
-	{
-		0 require unsigned int			uiChairIndex;		// 座椅号
-		1 require unsigned int			uiSellScore;		// 卖分
-		2 require bool					bSelled;			// 交易成功
-		3 require unsigned int			uiBuyedScore;		// 已买分
-	};	
-	struct TScoreSellBuyRecord
-	{
-		0 require vector<TUserScoreSellBuy>	vecUserScoreSellBuy;
-	};
-	
-	// 牌型
-	enum E_CARD_PATTERN
-	{
-		, CP_Niu0 = 100
-		, CP_Niu1
-		, CP_Niu2
-		, CP_Niu3
-		, CP_Niu4
-		, CP_Niu5
-		, CP_Niu6
-		, CP_Niu7
-		, CP_Niu8
-		, CP_Niu9
-
-		, CP_Niuniu
-
-		, CP_Hulu			// 葫芦牛
-		, CP_Shunzi			// 顺子牛
-		, CP_Tonghua		// 同花牛
-		, CP_YinNiu			// 银牛
-		, CP_Zhadan			// 炸弹牛
-		, CP_Tonghuashun	// 同花顺
-		, CP_5XiaoNiu		// 5小牛
-		, CP_5HuaNiu		// 5花牛
-	};
-	
-	// 回合结算
-	struct TUserRoundResult
-	{
-		0 require TUserCard				userCard;
-		
-		1 optional E_CARD_PATTERN		eCardPattern;		// 牌型
-		2 optional vector<unsigned int>	vecNiuCards;		// 3张牛牌
-
-		3 require int					iGainScore;			// 本局正负分
-		4 require int					iRemainScore;		// 剩余分数
-		5 require bool					bBanker;			// 是否庄家
-	};
-	struct TRoundResult
-	{
-		0 require vector<TUserRoundResult>	vecUserResult;		
-	};
-	
-	
-	// 游戏总结算
-	struct TUserGameResult
-	{
-		0 require unsigned int			uiUserID;			// 玩家ID
-
-		1 require int					iRemainScore;		// 分数
-		
-		2 require string				strNickname;		// 昵称
-		3 require string				strHeadImgURL;		// 头像
-	};
+	// 玩家总结果
 	struct TGameResult
 	{
-		0 require vector<TUserGameResult> vecUserGameResult;
+		0 require unsigned int			userID;				// 玩家ID
+		1 require int					remainScore;		// 分数
 	};
 
-	// 游戏状态
-	enum E_GAME_STATUS
+	// 游戏总结算
+	struct TNotifyGameOver
 	{
-		GS_SendCard = 10,	// 发牌
-		GS_Snatchbanker,	// 抢庄
-		GS_ChooseBaseScore, // 叫分
-		GS_ScoreSellBuy,	// 买卖分
-		GS_SendLastCard,	// 发最后一张牌
-		GS_RoundEnd,		// 局间等待
-	};
-	
-	// 玩家信息
-	struct TUserDetail
-	{
-		0 require bool					bBanker;			// 是否庄家
-		1 require unsigned int			uiSnatchbankerMutiple; // 抢庄倍数
-		2 require unsigned int			uiBaseScore;		// 叫分
-		3 require int					iRemainScore;		// 剩余分数
+		0 require vector<TGameResult> listGameResult;
 	};
 
-	// 倒计时
-	struct TMsgCountdownTime
-	{
-		0 require E_SERVER_MSG			msg;
-		1 require unsigned int			uiTime;
-	};
-	
+
 	// 玩家断线重连获取的游戏数据
-	struct TGameData
+	struct TRespGameData
 	{
-		0 require vector<TMsgCountdownTime> vecMsgCountdownTime; // 倒计时
-		1 require vector<unsigned int>	vecOdds;			// 各种牌型的倍率
-		
-		2 require unsigned int			uiCurrRound;		// 当前局数
-		3 require E_GAME_STATUS			eGameStatus;		// 游戏当前状态
-		4 require unsigned int			uiCurrCountdownTime;// 当前状态剩余倒计时间
-		
-		5 require vector<TUserDetail>	vecUserDetail;		// 所有玩家信息
-	
-		6 optional TSendCardData		sendCardData;		// 玩家已发的牌
-		
-		7 optional TBaseScoreConf		baseScoreConf;		// 叫分设置
+		1 require TNotifyGameConfig		gameConfig;		    // 游戏配置
+		2 require unsigned byte			gameStatus;			// 游戏当前状态
 
-		8 optional TScoreSellBuyConf	scoreSellBuyConf;	// 买卖分设置
-		9 optional TScoreSellBuyRecord	scoreSellBuyRecord;	// 买卖分记录
+		5 optional unsigned short		dealer;  			// 庄家座位号
+		6 optional vector<TCardInfo>	listCardInfo;		// 玩家的牌（本回合，全玩家）
+		7 require	 unsigned byte		multiple = -1;		// 抢庄倍数（本人）-1：未抢庄状态
 
-		10 require TRoundResult			roundResult;		// 结算数据
 
-		11 require unsigned int			uiChairIndex;
+		10 optional TRespChooseScoreBegin	chooseScoreConf;		// 叫分设置
+		11 optional vector<TNotifyChooseScore>	listUserScore;		// 选分结果
+
+
+		// 8 optional TScoreSellBuyConf	scoreSellBuyConf;	// 买卖分设置
+		// 9 optional TScoreSellBuyRecord	scoreSellBuyRecord;	// 买卖分记录
+
+		// 10 require TRoundResult			roundResult;		// 结算数据
 	};
+
 };

@@ -14,31 +14,30 @@ export class GameConf {
 
     // 赔率
     mapOdds: Map<number, number> = new Map([
-        [CM_CARDPATTERN.CP_Niu0, 1],
-        [CM_CARDPATTERN.CP_Niu1, 1],
-        [CM_CARDPATTERN.CP_Niu2, 1],
-        [CM_CARDPATTERN.CP_Niu3, 1],
-        [CM_CARDPATTERN.CP_Niu4, 1],
-        [CM_CARDPATTERN.CP_Niu5, 1],
-        [CM_CARDPATTERN.CP_Niu6, 1],
+        [CM_CARDPATTERN.CP_NIU0, 1],
+        [CM_CARDPATTERN.CP_NIU1, 1],
+        [CM_CARDPATTERN.CP_NIU2, 1],
+        [CM_CARDPATTERN.CP_NIU3, 1],
+        [CM_CARDPATTERN.CP_NIU4, 1],
+        [CM_CARDPATTERN.CP_NIU5, 1],
+        [CM_CARDPATTERN.CP_NIU6, 1],
 
-        [CM_CARDPATTERN.CP_Niu7, 2],
-        [CM_CARDPATTERN.CP_Niu8, 2],
-        [CM_CARDPATTERN.CP_Niu9, 2],
+        [CM_CARDPATTERN.CP_NIU7, 2],
+        [CM_CARDPATTERN.CP_NIU8, 2],
+        [CM_CARDPATTERN.CP_NIU9, 2],
 
-        [CM_CARDPATTERN.CP_Niuniu, 3],
-        [CM_CARDPATTERN.CP_Hulu, 3],
-        [CM_CARDPATTERN.CP_Shunzi, 3],
-        [CM_CARDPATTERN.CP_Tonghua, 3],
+        [CM_CARDPATTERN.CP_NIUNIU, 3],
+        [CM_CARDPATTERN.CP_HULU, 3],
+        [CM_CARDPATTERN.CP_SHUNZI, 3],
+        [CM_CARDPATTERN.CP_TONGHUA, 3],
 
-        [CM_CARDPATTERN.CP_YinNiu, 4],
+        [CM_CARDPATTERN.CP_YINNIU, 4],
 
-        [CM_CARDPATTERN.CP_Zhadan, 5],
-        [CM_CARDPATTERN.CP_Tonghuashun, 5],
+        [CM_CARDPATTERN.CP_ZHADAN, 5],
+        [CM_CARDPATTERN.CP_TONGHUASHUN, 5],
 
-        [CM_CARDPATTERN.CP_5XiaoNiu, 6],
-
-        [CM_CARDPATTERN.CP_5HuaNiu, 7],
+        [CM_CARDPATTERN.CP_5XIAONIU, 6],
+        [CM_CARDPATTERN.CP_5HUANIU, 7],
     ])
 }
 
