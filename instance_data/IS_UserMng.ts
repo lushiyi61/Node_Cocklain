@@ -1,4 +1,6 @@
 import _ = require("lodash");
+import { IF_CocklainInfo } from "./IF_CocklainInfo";
+import { caleCardPattern } from "../instance_logic/IS_CocklainLogic";
 
 
 
@@ -157,7 +159,13 @@ export class IS_UserMng {
         return true;
     }
 
-
+    CaleUserCardPattern() {
+        this.listUserInfo.map(
+            userInfo => {
+                userInfo.cocklainInfo = caleCardPattern(userInfo.arrCards);
+            }
+        )
+    }
 
 
 };
@@ -180,6 +188,8 @@ export class IS_UserInfo {
     sellScore: number = 0;                  // 卖分
     hasSell: boolean = false;               // 是否已卖分
     listBuyScore: number[] = [];            // 卖家列表
+
+    cocklainInfo: IF_CocklainInfo;          // 游戏结果
 
 
 

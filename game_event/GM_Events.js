@@ -21,13 +21,6 @@ var emitter_room = new events.EventEmitter();
 var emitter_client = new events.EventEmitter();
 var mapTableMng = new Map();// 游戏桌管理
 
-var mapClientMsgExpectStatus = new Map([
-    [CocklainStruct.E_CLIENT_MSG.CM_Snatchbanker, CocklainStruct.E_GAME_STATUS.GS_Snatchbanker],
-    [CocklainStruct.E_CLIENT_MSG.CM_ChooseBaseScore, CocklainStruct.E_GAME_STATUS.GS_ChooseBaseScore],
-    [CocklainStruct.E_CLIENT_MSG.CM_SellScore, CocklainStruct.E_GAME_STATUS.GS_ScoreSellBuy],
-    [CocklainStruct.E_CLIENT_MSG.CM_BuyScore, CocklainStruct.E_GAME_STATUS.GS_ScoreSellBuy],
-]);
-
 module.exports = {
     handleRoomMessage: function (current, tReqRoomMsg, tRespMessage) {
         if (!mapTableMng.has(tReqRoomMsg.sTableNo) && tReqRoomMsg.nCmd != TarsGame.E_GAME_MSGID.GAMECREATE) {

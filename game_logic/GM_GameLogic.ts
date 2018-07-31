@@ -73,6 +73,7 @@ export function handleSellSocre(gameData: GM_GameData, chairIdx: number, score: 
 
 /**
  * 处理玩家买分
+ * ========================
  * @param gameData 该桌数据
  * @param chairIdx 座位序号
  * @param chairIdxFrom 卖家座位号
@@ -82,6 +83,25 @@ export function handleBuySocre(gameData: GM_GameData, chairIdx: number, chairIdx
 
     // 更新玩家买分
     gameData.userMng.UpdateUserBuySocre(chairIdx, chairIdxFrom);
+
+    return CM_RETCODE.E_COMMON_SUCCESS;
+}
+
+/**
+ * 处理游戏结束
+ * ========================
+ * @param gameData 
+ */
+export function handleGameFinish(gameData: GM_GameData): number {
+    // 需校验
+
+    // 每人发1张牌
+    gameData.userMng.listUserInfo.map(userInfo => {
+        userInfo.arrCards.push(...gameData.cardInfo.DrawCard(1));
+    })
+
+    // 更新玩家结果
+
 
     return CM_RETCODE.E_COMMON_SUCCESS;
 }

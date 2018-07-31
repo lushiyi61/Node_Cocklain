@@ -19,10 +19,10 @@ export const enum CM_CARDTYPE {
 };
 
 export const enum CM_CARDFOLLOW {
-    CARD_SPADES = 0x0010,          // 黑桃,剑
-    CARD_HEARTS = 0x0020,          // 红桃,红心
-    CARD_CLUBS = 0x0030,           // 梅花,三叶草
-    CARD_DIAMONDS = 0x0040,        // 方块,红方,钻石
+    CARD_SPADES = 0x0040,          // 黑桃,剑
+    CARD_HEARTS = 0x0030,          // 红桃,红心
+    CARD_CLUBS = 0x0020,           // 梅花,三叶草
+    CARD_DIAMONDS = 0x0010,        // 方块,红方,钻石
     CARD_RED_JOKER = 0x0050,       // 大王
     CARD_BLACK_JOKER = 0x0060,     // 小王
 }
