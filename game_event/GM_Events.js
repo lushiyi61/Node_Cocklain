@@ -8,6 +8,9 @@ var TarsGame = require("../tars/TarsGame").TarsGame;
 var CocklainStruct = require("../tars/CocklainStructTars").CocklainStruct;
 var GM_GameData = require("../game_data/GM_GameData").GM_GameData;
 var CM_ROUNDFLAG = require("../comm_enum/CM_RoundFlag").CM_ROUNDFLAG;
+var E_CLIENT_MSG = require("../comm_enum/CM_ClientMsg").E_CLIENT_MSG;
+var E_SERVER_MSG = require("../comm_enum/CM_ServerMsg").E_SERVER_MSG;
+
 var {
     handleGameStart,
     handleSnatchbanker,
@@ -63,6 +66,8 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMECREATE, function (current, tReqRoomMsg
     }
     const gameData = new GM_GameData(tGameCreate.roomType, tGameCreate.rules);
     mapTableMng.set(tReqRoomMsg.sTableNo, gameData);
+
+    // 广播游戏配置ES_GAME_CONFIG
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NONE_DATA;
     current.sendResponse(TarsGame.E_GAME_MSGID.GAMESTART, tRespMessage);
 });
@@ -82,7 +87,7 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMESTART, function (current, tReqRoomMsg,
     tRespGameStart_t.listCardInfo.readFromObject(gameData.userMng.listUserInfo);
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = CocklainStruct.E_SERVER_MSG.E_GAME_START;
+    tData_t.nMsgID = E_SERVER_MSG.E_GAME_START;
     tData_t.vecData = tRespGameStart_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -149,7 +154,7 @@ function doGameAction(current, tReqRoomMsg, tRespMessage) {
 
 // 抢庄结束
 function doSnatchbankerFinish(current, gameData, tRespMessage) {
-    
+
 }
 
 // 选分结束
@@ -166,8 +171,8 @@ function doChooseSellBuyFinish(current, gameData, tRespMessage) {
 
 ///////////////////////////////////////ClientMessage//////////////////////////////////////////////
 // 玩家抢庄
-emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_SNATCHBANKER, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("CocklainStruct.E_CLIENT_MSG.E_SNATCHBANKER");
+emitter_client.on(E_CLIENT_MSG.EC_SNATCHBANKER, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("E_CLIENT_MSG.E_SNATCHBANKER");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqSnatchbanker_t = new CocklainStruct.TReqSnatchbanker.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -181,9 +186,8 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_SNATCHBANKER, function (current
     tRespSnatchbanker_t.chairIdx = tReqRTMsg.nChairIdx;
     tRespSnatchbanker_t.multiple = tReqSnatchbanker.multiple;
 
-
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = CocklainStruct.E_SERVER_MSG.ES_GAME_SNATCHBANKER;
+    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_SNATCHBANKER;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -197,8 +201,8 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_SNATCHBANKER, function (current
 });
 
 // 玩家选底分
-emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_CHOOSESCORE, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("CocklainStruct.E_CLIENT_MSG.E_GAME_CHOOSESCORE");
+emitter_client.on(E_CLIENT_MSG.EC_CHOOSESCORE, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("E_CLIENT_MSG.E_GAME_CHOOSESCORE");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqChooseScore_t = new CocklainStruct.TReqChooseScore.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -214,7 +218,7 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_CHOOSESCORE, function (current,
 
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = CocklainStruct.E_SERVER_MSG.ES_GAME_CHOOSESCORE;
+    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_CHOOSESCORE;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -228,8 +232,8 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_CHOOSESCORE, function (current,
 });
 
 // 玩家卖分
-emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_SELLSCORE, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("CocklainStruct.E_CLIENT_MSG.EC_SELLSCORE");
+emitter_client.on(E_CLIENT_MSG.EC_SELLSCORE, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("E_CLIENT_MSG.EC_SELLSCORE");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqSellScore_t = new CocklainStruct.TReqSellScore.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -245,7 +249,7 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_SELLSCORE, function (current, t
 
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = CocklainStruct.E_SERVER_MSG.ES_GAME_CHOOSESCORE;
+    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_CHOOSESCORE;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -254,8 +258,8 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_SELLSCORE, function (current, t
 });
 
 // 玩家买分
-emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_BUYSCORE, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("CocklainStruct.E_CLIENT_MSG.EC_BUYSCORE");
+emitter_client.on(E_CLIENT_MSG.EC_BUYSCORE, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("E_CLIENT_MSG.EC_BUYSCORE");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqBuyScore_t = new CocklainStruct.TReqBuyScore.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -271,7 +275,7 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_BUYSCORE, function (current, tR
 
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = CocklainStruct.E_SERVER_MSG.ES_GAME_CHOOSESCORE;
+    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_CHOOSESCORE;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -280,27 +284,9 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_BUYSCORE, function (current, tR
 });
 
 
-
-
-
-
-// 记录玩家昵称头像
-{
-    // emitter_client.on(CocklainStruct.E_CLIENT_MSG.CM_UserHead, function (roomMsg, tableMgr, nChairIdx) {
-    //     logger.info("CocklainStruct.E_CLIENT_MSG.CM_UserHead");
-
-    //     let msgData = new CocklainStruct.TUserHead.create(roomMsg.reqMsgStream);
-    //     msgData = msgData.toObject();
-
-    //     tableMgr.setUserHead(nChairIdx, msgData.strNickname, msgData.strHeadImgURL);
-
-    //     roomMsg.response();
-    // });
-}
-
 // 玩家断线重连获取游戏数据
-emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_GETGAMEDATA, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("CocklainStruct.E_CLIENT_MSG.EC_GETGAMEDATA");
+emitter_client.on(E_CLIENT_MSG.EC_GETGAMEDATA, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("E_CLIENT_MSG.EC_GETGAMEDATA");
 
 
 });

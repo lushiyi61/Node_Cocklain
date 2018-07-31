@@ -4,7 +4,7 @@
 // 服务端发出的消息
 export const enum E_SERVER_MSG {
     ES_GAME_CONFIG = 10,	        // 游戏配置广播	 	 				TNotifyGameConfig
-    ES_GAME_START,	                // 游戏开始	发前4张牌 开始抢庄	 	 TRespGameStart
+    ES_GAME_START,	                // 游戏开始	发前4张牌 开始抢庄广播 	 TNotifyGameStart
     ES_GAME_SNATCHBANKER,	        // 抢庄广播	     		           TNotifySnatchbanker
     ES_GAME_SNATCHBANKERFINISH,	    // 抢庄结果			               TNotifySnatchbankerFinish
     ES_GAME_CHOOSESCOREBEGIN,	    // 选分开始(单独通知)				TRespChooseScoreBegin

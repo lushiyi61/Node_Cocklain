@@ -7,6 +7,7 @@ module CocklainStruct
         0 require   byte		placeholder = 0;			// 占位，无意义
     };
 
+	// 广播：游戏配置
 	struct TNotifyGameConfig
 	{
 		0 require   byte		placeholder = 0;			// 先放这里吧
@@ -18,10 +19,10 @@ module CocklainStruct
 		0 require vector<byte>	cards;	// 某位玩家的牌
 	};
 
-	// 通知游戏开始
+	// 广播：游戏开始
 	// 发四张牌
 	// 准备抢庄
-	struct TRespGameStart
+	struct TNotifyGameStart
 	{
 		0 require byte					roundCurr;			// 当前局数
 		1 require vector<TCardInfo>		listCardInfo;		// 座位上所有玩家的牌
@@ -117,7 +118,7 @@ module CocklainStruct
 	struct TRoundResult
 	{
 		0 require TCardInfo				cardInfo;			// 玩家的牌
-		1 optional E_CARD_PATTERN		cardPattern;		// 牌型
+		1 optional unsigned byte		cardPattern;		// 牌型
 		2 require  int					winScore;			// 本局正负分
 		3 require  int					remainScore;		// 剩余分数
 	};
