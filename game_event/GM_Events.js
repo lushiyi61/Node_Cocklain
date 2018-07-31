@@ -8,8 +8,8 @@ var TarsGame = require("../tars/TarsGame").TarsGame;
 var CocklainStruct = require("../tars/CocklainStructTars").CocklainStruct;
 var GM_GameData = require("../game_data/GM_GameData").GM_GameData;
 var CM_ROUNDFLAG = require("../comm_enum/CM_RoundFlag").CM_ROUNDFLAG;
-var E_CLIENT_MSG = require("../comm_enum/CM_ClientMsg").E_CLIENT_MSG;
-var E_SERVER_MSG = require("../comm_enum/CM_ServerMsg").E_SERVER_MSG;
+var CM_CLIENTMSG = require("../comm_enum/CM_ClientMsg").CM_CLIENTMSG;
+var CM_SERVERMSG = require("../comm_enum/CM_ServerMsg").CM_SERVERMSG;
 
 var {
     handleGameStart,
@@ -87,7 +87,7 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMESTART, function (current, tReqRoomMsg,
     tRespGameStart_t.listCardInfo.readFromObject(gameData.userMng.listUserInfo);
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = E_SERVER_MSG.E_GAME_START;
+    tData_t.nMsgID = CM_SERVERMSG.E_GAME_START;
     tData_t.vecData = tRespGameStart_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -171,8 +171,8 @@ function doChooseSellBuyFinish(current, gameData, tRespMessage) {
 
 ///////////////////////////////////////ClientMessage//////////////////////////////////////////////
 // 玩家抢庄
-emitter_client.on(E_CLIENT_MSG.EC_SNATCHBANKER, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("E_CLIENT_MSG.E_SNATCHBANKER");
+emitter_client.on(CM_CLIENTMSG.EC_SNATCHBANKER, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("CM_CLIENTMSG.E_SNATCHBANKER");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqSnatchbanker_t = new CocklainStruct.TReqSnatchbanker.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -187,7 +187,7 @@ emitter_client.on(E_CLIENT_MSG.EC_SNATCHBANKER, function (current, tReqRTMsg, tR
     tRespSnatchbanker_t.multiple = tReqSnatchbanker.multiple;
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_SNATCHBANKER;
+    tData_t.nMsgID = CM_SERVERMSG.ES_GAME_SNATCHBANKER;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -201,8 +201,8 @@ emitter_client.on(E_CLIENT_MSG.EC_SNATCHBANKER, function (current, tReqRTMsg, tR
 });
 
 // 玩家选底分
-emitter_client.on(E_CLIENT_MSG.EC_CHOOSESCORE, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("E_CLIENT_MSG.E_GAME_CHOOSESCORE");
+emitter_client.on(CM_CLIENTMSG.EC_CHOOSESCORE, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("CM_CLIENTMSG.E_GAME_CHOOSESCORE");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqChooseScore_t = new CocklainStruct.TReqChooseScore.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -218,7 +218,7 @@ emitter_client.on(E_CLIENT_MSG.EC_CHOOSESCORE, function (current, tReqRTMsg, tRe
 
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_CHOOSESCORE;
+    tData_t.nMsgID = CM_SERVERMSG.ES_GAME_CHOOSESCORE;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -232,8 +232,8 @@ emitter_client.on(E_CLIENT_MSG.EC_CHOOSESCORE, function (current, tReqRTMsg, tRe
 });
 
 // 玩家卖分
-emitter_client.on(E_CLIENT_MSG.EC_SELLSCORE, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("E_CLIENT_MSG.EC_SELLSCORE");
+emitter_client.on(CM_CLIENTMSG.EC_SELLSCORE, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("CM_CLIENTMSG.EC_SELLSCORE");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqSellScore_t = new CocklainStruct.TReqSellScore.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -249,7 +249,7 @@ emitter_client.on(E_CLIENT_MSG.EC_SELLSCORE, function (current, tReqRTMsg, tResp
 
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_CHOOSESCORE;
+    tData_t.nMsgID = CM_SERVERMSG.ES_GAME_CHOOSESCORE;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -258,8 +258,8 @@ emitter_client.on(E_CLIENT_MSG.EC_SELLSCORE, function (current, tReqRTMsg, tResp
 });
 
 // 玩家买分
-emitter_client.on(E_CLIENT_MSG.EC_BUYSCORE, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("E_CLIENT_MSG.EC_BUYSCORE");
+emitter_client.on(CM_CLIENTMSG.EC_BUYSCORE, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("CM_CLIENTMSG.EC_BUYSCORE");
     const gameData = mapTableMng.get(tReqRTMsg.sTableNo);
 
     const tReqBuyScore_t = new CocklainStruct.TReqBuyScore.create(new TarsStream.InputStream(tReqRoomMsg.vecData));
@@ -275,7 +275,7 @@ emitter_client.on(E_CLIENT_MSG.EC_BUYSCORE, function (current, tReqRTMsg, tRespM
 
 
     const tData_t = new TarsGame.TData();
-    tData_t.nMsgID = E_SERVER_MSG.ES_GAME_CHOOSESCORE;
+    tData_t.nMsgID = CM_SERVERMSG.ES_GAME_CHOOSESCORE;
     tData_t.vecData = tRespSnatchbanker_t.toBinBuffer();
     tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NOTIFY_DATA;
     tRespMessage.tGameData.tNotifyData = tData_t;
@@ -285,8 +285,8 @@ emitter_client.on(E_CLIENT_MSG.EC_BUYSCORE, function (current, tReqRTMsg, tRespM
 
 
 // 玩家断线重连获取游戏数据
-emitter_client.on(E_CLIENT_MSG.EC_GETGAMEDATA, function (current, tReqRTMsg, tRespMessage) {
-    logger.info("E_CLIENT_MSG.EC_GETGAMEDATA");
+emitter_client.on(CM_CLIENTMSG.EC_GETGAMEDATA, function (current, tReqRTMsg, tRespMessage) {
+    logger.info("CM_CLIENTMSG.EC_GETGAMEDATA");
 
 
 });

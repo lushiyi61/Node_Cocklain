@@ -1,8 +1,6 @@
 import { GM_GameData } from "../game_data/GM_GameData";
 import { CM_ROUNDFLAG } from "../comm_enum/CM_RoundFlag";
-import { tarsLogs } from "@tars/logs";
 import { CM_RETCODE } from "../comm_enum/CM_RetCode";
-var logger = new tarsLogs('TarsDate');
 
 
 /**
@@ -122,7 +120,7 @@ export function handleGameAction(gameData: GM_GameData): number {
         case CM_ROUNDFLAG.GAME_SELLBUYSCORE:       // 买卖分
             break;
         default:
-            logger.error("handleGameAction:the flag is error,flag is ", gameData.roundInfo.flag);
+
     }
 
     return 0;
