@@ -42,6 +42,8 @@ module TarsGame
         E_RESPONE_DATA    = 1 ,   // stRespOneData ：给指定玩家发送
         E_RESPALL_DATA    = 2 ,   // vecRespAllData ：分别给当前座位上玩家发送
         E_MIXTURE_DATA    = 3 ,   // stNotifyData ：给指定玩家以外其他玩家发送 & stRespOneData ：给指定玩家发送
+
+        E_NONE_DATA      = 10 ,   // 没有数据
     };
 
     /** 

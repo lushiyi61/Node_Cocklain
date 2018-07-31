@@ -93,15 +93,13 @@ export function handleBuySocre(gameData: GM_GameData, chairIdx: number, chairIdx
  * @param gameData 
  */
 export function handleGameFinish(gameData: GM_GameData): number {
-    // 需校验
-
     // 每人发1张牌
     gameData.userMng.listUserInfo.map(userInfo => {
         userInfo.arrCards.push(...gameData.cardInfo.DrawCard(1));
     })
 
     // 更新玩家结果
-
+    gameData.userMng.CaleUserCardPattern();
 
     return CM_RETCODE.E_COMMON_SUCCESS;
 }
@@ -114,7 +112,7 @@ export function handleGameFinish(gameData: GM_GameData): number {
  * ========================
  * @param gameData 
  */
-export function handleGameAction(gameData: GM_GameData) {
+export function handleGameAction(gameData: GM_GameData): number {
 
     switch (gameData.roundInfo.flag) {
         case CM_ROUNDFLAG.GAME_SNATCHBANKER:       // 抢庄
@@ -126,6 +124,8 @@ export function handleGameAction(gameData: GM_GameData) {
         default:
             logger.error("handleGameAction:the flag is error,flag is ", gameData.roundInfo.flag);
     }
+
+    return 0;
 }
 
 
@@ -135,3 +135,33 @@ export function handleGameAction(gameData: GM_GameData) {
 
 
 /////////////////////////////////////////内部函数/////////////////////////////////////////////////
+/**
+ * 选庄结束
+ * ========================
+ * @param gameData 
+ */
+function doSnatchbankerFinish(gameData: GM_GameData) {
+
+}
+
+/**
+ * 选分结束
+ * ========================
+ * @param gameData 
+ */
+function doChooseScoreFinish(gameData: GM_GameData) {
+
+}
+
+/**
+ * 买卖分结束
+ * ========================
+ * @param gameData 
+ */
+function doChooseSellBuyFinish(gameData: GM_GameData) {
+
+}
+
+
+
+

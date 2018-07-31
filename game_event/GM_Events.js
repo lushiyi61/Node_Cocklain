@@ -7,12 +7,14 @@ var TarsStream = require('@tars/stream');
 var TarsGame = require("../tars/TarsGame").TarsGame;
 var CocklainStruct = require("../tars/CocklainStructTars").CocklainStruct;
 var GM_GameData = require("../game_data/GM_GameData").GM_GameData;
+var CM_ROUNDFLAG = require("../comm_enum/CM_RoundFlag").CM_ROUNDFLAG;
 var {
     handleGameStart,
     handleSnatchbanker,
     handleChooseScore,
     handleSellSocre,
     handleBuySocre,
+    handleGameFinish,
     handleGameAction
 } = require("../game_logic/GM_GameLogic");
 
@@ -61,7 +63,7 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMECREATE, function (current, tReqRoomMsg
     }
     const gameData = new GM_GameData(tGameCreate.roomType, tGameCreate.rules);
     mapTableMng.set(tReqRoomMsg.sTableNo, gameData);
-
+    tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NONE_DATA;
     current.sendResponse(TarsGame.E_GAME_MSGID.GAMESTART, tRespMessage);
 });
 
@@ -98,7 +100,7 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMETIMEOUT, function (current, tReqRoomMs
 emitter_room.on(TarsGame.E_GAME_MSGID.GAMEFINISH, function (current, tReqRoomMsg, tRespMessage) {
     logger.info("TarsGame.E_GAME_MSGID.GAMEFINISH");
     const gameData = mapTableMng.get(tReqRoomMsg.sTableNo);
-
+    handleGameFinish(gameData);
 });
 
 // 解散游戏
@@ -125,10 +127,40 @@ emitter_room.on(TarsGame.E_GAME_MSGID.GAMEACTION, function (current, tReqRoomMsg
     doGameAction(current, tReqRoomMsg, tRespMessage);
 });
 
-
+// 当前回合结束
 function doGameAction(current, tReqRoomMsg, tRespMessage) {
     const gameData = mapTableMng.get(tReqRoomMsg.sTableNo);
-    handleGameAction(gameData);
+    let res = handleGameAction(current, gameData);
+
+    switch (gameData.roundInfo.flag) {
+        case CM_ROUNDFLAG.GAME_SNATCHBANKER:       // 抢庄
+            doSnatchbankerFinish(current, gameData, tRespMessage);
+            break;
+        case CM_ROUNDFLAG.GAME_CHOOSESCORE:        // 选分
+            doChooseScoreFinish(current, gameData, tRespMessage)
+            break;
+        case CM_ROUNDFLAG.GAME_SELLBUYSCORE:       // 买卖分
+            doChooseSellBuyFinish(current, gameData, tRespMessage)
+            break;
+        default:
+            logger.error("handleGameAction:the flag is error,flag is ", gameData.roundInfo.flag);
+    }
+}
+
+// 抢庄结束
+function doSnatchbankerFinish(current, gameData, tRespMessage) {
+    
+}
+
+// 选分结束
+function doChooseScoreFinish(current, gameData, tRespMessage) {
+
+}
+
+// 买卖分结束 请求游戏回合结束
+function doChooseSellBuyFinish(current, gameData, tRespMessage) {
+    tRespMessage.eMsgType = TarsGame.EGameMsgType.E_NONE_DATA;
+    current.sendResponse(TarsGame.E_GAME_MSGID.GAMEFINISH, tRespMessage);
 }
 
 
@@ -246,6 +278,11 @@ emitter_client.on(CocklainStruct.E_CLIENT_MSG.EC_BUYSCORE, function (current, tR
 
     current.sendResponse(0, tRespMessage);
 });
+
+
+
+
+
 
 // 记录玩家昵称头像
 {
