@@ -22,10 +22,10 @@ export class IS_UserMng {
      * ======================================
      * @param listUser 
      */
-    InitUserInfo(listUser: number[]) {
+    InitUserInfo(listUser) {
         this.listUserInfo = [];
         listUser.map(user => {
-            let userInfo = new IS_UserInfo(user);
+            let userInfo = new IS_UserInfo(user.userID, user.nChairNo);
             this.listUserInfo.push(userInfo);
         })
     }
@@ -175,11 +175,13 @@ export class IS_UserMng {
  * 当前局内有效玩家数据
  */
 export class IS_UserInfo {
-    constructor(userID: number) {
+    constructor(userID: number, chairNo: number) {
         this.userID = userID;
+        this.chairNo = chairNo;
     }
 
     userID: number;                         // 玩家ID
+    chairNo: number;                        // 玩家座椅号
     arrCards: number[] = [];		        // 5张牌
     hasSnatchbanker: boolean = false;       // 是否已抢庄
     snatchbankerMutiple: number = 0;        // 抢庄倍数

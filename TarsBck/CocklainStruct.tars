@@ -16,7 +16,8 @@ module CocklainStruct
 	// 手牌列表
 	struct TCardInfo
 	{
-		0 require vector<byte>	cards;	// 某位玩家的牌
+		0 require unsigned short	chairNo;			// 座位序号
+		1 require vector<unsigned byte>	cards;			// 某位玩家的牌
 	};
 
 	// 广播：游戏开始
@@ -24,8 +25,9 @@ module CocklainStruct
 	// 准备抢庄
 	struct TNotifyGameStart
 	{
-		0 require byte					roundCurr;			// 当前局数
-		1 require vector<TCardInfo>		listCardInfo;		// 座位上所有玩家的牌
+		0 require byte							roundCurr;			// 当前局数
+		1 require vector<unsigned byte>			cards;			    // 本人手牌
+		2 require vector<unsigned short>		listChairNo;		// 所有在座玩家，座椅号列表
 	};
 
 	// 玩家请求抢庄
@@ -37,7 +39,7 @@ module CocklainStruct
 	// 广播玩家抢庄
 	struct TNotifySnatchbanker 				
 	{
-		1 require unsigned short	chairIdx;			// 座位序号
+		1 require unsigned short	chairNo;			// 座位序号
 		2 require unsigned byte		multiple;			// 倍数
 	};
 
@@ -50,7 +52,7 @@ module CocklainStruct
 	// 玩家推注设置
 	struct TUserBolus 		
 	{
-		0 require unsigned short		chairIdx;		// 座椅号
+		0 require unsigned short		chairNo;		// 座椅号
 		1 require unsigned byte			multiple;		// 可推注倍数
 	};
 
@@ -71,7 +73,7 @@ module CocklainStruct
 	// 广播玩家选分
 	struct TNotifyChooseScore 				
 	{
-		1 require unsigned short	chairIdx;			// 座位序号
+		1 require unsigned short	chairNo;			// 座位序号
 		2 require unsigned byte		chooseScore;	    // 分数
 	};
 
@@ -97,28 +99,28 @@ module CocklainStruct
 	// 广播玩家卖分
 	struct TNotifySellScore
 	{
-		1 require unsigned short	chairIdx;			// 座位序号
+		1 require unsigned short	chairNo;			// 座位序号
 		2 require unsigned byte			score;  		// 分数
 	};
 
 	// 买分
 	struct TReqBuyScore
 	{
-		0 require unsigned short		chairIdx;  		// 买卖对象（卖家）
+		0 require unsigned short		chairNo;  		// 买卖对象（卖家）
 	};
 
 	// 广播玩家买分	
 	struct TNotifyBuyScore
 	{
-		0 require unsigned short		chairIdx;  		// 买家
-		1 require unsigned short		chairIdxFrom;	// 卖家
+		0 require unsigned short		chairNo;  		// 买家
+		1 require unsigned short		chairNoFrom;	// 卖家
 	};
 
 	// 玩家回合结果
 	struct TRoundResult
 	{
 		0 require TCardInfo				cardInfo;			// 玩家的牌
-		1 optional unsigned byte		cardPattern;		// 牌型
+		1 require unsigned byte			cardPattern;		// 牌型
 		2 require  int					winScore;			// 本局正负分
 		3 require  int					remainScore;		// 剩余分数
 	};

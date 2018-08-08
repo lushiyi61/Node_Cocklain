@@ -11,10 +11,11 @@ export class IS_CardInfo {
 
     constructor() {
         this.dealer = 0;                // 庄家座位号
-        this.cardList = [];             // 剩余牌墙列表        
+        this.InitCardList();
     }
 
-    InitCardList(): void {
+    private InitCardList(): void {
+        this.cardList = [];             // 剩余牌墙列表   
         // 获取四个花色
         CM_CARDFUNCTION.CARD_FOLLOW.map(
             follow => {

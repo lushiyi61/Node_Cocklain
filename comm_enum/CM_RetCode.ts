@@ -1,11 +1,9 @@
-export const enum CM_RETCODE {
-    E_COMMON_SUCCESS = 0,				// 返回成功
+export class CM_RETCODE {
+    static readonly E_COMMON_SUCCESS = 0;				        // 返回成功
 
-    E_CHAIR_ERROR = 10,                 // 座位序号错误
-    E_PARAMETER_INVALID,                // 参数值不合法
-    E_HAD_SNATCHBANKER,                 // 已抢庄
-    E_HAD_CHOOSESCORE,                  // 已选分
-
-
+    static readonly E_CHAIR_ERROR = 10;                         // 座位序号错误
+    static readonly E_PARAMETER_INVALID = 11;                // 参数值不合法
+    static readonly E_HAD_SNATCHBANKER = 12;                 // 已抢庄
+    static readonly E_HAD_CHOOSESCORE = 13;                  // 已选分
 
 };

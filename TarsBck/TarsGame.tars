@@ -23,13 +23,21 @@ module TarsGame
         10  require     string  rules;          // 房间规则（json to string）
     };
 
+    /*
+     * 玩家信息
+     */
+    struct TPlayerInfo
+    {
+        0   require     long    userID;         // 玩家ID
+        1   require     short   nChairNo;       // 座位号
+    };
     /**
     * 游戏开始
     * 当前玩家UID，list下标为座次号
     */
     struct TGamgStart
     {
-        0   require     vector<long>    vecUserID;       
+        0   require     vector<TPlayerInfo>    playerInfo;
     };
 
 
@@ -46,7 +54,7 @@ module TarsGame
         E_NONE_DATA      = 10 ,   // 没有数据
     };
 
-    /** 
+    /**
     * 玩家请求游戏动作（子包）
     */
     struct TReqClientMsg
@@ -73,7 +81,7 @@ module TarsGame
     {
         1 require short nMsgID;                 // 指令 TReqClientMsg.nMsgID
         2 require string sTableNo;              // 桌子号   (RoomServer提供）
-        3 require unsigned short nChairIdx;     // 座位序号 （RoomServer提供）
+        3 require short nChairIdx;              // 座位序号 （RoomServer提供）
         4 optional vector<byte> vecData;        // 消息数据 TReqClientMsg.vecData
     };
 

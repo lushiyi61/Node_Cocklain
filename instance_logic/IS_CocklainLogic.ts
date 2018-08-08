@@ -14,38 +14,43 @@ import { IF_CocklainInfo } from "../instance_data/IF_CocklainInfo";
  */
 export function caleCardPattern(arrCards: number[]): IF_CocklainInfo // 计算牌型
 {
+    const card = _.maxBy(arrCards, c => { return c & 0xf });
+    let tmpCardList = _.filter(arrCards, c => { return (c & 0xf) == (card & 0xf) });
+    tmpCardList.sort();
+
     // 检查JQK(五花牛)
-    if (this.checkJQK(arrCards)) {
+    if (checkJQK(arrCards)) {
         return {
             cocklainType: CM_CARDPATTERN.CP_5HUANIU,
-            cardBig: _.max(arrCards)
+            cardBig: tmpCardList.pop()
         }
     }
 
     // 检查五小牛
-    if (this.check5XiaoNiu(arrCards)) {
+    if (check5XiaoNiu(arrCards)) {
         return {
             cocklainType: CM_CARDPATTERN.CP_5XIAONIU,
-            cardBig: _.max(arrCards)
+            cardBig: tmpCardList.pop()
         }
     }
 
     // 检查同花色
-    let bTonghua = this.checkTonghua(arrCards);
+    let bTonghua = checkTonghua(arrCards);
     // 检查顺子
-    let bShunzi = this.checkShunzi(arrCards);
+    let bShunzi = checkShunzi(arrCards);
 
     if (bTonghua && bShunzi) {
         return {
             cocklainType: CM_CARDPATTERN.CP_TONGHUASHUN,
-            cardBig: _.max(arrCards)
+            cardBig: tmpCardList.pop()
         }
     }
 
     // 检查炸弹
-    if (this.checkZhadan(arrCards)) {
+    if (checkZhadan(arrCards)) {
         let tmpDict = _.groupBy(arrCards, card => { return card & 0xf })
         let tmpList = _.filter(tmpDict, o => { return o.length == 4 });
+        tmpList.sort();
         return {
             cocklainType: CM_CARDPATTERN.CP_ZHADAN,
             cardBig: _.max(tmpList.pop())
@@ -53,31 +58,32 @@ export function caleCardPattern(arrCards: number[]): IF_CocklainInfo // 计算�
     }
 
     // 检查银牛
-    if (this.checkYinNiu(arrCards)) {
+    if (checkYinNiu(arrCards)) {
         return {
             cocklainType: CM_CARDPATTERN.CP_YINNIU,
-            cardBig: _.max(arrCards)
+            cardBig: tmpCardList.pop()
         }
     }
 
     if (bTonghua) {
         return {
             cocklainType: CM_CARDPATTERN.CP_TONGHUA,
-            cardBig: _.max(arrCards)
+            cardBig: tmpCardList.pop()
         }
     }
 
     if (bShunzi) {
         return {
             cocklainType: CM_CARDPATTERN.CP_SHUNZI,
-            cardBig: _.max(arrCards)
+            cardBig: tmpCardList.pop()
         }
     }
 
     // 检查葫芦牛
-    if (this.checkHulu(arrCards)) {
+    if (checkHulu(arrCards)) {
         let tmpDict = _.groupBy(arrCards, card => { return card & 0xf });
         let tmpList = _.filter(tmpDict, o => { return o.length == 3 });
+        tmpList.sort();
         return {
             cocklainType: CM_CARDPATTERN.CP_HULU,
             cardBig: _.max(tmpList.pop())
@@ -85,8 +91,8 @@ export function caleCardPattern(arrCards: number[]): IF_CocklainInfo // 计算�
     }
 
     return {
-        cocklainType: this.caleNiu(arrCards),
-        cardBig: _.max(arrCards)
+        cocklainType: caleNiu(arrCards),
+        cardBig: tmpCardList.pop()
     }
 }
 
@@ -99,7 +105,7 @@ function checkJQK(arrCards: number[]): boolean {
             CM_CARDTYPE.CARD_KING,
         ].indexOf(card & 0xf) >= 0
     })
-    return tmpList.length == 5 ? false : true;
+    return tmpList.length == 5 ? true : false;
 }
 
 // 五小牛：每张牌均＜5，且5张牌相加≤10的牌型
@@ -181,8 +187,8 @@ function checkYinNiu(arrCards: number[]): boolean {
 function checkHulu(arrCards: number[]): boolean {
     let tmpDict = _.groupBy(arrCards, card => { return card & 0xf });
     let tmpList = _.filter(tmpDict, o => { return o.length >= 2 });
-
-    if (tmpList.length != 2) {
+    tmpDict.length
+    if (_.size(tmpDict) != 2 || tmpList.length != 2) {
         return false;
     }
 
@@ -196,17 +202,18 @@ function caleNiu(arrCards: number[]): number {
     })
 
     tmpList = tmpList.map(card => { return card & 0xf })
+    // console.log(tmpList);
     switch (tmpList.length) {
         case 5:
-            return this.checkFiveCard(tmpList);
+            return checkFiveCard(tmpList);
         case 4:
-            return this.checkFourCard(tmpList);
+            return checkFourCard(tmpList);
         case 3:
-            return this.checkThreeCard(tmpList);
+            return checkThreeCard(tmpList);
         case 2:
-            return this.checkTwoCard(tmpList);
+            return checkTwoCard(tmpList);
         case 1:
-            return this.checkOneCard(tmpList);
+            return checkOneCard(tmpList);
         case 0:
             return CM_CARDPATTERN.CP_NIUNIU; // 牛牛
     }
@@ -214,26 +221,30 @@ function caleNiu(arrCards: number[]): number {
 
 
 //////////////////////////////////////////////////////////////
-// 牌列表中的牌 1- 9
+/**
+ * 有五张 1-9 
+ * =========================
+ * - 求和 2+3 类型
+ *  - 无余，任意两张整十
+ *  - 有余，且余牌在list中
+
+ * @param arrCards 
+ */
 function checkFiveCard(arrCards: number[]): number {
     const sum = _.sum(arrCards);
     // 2 + 3
     const sumElse = sum % 10;
     if (sumElse == 0) {
-        for (let card of arrCards) {
-            const card1 = 10 - card;
-            if (arrCards.indexOf(card1) >= 0) {
-                // 返回牛牛
-                return CM_CARDPATTERN.CP_NIUNIU;
-            }
+        // 检查合法性(任意两张相加=10)
+        if (checkTowCardSum(arrCards, 10)) {
+            // 返回牛牛
+            return CM_CARDPATTERN.CP_NIUNIU;
         }
     } else {
-        for (let card of arrCards) {
-            const card1 = (10 + sumElse - card) % 10;
-            if (arrCards.indexOf(card1) >= 0) {
-                // 返回牛N
-                return CM_CARDPATTERN.CP_NIU0 + sumElse;
-            }
+        // 检查合法性(任意两张相加=sumElse)
+        if (checkTowCardSum(arrCards, sumElse)) {
+            // 返回牛牛
+            return CM_CARDPATTERN.CP_NIU0 + sumElse;
         }
     }
 
@@ -241,32 +252,47 @@ function checkFiveCard(arrCards: number[]): number {
     return CM_CARDPATTERN.CP_NIU0;
 }
 
+/**
+ * 有四张 1-9 
+ * =========================
+ * - 求和
+ *  - 1+3 类型
+ *      - 有余，且余牌在list中
+ *  - 2+2 类型
+ *      - 无/有余，任意两张整十
+ * @param arrCards 
+ */
 function checkFourCard(arrCards: number[]): number {
     const sum = _.sum(arrCards);
     // 1 + 3 sumElse > 0
     const sumElse = sum % 10;
-    if (arrCards.indexOf(sumElse) > 0) {
+    // console.log(arrCards, sumElse, arrCards.indexOf(sumElse))
+    if (arrCards.indexOf(sumElse) >= 0) {
         return CM_CARDPATTERN.CP_NIU0 + sumElse;
     }
     // 2 + 2   12 <= sum <= 28
     if (sum >= 12 && sum <= 28) {
         // 检查合法性(任意两张相加=10)
-        for (let card of arrCards) {
-            const card1 = 10 - card;
-            if (arrCards.indexOf(card1) >= 0) {
-                // 返回牛N
-                if (sumElse == 0) {
-                    return CM_CARDPATTERN.CP_NIUNIU;
-                }
-
-                return CM_CARDPATTERN.CP_NIU0 + sumElse;
+        if (checkTowCardSum(arrCards, 10)) {
+            // 返回牛N
+            if (sumElse == 0) {
+                return CM_CARDPATTERN.CP_NIUNIU;
             }
+
+            return CM_CARDPATTERN.CP_NIU0 + sumElse;
         }
     }
 
     return CM_CARDPATTERN.CP_NIU0;
 }
 
+/**
+ * 有三张 1-9 
+ * =========================
+ * - 求和
+ * - 有余，且余牌在list中
+ * @param arrCards 
+ */
 function checkThreeCard(arrCards: number[]): number {
     const sumElse = _.sum(arrCards) % 10;
     if (sumElse == 0) {
@@ -280,6 +306,11 @@ function checkThreeCard(arrCards: number[]): number {
     return CM_CARDPATTERN.CP_NIU0 + sumElse;
 }
 
+/**
+ * 有两张 1-9 求和
+ * =========================
+ * @param arrCards 
+ */
 function checkTwoCard(arrCards: number[]): number {
     const sumElse = _.sum(arrCards) % 10;
     if (sumElse == 0) {
@@ -289,7 +320,35 @@ function checkTwoCard(arrCards: number[]): number {
     return CM_CARDPATTERN.CP_NIU0 + sumElse;
 }
 
+/**
+ * 只有一张 1-9 求值
+ * =========================
+ * @param arrCards 
+ */
 function checkOneCard(arrCards: number[]): number {
-    const sumElse = _.sum(arrCards) % 10;
+    const sumElse = _.sum(arrCards);
     return CM_CARDPATTERN.CP_NIU0 + sumElse;
+}
+
+/**
+ * 检查任意两张牌的和值（对10取余），是否等于目标值（对10取余）
+ * =========================
+ * @param arrCards 牌列表
+ * @param sumElse 目标值
+ */
+function checkTowCardSum(arrCards: number[], sumElse: number): boolean {
+    for (let card of arrCards) {
+        const otherCard = (10 + sumElse - card) % 10;
+
+        const tmpCardList = _.filter(arrCards, card => { return card == otherCard })
+        if (card == otherCard && tmpCardList.length == 2) {
+            return true;
+        } else if (card != otherCard && tmpCardList.length == 1) {
+            return true;
+        } else {
+            continue;
+        }
+    }
+
+    return false;
 }

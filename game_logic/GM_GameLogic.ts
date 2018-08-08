@@ -91,6 +91,7 @@ export function handleBuySocre(gameData: GM_GameData, chairIdx: number, chairIdx
  * @param gameData 
  */
 export function handleGameFinish(gameData: GM_GameData): number {
+    console.log("handleGameFinish:", gameData.roundInfo.flag)
     // 每人发1张牌
     gameData.userMng.listUserInfo.map(userInfo => {
         userInfo.arrCards.push(...gameData.cardInfo.DrawCard(1));
@@ -111,13 +112,17 @@ export function handleGameFinish(gameData: GM_GameData): number {
  * @param gameData 
  */
 export function handleGameAction(gameData: GM_GameData): number {
-
+    console.log("handleGameAction:", gameData.roundInfo.flag)
     switch (gameData.roundInfo.flag) {
         case CM_ROUNDFLAG.GAME_SNATCHBANKER:       // 抢庄
+            doSnatchbankerFinish(gameData);
             break;
         case CM_ROUNDFLAG.GAME_CHOOSESCORE:        // 选分
             break;
         case CM_ROUNDFLAG.GAME_SELLBUYSCORE:       // 买卖分
+            break;
+        case CM_ROUNDFLAG.GAME_FINISH:              // 游戏结束
+            doGameFinish(gameData);
             break;
         default:
 
@@ -139,6 +144,7 @@ export function handleGameAction(gameData: GM_GameData): number {
  * @param gameData 
  */
 function doSnatchbankerFinish(gameData: GM_GameData) {
+    console.log("doSnatchbankerFinish:");
 
 }
 
@@ -148,7 +154,7 @@ function doSnatchbankerFinish(gameData: GM_GameData) {
  * @param gameData 
  */
 function doChooseScoreFinish(gameData: GM_GameData) {
-
+    console.log("doChooseScoreFinish:");
 }
 
 /**
@@ -157,7 +163,25 @@ function doChooseScoreFinish(gameData: GM_GameData) {
  * @param gameData 
  */
 function doChooseSellBuyFinish(gameData: GM_GameData) {
+    console.log("doChooseSellBuyFinish:");
+}
 
+/**
+ * 游戏结束
+ * ========================
+ * @param gameData 
+ */
+function doGameFinish(gameData: GM_GameData) {
+    console.log("doGameFinish:", gameData.roundInfo.flag)
+    // 每人发1张牌
+    gameData.userMng.listUserInfo.map(userInfo => {
+        userInfo.arrCards.push(...gameData.cardInfo.DrawCard(1));
+    })
+
+    // 更新玩家结果
+    gameData.userMng.CaleUserCardPattern();
+
+    // 计算分数
 }
 
 

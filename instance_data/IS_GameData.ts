@@ -27,6 +27,7 @@ export class IS_GameData {
         this.cardInfo = new IS_CardInfo();
         this.userMng.InitUserInfo(listUser);
         this.tableInfo.UpdateRound();
+        this.tableInfo.UpdateUserInfo(listUser);
     }
 
     GameOver() {

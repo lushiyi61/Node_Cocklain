@@ -1,1 +1,8 @@
 node_modules/*
+comm_enum/*.js
+
+game_data/*.js
+game_logic/*.js
+instance_data/*.js
+instance_logic/*.js
+test/*.js

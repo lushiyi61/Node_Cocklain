@@ -12,6 +12,13 @@ export class IS_TableInfo {
         this.type = type;
     }
 
+    UpdateUserInfo(listUser: number[]) {
+        listUser.map(user => {
+            if (!this.mapUserInfo.has(user)) {
+                this.mapUserInfo.set(user, new IS_TableUserInfo());
+            }
+        })
+    }
 
     UpdateRound() {
         this.roundCurr += 1;

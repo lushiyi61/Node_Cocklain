@@ -14,22 +14,14 @@ module.exports.TarsGame = TarsGame;
 
 
 TarsGame.E_GAME_MSGID = {
-    GAMECREATE : 10,
-    GAMERECONNECT : 11,
+    GAMECREATE : 11,
     GAMESTART : 12,
     GAMETIMEOUT : 13,
     GAMEFINISH : 14,
-    GAMEDISMISS : 15,
-    GAMERESULT : 16,
-    GAMEACTION1 : 51,
-    GAMEACTION2 : 52,
-    GAMEACTION3 : 53,
-    GAMEACTION4 : 54,
-    GAMEACTION5 : 55,
-    GAMEACTION6 : 56,
-    GAMEACTION7 : 57,
-    GAMEACTION8 : 58,
-    GAMEACTION9 : 59
+    GAMEOVER : 15,
+    GAMEDISMISS : 16,
+    GAMERESULT : 17,
+    GAMEACTION : 18
 };
 TarsGame.E_GAME_MSGID._write = function(os, tag, val) { return os.writeInt32(tag, val); }
 TarsGame.E_GAME_MSGID._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
@@ -38,12 +30,14 @@ TarsGame.EGameMsgType = {
     E_NOTIFY_DATA : 0,
     E_RESPONE_DATA : 1,
     E_RESPALL_DATA : 2,
-    E_MIXTURE_DATA : 3
+    E_MIXTURE_DATA : 3,
+    E_NONE_DATA : 10
 };
 TarsGame.EGameMsgType._write = function(os, tag, val) { return os.writeInt32(tag, val); }
 TarsGame.EGameMsgType._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
 
 TarsGame.TGameCreate = function() {
+    this.roomType = 0;
     this.rules = "";
     this._classname = "TarsGame.TGameCreate";
 };
@@ -53,11 +47,13 @@ TarsGame.TGameCreate._write = function (os, tag, value) { os.writeStruct(tag, va
 TarsGame.TGameCreate._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
 TarsGame.TGameCreate._readFrom = function (is) {
     var tmp = new TarsGame.TGameCreate();
-    tmp.rules = is.readString(0, true, "");
+    tmp.roomType = is.readInt8(0, true, 0);
+    tmp.rules = is.readString(10, true, "");
     return tmp;
 };
 TarsGame.TGameCreate.prototype._writeTo = function (os) {
-    os.writeString(0, this.rules);
+    os.writeInt8(0, this.roomType);
+    os.writeString(10, this.rules);
 };
 TarsGame.TGameCreate.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
@@ -71,11 +67,13 @@ TarsGame.TGameCreate.prototype._genKey = function () {
 TarsGame.TGameCreate.prototype.toObject = function() { 
     var tmp = {};
 
+    tmp.roomType = this.roomType;
     tmp.rules = this.rules;
     
     return tmp;
 }
 TarsGame.TGameCreate.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("roomType") || (this.roomType = json.roomType);
     !json.hasOwnProperty("rules") || (this.rules = json.rules);
 }
 TarsGame.TGameCreate.prototype.toBinBuffer = function () {
@@ -90,8 +88,60 @@ TarsGame.TGameCreate.create = function (is) {
     return TarsGame.TGameCreate._readFrom(is);
 }
 
+TarsGame.TPlayerInfo = function() {
+    this.userID = 0;
+    this.nChairNo = 0;
+    this._classname = "TarsGame.TPlayerInfo";
+};
+TarsGame.TPlayerInfo._classname = "TarsGame.TPlayerInfo";
+
+TarsGame.TPlayerInfo._write = function (os, tag, value) { os.writeStruct(tag, value); }
+TarsGame.TPlayerInfo._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+TarsGame.TPlayerInfo._readFrom = function (is) {
+    var tmp = new TarsGame.TPlayerInfo();
+    tmp.userID = is.readInt64(0, true, 0);
+    tmp.nChairNo = is.readInt16(1, true, 0);
+    return tmp;
+};
+TarsGame.TPlayerInfo.prototype._writeTo = function (os) {
+    os.writeInt64(0, this.userID);
+    os.writeInt16(1, this.nChairNo);
+};
+TarsGame.TPlayerInfo.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+TarsGame.TPlayerInfo.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+TarsGame.TPlayerInfo.prototype.toObject = function() { 
+    var tmp = {};
+
+    tmp.userID = this.userID;
+    tmp.nChairNo = this.nChairNo;
+    
+    return tmp;
+}
+TarsGame.TPlayerInfo.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("userID") || (this.userID = json.userID);
+    !json.hasOwnProperty("nChairNo") || (this.nChairNo = json.nChairNo);
+}
+TarsGame.TPlayerInfo.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+TarsGame.TPlayerInfo.new = function () {
+    return new TarsGame.TPlayerInfo();
+}
+TarsGame.TPlayerInfo.create = function (is) {
+    return TarsGame.TPlayerInfo._readFrom(is);
+}
+
 TarsGame.TGamgStart = function() {
-    this.vecUserID = new TarsStream.List(TarsStream.Int64);
+    this.playerInfo = new TarsStream.List(TarsGame.TPlayerInfo);
     this._classname = "TarsGame.TGamgStart";
 };
 TarsGame.TGamgStart._classname = "TarsGame.TGamgStart";
@@ -100,11 +150,11 @@ TarsGame.TGamgStart._write = function (os, tag, value) { os.writeStruct(tag, val
 TarsGame.TGamgStart._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
 TarsGame.TGamgStart._readFrom = function (is) {
     var tmp = new TarsGame.TGamgStart();
-    tmp.vecUserID = is.readList(0, true, TarsStream.List(TarsStream.Int64));
+    tmp.playerInfo = is.readList(0, true, TarsStream.List(TarsGame.TPlayerInfo));
     return tmp;
 };
 TarsGame.TGamgStart.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecUserID);
+    os.writeList(0, this.playerInfo);
 };
 TarsGame.TGamgStart.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
@@ -118,12 +168,12 @@ TarsGame.TGamgStart.prototype._genKey = function () {
 TarsGame.TGamgStart.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecUserID = this.vecUserID.toObject();
+    tmp.playerInfo = this.playerInfo.toObject();
     
     return tmp;
 }
 TarsGame.TGamgStart.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecUserID") || (this.vecUserID.readFromObject(json.vecUserID));
+    !json.hasOwnProperty("playerInfo") || (this.playerInfo.readFromObject(json.playerInfo));
 }
 TarsGame.TGamgStart.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
@@ -137,47 +187,157 @@ TarsGame.TGamgStart.create = function (is) {
     return TarsGame.TGamgStart._readFrom(is);
 }
 
-TarsGame.TReqMessage = function() {
-    this.nVer = 1;
+TarsGame.TReqClientMsg = function() {
     this.nMsgID = 0;
-    this.sTableNo = "";
-    this.nChairIdx = -1;
     this.vecData = new TarsStream.BinBuffer();
-    this._classname = "TarsGame.TReqMessage";
+    this._classname = "TarsGame.TReqClientMsg";
 };
-TarsGame.TReqMessage._classname = "TarsGame.TReqMessage";
+TarsGame.TReqClientMsg._classname = "TarsGame.TReqClientMsg";
 
-TarsGame.TReqMessage._write = function (os, tag, value) { os.writeStruct(tag, value); }
-TarsGame.TReqMessage._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-TarsGame.TReqMessage._readFrom = function (is) {
-    var tmp = new TarsGame.TReqMessage();
-    tmp.nVer = is.readInt16(0, true, 1);
-    tmp.nMsgID = is.readInt16(1, true, 0);
-    tmp.sTableNo = is.readString(2, true, "");
-    tmp.nChairIdx = is.readInt16(3, true, -1);
-    tmp.vecData = is.readBytes(4, false, TarsStream.BinBuffer);
+TarsGame.TReqClientMsg._write = function (os, tag, value) { os.writeStruct(tag, value); }
+TarsGame.TReqClientMsg._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+TarsGame.TReqClientMsg._readFrom = function (is) {
+    var tmp = new TarsGame.TReqClientMsg();
+    tmp.nMsgID = is.readInt16(0, true, 0);
+    tmp.vecData = is.readBytes(1, true, TarsStream.BinBuffer);
     return tmp;
 };
-TarsGame.TReqMessage.prototype._writeTo = function (os) {
-    os.writeInt16(0, this.nVer);
-    os.writeInt16(1, this.nMsgID);
-    os.writeString(2, this.sTableNo);
-    os.writeInt16(3, this.nChairIdx);
-    os.writeBytes(4, this.vecData);
+TarsGame.TReqClientMsg.prototype._writeTo = function (os) {
+    os.writeInt16(0, this.nMsgID);
+    os.writeBytes(1, this.vecData);
 };
-TarsGame.TReqMessage.prototype._equal = function (anItem) {
+TarsGame.TReqClientMsg.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-TarsGame.TReqMessage.prototype._genKey = function () {
+TarsGame.TReqClientMsg.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-TarsGame.TReqMessage.prototype.toObject = function() { 
+TarsGame.TReqClientMsg.prototype.toObject = function() { 
+    var tmp = {};
+
+    tmp.nMsgID = this.nMsgID;
+    tmp.vecData = this.vecData.toObject();
+    
+    return tmp;
+}
+TarsGame.TReqClientMsg.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("nMsgID") || (this.nMsgID = json.nMsgID);
+    !json.hasOwnProperty("vecData") || (this.vecData.readFromObject(json.vecData));
+}
+TarsGame.TReqClientMsg.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+TarsGame.TReqClientMsg.new = function () {
+    return new TarsGame.TReqClientMsg();
+}
+TarsGame.TReqClientMsg.create = function (is) {
+    return TarsGame.TReqClientMsg._readFrom(is);
+}
+
+TarsGame.TReqRoomMsg = function() {
+    this.nVer = 1;
+    this.nMsgID = 0;
+    this.sTableNo = "";
+    this.vecData = new TarsStream.BinBuffer();
+    this._classname = "TarsGame.TReqRoomMsg";
+};
+TarsGame.TReqRoomMsg._classname = "TarsGame.TReqRoomMsg";
+
+TarsGame.TReqRoomMsg._write = function (os, tag, value) { os.writeStruct(tag, value); }
+TarsGame.TReqRoomMsg._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+TarsGame.TReqRoomMsg._readFrom = function (is) {
+    var tmp = new TarsGame.TReqRoomMsg();
+    tmp.nVer = is.readInt16(0, true, 1);
+    tmp.nMsgID = is.readInt16(1, true, 0);
+    tmp.sTableNo = is.readString(2, true, "");
+    tmp.vecData = is.readBytes(3, false, TarsStream.BinBuffer);
+    return tmp;
+};
+TarsGame.TReqRoomMsg.prototype._writeTo = function (os) {
+    os.writeInt16(0, this.nVer);
+    os.writeInt16(1, this.nMsgID);
+    os.writeString(2, this.sTableNo);
+    os.writeBytes(3, this.vecData);
+};
+TarsGame.TReqRoomMsg.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+TarsGame.TReqRoomMsg.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+TarsGame.TReqRoomMsg.prototype.toObject = function() { 
     var tmp = {};
 
     tmp.nVer = this.nVer;
+    tmp.nMsgID = this.nMsgID;
+    tmp.sTableNo = this.sTableNo;
+    tmp.vecData = this.vecData.toObject();
+    
+    return tmp;
+}
+TarsGame.TReqRoomMsg.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("nVer") || (this.nVer = json.nVer);
+    !json.hasOwnProperty("nMsgID") || (this.nMsgID = json.nMsgID);
+    !json.hasOwnProperty("sTableNo") || (this.sTableNo = json.sTableNo);
+    !json.hasOwnProperty("vecData") || (this.vecData.readFromObject(json.vecData));
+}
+TarsGame.TReqRoomMsg.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+TarsGame.TReqRoomMsg.new = function () {
+    return new TarsGame.TReqRoomMsg();
+}
+TarsGame.TReqRoomMsg.create = function (is) {
+    return TarsGame.TReqRoomMsg._readFrom(is);
+}
+
+TarsGame.TReqRoomTranspondMsg = function() {
+    this.nMsgID = 0;
+    this.sTableNo = "";
+    this.nChairIdx = 0;
+    this.vecData = new TarsStream.BinBuffer();
+    this._classname = "TarsGame.TReqRoomTranspondMsg";
+};
+TarsGame.TReqRoomTranspondMsg._classname = "TarsGame.TReqRoomTranspondMsg";
+
+TarsGame.TReqRoomTranspondMsg._write = function (os, tag, value) { os.writeStruct(tag, value); }
+TarsGame.TReqRoomTranspondMsg._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+TarsGame.TReqRoomTranspondMsg._readFrom = function (is) {
+    var tmp = new TarsGame.TReqRoomTranspondMsg();
+    tmp.nMsgID = is.readInt16(1, true, 0);
+    tmp.sTableNo = is.readString(2, true, "");
+    tmp.nChairIdx = is.readInt16(3, true, 0);
+    tmp.vecData = is.readBytes(4, false, TarsStream.BinBuffer);
+    return tmp;
+};
+TarsGame.TReqRoomTranspondMsg.prototype._writeTo = function (os) {
+    os.writeInt16(1, this.nMsgID);
+    os.writeString(2, this.sTableNo);
+    os.writeInt16(3, this.nChairIdx);
+    os.writeBytes(4, this.vecData);
+};
+TarsGame.TReqRoomTranspondMsg.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+TarsGame.TReqRoomTranspondMsg.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+TarsGame.TReqRoomTranspondMsg.prototype.toObject = function() { 
+    var tmp = {};
+
     tmp.nMsgID = this.nMsgID;
     tmp.sTableNo = this.sTableNo;
     tmp.nChairIdx = this.nChairIdx;
@@ -185,23 +345,22 @@ TarsGame.TReqMessage.prototype.toObject = function() {
     
     return tmp;
 }
-TarsGame.TReqMessage.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("nVer") || (this.nVer = json.nVer);
+TarsGame.TReqRoomTranspondMsg.prototype.readFromObject = function(json) { 
     !json.hasOwnProperty("nMsgID") || (this.nMsgID = json.nMsgID);
     !json.hasOwnProperty("sTableNo") || (this.sTableNo = json.sTableNo);
     !json.hasOwnProperty("nChairIdx") || (this.nChairIdx = json.nChairIdx);
     !json.hasOwnProperty("vecData") || (this.vecData.readFromObject(json.vecData));
 }
-TarsGame.TReqMessage.prototype.toBinBuffer = function () {
+TarsGame.TReqRoomTranspondMsg.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-TarsGame.TReqMessage.new = function () {
-    return new TarsGame.TReqMessage();
+TarsGame.TReqRoomTranspondMsg.new = function () {
+    return new TarsGame.TReqRoomTranspondMsg();
 }
-TarsGame.TReqMessage.create = function (is) {
-    return TarsGame.TReqMessage._readFrom(is);
+TarsGame.TReqRoomTranspondMsg.create = function (is) {
+    return TarsGame.TReqRoomTranspondMsg._readFrom(is);
 }
 
 TarsGame.TData = function() {
@@ -259,6 +418,7 @@ TarsGame.TData.create = function (is) {
 TarsGame.TGameData = function() {
     this.tRespOneData = new TarsGame.TData();
     this.tNotifyData = new TarsGame.TData();
+    this.tNotifyOnlookerData = new TarsGame.TData();
     this.vecRespAllData = new TarsStream.List(TarsGame.TData);
     this._classname = "TarsGame.TGameData";
 };
@@ -270,13 +430,15 @@ TarsGame.TGameData._readFrom = function (is) {
     var tmp = new TarsGame.TGameData();
     tmp.tRespOneData = is.readStruct(0, false, TarsGame.TData);
     tmp.tNotifyData = is.readStruct(1, false, TarsGame.TData);
-    tmp.vecRespAllData = is.readList(2, false, TarsStream.List(TarsGame.TData));
+    tmp.tNotifyOnlookerData = is.readStruct(2, false, TarsGame.TData);
+    tmp.vecRespAllData = is.readList(3, false, TarsStream.List(TarsGame.TData));
     return tmp;
 };
 TarsGame.TGameData.prototype._writeTo = function (os) {
     os.writeStruct(0, this.tRespOneData);
     os.writeStruct(1, this.tNotifyData);
-    os.writeList(2, this.vecRespAllData);
+    os.writeStruct(2, this.tNotifyOnlookerData);
+    os.writeList(3, this.vecRespAllData);
 };
 TarsGame.TGameData.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
@@ -292,6 +454,7 @@ TarsGame.TGameData.prototype.toObject = function() {
 
     tmp.tRespOneData = this.tRespOneData.toObject();
     tmp.tNotifyData = this.tNotifyData.toObject();
+    tmp.tNotifyOnlookerData = this.tNotifyOnlookerData.toObject();
     tmp.vecRespAllData = this.vecRespAllData.toObject();
     
     return tmp;
@@ -299,6 +462,7 @@ TarsGame.TGameData.prototype.toObject = function() {
 TarsGame.TGameData.prototype.readFromObject = function(json) { 
     !json.hasOwnProperty("tRespOneData") || (this.tRespOneData.readFromObject(json.tRespOneData));
     !json.hasOwnProperty("tNotifyData") || (this.tNotifyData.readFromObject(json.tNotifyData));
+    !json.hasOwnProperty("tNotifyOnlookerData") || (this.tNotifyOnlookerData.readFromObject(json.tNotifyOnlookerData));
     !json.hasOwnProperty("vecRespAllData") || (this.vecRespAllData.readFromObject(json.vecRespAllData));
 }
 TarsGame.TGameData.prototype.toBinBuffer = function () {
@@ -402,11 +566,11 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                 var tup = new TarsStream.UniAttribute();
                 tup.tupVersion = current.getRequestVersion();
                 tup.decode(BinBuffer);
-                var tReqMessage = tup.readStruct("tReqMessage", TarsGame.TReqMessage);
+                var tReqRoomMsg = tup.readStruct("tReqRoomMsg", TarsGame.TReqRoomMsg);
                 var tRespMessage = tup.readStruct("tRespMessage", TarsGame.TRespMessage, new TarsGame.TRespMessage());
             } else {
                 var is = new TarsStream.TarsInputStream(BinBuffer);
-                var tReqMessage = is.readStruct(1, true, TarsGame.TReqMessage);
+                var tReqRoomMsg = is.readStruct(1, true, TarsGame.TReqRoomMsg);
                 var tRespMessage = is.readStruct(2, false, TarsGame.TRespMessage);
             }
             current.sendResponse = function (_ret, tRespMessage) {
@@ -426,7 +590,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                 }
             }
 
-            this.doRoomMessage(current, tReqMessage, tRespMessage);
+            this.doRoomMessage(current, tReqRoomMsg, tRespMessage);
 
             return TarsError.SUCCESS;
         }
@@ -435,11 +599,11 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                 var tup = new TarsStream.UniAttribute();
                 tup.tupVersion = current.getRequestVersion();
                 tup.decode(BinBuffer);
-                var tReqMessage = tup.readStruct("tReqMessage", TarsGame.TReqMessage);
+                var tReqRoomTranspondMsg = tup.readStruct("tReqRoomTranspondMsg", TarsGame.TReqRoomTranspondMsg);
                 var tRespMessage = tup.readStruct("tRespMessage", TarsGame.TRespMessage, new TarsGame.TRespMessage());
             } else {
                 var is = new TarsStream.TarsInputStream(BinBuffer);
-                var tReqMessage = is.readStruct(1, true, TarsGame.TReqMessage);
+                var tReqRoomTranspondMsg = is.readStruct(1, true, TarsGame.TReqRoomTranspondMsg);
                 var tRespMessage = is.readStruct(2, false, TarsGame.TRespMessage);
             }
             current.sendResponse = function (_ret, tRespMessage) {
@@ -459,7 +623,7 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
                 }
             }
 
-            this.doClientMessage(current, tReqMessage, tRespMessage);
+            this.doClientMessage(current, tReqRoomTranspondMsg, tRespMessage);
 
             return TarsError.SUCCESS;
         }
@@ -467,12 +631,12 @@ TarsGame.IGameMessageImp.prototype.onDispatch = function (current, FuncName, Bin
     return TarsError.SERVER.FUNC_NOT_FOUND;
 }
 
-TarsGame.IGameMessageImp.prototype.doRoomMessage = function (current, tReqMessage, tRespMessage) {
+TarsGame.IGameMessageImp.prototype.doRoomMessage = function (current, tReqRoomMsg, tRespMessage) {
     //TODO:
     assert.fail('doRoomMessage function not implemented');
 }
 
-TarsGame.IGameMessageImp.prototype.doClientMessage = function (current, tReqMessage, tRespMessage) {
+TarsGame.IGameMessageImp.prototype.doClientMessage = function (current, tReqRoomTranspondMsg, tRespMessage) {
     //TODO:
     assert.fail('doClientMessage function not implemented');
 }

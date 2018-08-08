@@ -6,19 +6,19 @@
 var TarsGame = require('./TarsGame.js').TarsGame;
 module.exports.TarsGame = TarsGame;
 
-var {handleRoomMessage, handleClientMessage} = require('../game_event/GM_Events.js');
+var { handleRoomMessage, handleClientMessage } = require('../game_event/GM_Events.js');
 
-TarsGame.IGameMessageImp.prototype.initialize = function ( ) {
+TarsGame.IGameMessageImp.prototype.initialize = function () {
     //TODO::
 
 }
 
-TarsGame.IGameMessageImp.prototype.doRoomMessage = function (current, tReqMessage, tRespMessage) {
-    handleRoomMessage(current, tReqMessage, tRespMessage);
+TarsGame.IGameMessageImp.prototype.doRoomMessage = function (current, tReqRoomMsg, tRespMessage) {
+    handleRoomMessage(current, tReqRoomMsg, tRespMessage);
 }
 
-TarsGame.IGameMessageImp.prototype.doClientMessage = function (current, tReqMessage, tRespMessage) {
-    handleClientMessage(current, tReqMessage, tRespMessage);
+TarsGame.IGameMessageImp.prototype.doClientMessage = function (current, tReqRoomTranspondMsg, tRespMessage) {
+    handleClientMessage(current, tReqRoomTranspondMsg, tRespMessage);
 }
 
 

@@ -12,741 +12,843 @@ var TarsStream = require('@tars/stream');
 var CocklainStruct = CocklainStruct || {};
 module.exports.CocklainStruct = CocklainStruct;
 
-CocklainStruct.E_CLIENT_MSG = {
-    CM_Snatchbanker : 100,
-    CM_ChooseBaseScore : 101,
-    CM_SellScore : 102,
-    CM_BuyScore : 103,
-    CM_GetGameData : 104,
-    CM_UserHead : 105
+CocklainStruct.TPlaceholder = function() {
+    this.placeholder = 0;
+    this._classname = "CocklainStruct.TPlaceholder";
 };
-CocklainStruct.E_CLIENT_MSG._write = function(os, tag, val) { return os.writeInt32(tag, val); }
-CocklainStruct.E_CLIENT_MSG._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
-CocklainStruct.E_SERVER_MSG = {
-    SM_SendCard : 200,
-    SM_Snatchbanker : 201,
-    SM_SnatchbankerFinish : 202,
-    SM_ChooseBaseScore : 203,
-    SM_CM_ChooseBaseScore : 204,
-    SM_ChooseBaseScoreFinish : 205,
-    SM_ScoreSellBuy : 206,
-    SM_ScoreSellBuyRecord : 207,
-    SM_SendLastCard : 208,
-    SM_RoundEnd : 209,
-    SM_GameEnd : 210,
-    SM_GameData : 211
-};
-CocklainStruct.E_SERVER_MSG._write = function(os, tag, val) { return os.writeInt32(tag, val); }
-CocklainStruct.E_SERVER_MSG._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
-CocklainStruct.E_CARD_PATTERN = {
-    CP_Niu0 : 100,
-    CP_Niu1 : 101,
-    CP_Niu2 : 102,
-    CP_Niu3 : 103,
-    CP_Niu4 : 104,
-    CP_Niu5 : 105,
-    CP_Niu6 : 106,
-    CP_Niu7 : 107,
-    CP_Niu8 : 108,
-    CP_Niu9 : 109,
-    CP_Niuniu : 110,
-    CP_Hulu : 111,
-    CP_Shunzi : 112,
-    CP_Tonghua : 113,
-    CP_YinNiu : 114,
-    CP_Zhadan : 115,
-    CP_Tonghuashun : 116,
-    CP_5XiaoNiu : 117,
-    CP_5HuaNiu : 118
-};
-CocklainStruct.E_CARD_PATTERN._write = function(os, tag, val) { return os.writeInt32(tag, val); }
-CocklainStruct.E_CARD_PATTERN._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
-CocklainStruct.E_GAME_STATUS = {
-    GS_SendCard : 10,
-    GS_Snatchbanker : 11,
-    GS_ChooseBaseScore : 12,
-    GS_ScoreSellBuy : 13,
-    GS_SendLastCard : 14,
-    GS_RoundEnd : 15
-};
-CocklainStruct.E_GAME_STATUS._write = function(os, tag, val) { return os.writeInt32(tag, val); }
-CocklainStruct.E_GAME_STATUS._read  = function(is, tag, def) { return is.readInt32(tag, true, def); }
+CocklainStruct.TPlaceholder._classname = "CocklainStruct.TPlaceholder";
 
-CocklainStruct.TIntMsg = function() {
-    this.iValue = 0;
-    this._classname = "CocklainStruct.TIntMsg";
-};
-CocklainStruct.TIntMsg._classname = "CocklainStruct.TIntMsg";
-
-CocklainStruct.TIntMsg._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TIntMsg._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TIntMsg._readFrom = function (is) {
-    var tmp = new CocklainStruct.TIntMsg();
-    tmp.iValue = is.readInt32(0, true, 0);
+CocklainStruct.TPlaceholder._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TPlaceholder._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TPlaceholder._readFrom = function (is) {
+    var tmp = new CocklainStruct.TPlaceholder();
+    tmp.placeholder = is.readInt8(0, true, 0);
     return tmp;
 };
-CocklainStruct.TIntMsg.prototype._writeTo = function (os) {
-    os.writeInt32(0, this.iValue);
+CocklainStruct.TPlaceholder.prototype._writeTo = function (os) {
+    os.writeInt8(0, this.placeholder);
 };
-CocklainStruct.TIntMsg.prototype._equal = function (anItem) {
+CocklainStruct.TPlaceholder.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TIntMsg.prototype._genKey = function () {
+CocklainStruct.TPlaceholder.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TIntMsg.prototype.toObject = function() { 
+CocklainStruct.TPlaceholder.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.iValue = this.iValue;
+    tmp.placeholder = this.placeholder;
     
     return tmp;
 }
-CocklainStruct.TIntMsg.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("iValue") || (this.iValue = json.iValue);
+CocklainStruct.TPlaceholder.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("placeholder") || (this.placeholder = json.placeholder);
 }
-CocklainStruct.TIntMsg.prototype.toBinBuffer = function () {
+CocklainStruct.TPlaceholder.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TIntMsg.new = function () {
-    return new CocklainStruct.TIntMsg();
+CocklainStruct.TPlaceholder.new = function () {
+    return new CocklainStruct.TPlaceholder();
 }
-CocklainStruct.TIntMsg.create = function (is) {
-    return CocklainStruct.TIntMsg._readFrom(is);
+CocklainStruct.TPlaceholder.create = function (is) {
+    return CocklainStruct.TPlaceholder._readFrom(is);
 }
-CocklainStruct.TUserHead = function() {
-    this.strNickname = "";
-    this.strHeadImgURL = "";
-    this._classname = "CocklainStruct.TUserHead";
+CocklainStruct.TNotifyGameConfig = function() {
+    this.placeholder = 0;
+    this._classname = "CocklainStruct.TNotifyGameConfig";
 };
-CocklainStruct.TUserHead._classname = "CocklainStruct.TUserHead";
+CocklainStruct.TNotifyGameConfig._classname = "CocklainStruct.TNotifyGameConfig";
 
-CocklainStruct.TUserHead._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserHead._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserHead._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserHead();
-    tmp.strNickname = is.readString(0, true, "");
-    tmp.strHeadImgURL = is.readString(1, true, "");
+CocklainStruct.TNotifyGameConfig._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyGameConfig._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyGameConfig._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyGameConfig();
+    tmp.placeholder = is.readInt8(0, true, 0);
     return tmp;
 };
-CocklainStruct.TUserHead.prototype._writeTo = function (os) {
-    os.writeString(0, this.strNickname);
-    os.writeString(1, this.strHeadImgURL);
+CocklainStruct.TNotifyGameConfig.prototype._writeTo = function (os) {
+    os.writeInt8(0, this.placeholder);
 };
-CocklainStruct.TUserHead.prototype._equal = function (anItem) {
+CocklainStruct.TNotifyGameConfig.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserHead.prototype._genKey = function () {
+CocklainStruct.TNotifyGameConfig.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserHead.prototype.toObject = function() { 
+CocklainStruct.TNotifyGameConfig.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.strNickname = this.strNickname;
-    tmp.strHeadImgURL = this.strHeadImgURL;
+    tmp.placeholder = this.placeholder;
     
     return tmp;
 }
-CocklainStruct.TUserHead.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("strNickname") || (this.strNickname = json.strNickname);
-    !json.hasOwnProperty("strHeadImgURL") || (this.strHeadImgURL = json.strHeadImgURL);
+CocklainStruct.TNotifyGameConfig.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("placeholder") || (this.placeholder = json.placeholder);
 }
-CocklainStruct.TUserHead.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifyGameConfig.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserHead.new = function () {
-    return new CocklainStruct.TUserHead();
+CocklainStruct.TNotifyGameConfig.new = function () {
+    return new CocklainStruct.TNotifyGameConfig();
 }
-CocklainStruct.TUserHead.create = function (is) {
-    return CocklainStruct.TUserHead._readFrom(is);
+CocklainStruct.TNotifyGameConfig.create = function (is) {
+    return CocklainStruct.TNotifyGameConfig._readFrom(is);
 }
-CocklainStruct.TUserCard = function() {
-    this.vecCards = new TarsStream.List(TarsStream.Int64);
-    this._classname = "CocklainStruct.TUserCard";
+CocklainStruct.TCardInfo = function() {
+    this.chairNo = 0;
+    this.cards = new TarsStream.List(TarsStream.Int16);
+    this._classname = "CocklainStruct.TCardInfo";
 };
-CocklainStruct.TUserCard._classname = "CocklainStruct.TUserCard";
+CocklainStruct.TCardInfo._classname = "CocklainStruct.TCardInfo";
 
-CocklainStruct.TUserCard._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserCard._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserCard._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserCard();
-    tmp.vecCards = is.readList(0, true, TarsStream.List(TarsStream.Int64));
+CocklainStruct.TCardInfo._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TCardInfo._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TCardInfo._readFrom = function (is) {
+    var tmp = new CocklainStruct.TCardInfo();
+    tmp.chairNo = is.readUInt16(0, true, 0);
+    tmp.cards = is.readList(1, true, TarsStream.List(TarsStream.Int16));
     return tmp;
 };
-CocklainStruct.TUserCard.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecCards);
+CocklainStruct.TCardInfo.prototype._writeTo = function (os) {
+    os.writeUInt16(0, this.chairNo);
+    os.writeList(1, this.cards);
 };
-CocklainStruct.TUserCard.prototype._equal = function (anItem) {
+CocklainStruct.TCardInfo.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserCard.prototype._genKey = function () {
+CocklainStruct.TCardInfo.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserCard.prototype.toObject = function() { 
+CocklainStruct.TCardInfo.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecCards = this.vecCards.toObject();
+    tmp.chairNo = this.chairNo;
+    tmp.cards = this.cards.toObject();
     
     return tmp;
 }
-CocklainStruct.TUserCard.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecCards") || (this.vecCards.readFromObject(json.vecCards));
+CocklainStruct.TCardInfo.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
+    !json.hasOwnProperty("cards") || (this.cards.readFromObject(json.cards));
 }
-CocklainStruct.TUserCard.prototype.toBinBuffer = function () {
+CocklainStruct.TCardInfo.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserCard.new = function () {
-    return new CocklainStruct.TUserCard();
+CocklainStruct.TCardInfo.new = function () {
+    return new CocklainStruct.TCardInfo();
 }
-CocklainStruct.TUserCard.create = function (is) {
-    return CocklainStruct.TUserCard._readFrom(is);
+CocklainStruct.TCardInfo.create = function (is) {
+    return CocklainStruct.TCardInfo._readFrom(is);
 }
-CocklainStruct.TSendCardData = function() {
-    this.vecUserCards = new TarsStream.List(CocklainStruct.TUserCard);
-    this.uiCurrRound = 0;
-    this._classname = "CocklainStruct.TSendCardData";
+CocklainStruct.TNotifyGameStart = function() {
+    this.roundCurr = 0;
+    this.cards = new TarsStream.List(TarsStream.Int16);
+    this.listChairNo = new TarsStream.List(TarsStream.Int32);
+    this._classname = "CocklainStruct.TNotifyGameStart";
 };
-CocklainStruct.TSendCardData._classname = "CocklainStruct.TSendCardData";
+CocklainStruct.TNotifyGameStart._classname = "CocklainStruct.TNotifyGameStart";
 
-CocklainStruct.TSendCardData._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TSendCardData._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TSendCardData._readFrom = function (is) {
-    var tmp = new CocklainStruct.TSendCardData();
-    tmp.vecUserCards = is.readList(0, true, TarsStream.List(CocklainStruct.TUserCard));
-    tmp.uiCurrRound = is.readUInt32(1, true, 0);
+CocklainStruct.TNotifyGameStart._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyGameStart._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyGameStart._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyGameStart();
+    tmp.roundCurr = is.readInt8(0, true, 0);
+    tmp.cards = is.readList(1, true, TarsStream.List(TarsStream.Int16));
+    tmp.listChairNo = is.readList(2, true, TarsStream.List(TarsStream.Int32));
     return tmp;
 };
-CocklainStruct.TSendCardData.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecUserCards);
-    os.writeUInt32(1, this.uiCurrRound);
+CocklainStruct.TNotifyGameStart.prototype._writeTo = function (os) {
+    os.writeInt8(0, this.roundCurr);
+    os.writeList(1, this.cards);
+    os.writeList(2, this.listChairNo);
 };
-CocklainStruct.TSendCardData.prototype._equal = function (anItem) {
+CocklainStruct.TNotifyGameStart.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TSendCardData.prototype._genKey = function () {
+CocklainStruct.TNotifyGameStart.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TSendCardData.prototype.toObject = function() { 
+CocklainStruct.TNotifyGameStart.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecUserCards = this.vecUserCards.toObject();
-    tmp.uiCurrRound = this.uiCurrRound;
+    tmp.roundCurr = this.roundCurr;
+    tmp.cards = this.cards.toObject();
+    tmp.listChairNo = this.listChairNo.toObject();
     
     return tmp;
 }
-CocklainStruct.TSendCardData.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecUserCards") || (this.vecUserCards.readFromObject(json.vecUserCards));
-    !json.hasOwnProperty("uiCurrRound") || (this.uiCurrRound = json.uiCurrRound);
+CocklainStruct.TNotifyGameStart.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("roundCurr") || (this.roundCurr = json.roundCurr);
+    !json.hasOwnProperty("cards") || (this.cards.readFromObject(json.cards));
+    !json.hasOwnProperty("listChairNo") || (this.listChairNo.readFromObject(json.listChairNo));
 }
-CocklainStruct.TSendCardData.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifyGameStart.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TSendCardData.new = function () {
-    return new CocklainStruct.TSendCardData();
+CocklainStruct.TNotifyGameStart.new = function () {
+    return new CocklainStruct.TNotifyGameStart();
 }
-CocklainStruct.TSendCardData.create = function (is) {
-    return CocklainStruct.TSendCardData._readFrom(is);
+CocklainStruct.TNotifyGameStart.create = function (is) {
+    return CocklainStruct.TNotifyGameStart._readFrom(is);
 }
-CocklainStruct.TUserSnatchbankerMultiple = function() {
-    this.uiChairIndex = 0;
-    this.uiMultiple = 0;
-    this._classname = "CocklainStruct.TUserSnatchbankerMultiple";
+CocklainStruct.TReqSnatchbanker = function() {
+    this.multiple = 0;
+    this._classname = "CocklainStruct.TReqSnatchbanker";
 };
-CocklainStruct.TUserSnatchbankerMultiple._classname = "CocklainStruct.TUserSnatchbankerMultiple";
+CocklainStruct.TReqSnatchbanker._classname = "CocklainStruct.TReqSnatchbanker";
 
-CocklainStruct.TUserSnatchbankerMultiple._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserSnatchbankerMultiple._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserSnatchbankerMultiple._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserSnatchbankerMultiple();
-    tmp.uiChairIndex = is.readUInt32(0, false, 0);
-    tmp.uiMultiple = is.readUInt32(2, true, 0);
+CocklainStruct.TReqSnatchbanker._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TReqSnatchbanker._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TReqSnatchbanker._readFrom = function (is) {
+    var tmp = new CocklainStruct.TReqSnatchbanker();
+    tmp.multiple = is.readUInt8(0, true, 0);
     return tmp;
 };
-CocklainStruct.TUserSnatchbankerMultiple.prototype._writeTo = function (os) {
-    os.writeUInt32(0, this.uiChairIndex);
-    os.writeUInt32(2, this.uiMultiple);
+CocklainStruct.TReqSnatchbanker.prototype._writeTo = function (os) {
+    os.writeUInt8(0, this.multiple);
 };
-CocklainStruct.TUserSnatchbankerMultiple.prototype._equal = function (anItem) {
+CocklainStruct.TReqSnatchbanker.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserSnatchbankerMultiple.prototype._genKey = function () {
+CocklainStruct.TReqSnatchbanker.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserSnatchbankerMultiple.prototype.toObject = function() { 
+CocklainStruct.TReqSnatchbanker.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.uiChairIndex = this.uiChairIndex;
-    tmp.uiMultiple = this.uiMultiple;
+    tmp.multiple = this.multiple;
     
     return tmp;
 }
-CocklainStruct.TUserSnatchbankerMultiple.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("uiChairIndex") || (this.uiChairIndex = json.uiChairIndex);
-    !json.hasOwnProperty("uiMultiple") || (this.uiMultiple = json.uiMultiple);
+CocklainStruct.TReqSnatchbanker.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("multiple") || (this.multiple = json.multiple);
 }
-CocklainStruct.TUserSnatchbankerMultiple.prototype.toBinBuffer = function () {
+CocklainStruct.TReqSnatchbanker.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserSnatchbankerMultiple.new = function () {
-    return new CocklainStruct.TUserSnatchbankerMultiple();
+CocklainStruct.TReqSnatchbanker.new = function () {
+    return new CocklainStruct.TReqSnatchbanker();
 }
-CocklainStruct.TUserSnatchbankerMultiple.create = function (is) {
-    return CocklainStruct.TUserSnatchbankerMultiple._readFrom(is);
+CocklainStruct.TReqSnatchbanker.create = function (is) {
+    return CocklainStruct.TReqSnatchbanker._readFrom(is);
 }
-CocklainStruct.TUserBolusConf = function() {
-    this.uiChairIndex = 0;
-    this.uiBolus = 0;
-    this._classname = "CocklainStruct.TUserBolusConf";
+CocklainStruct.TNotifySnatchbanker = function() {
+    this.chairNo = 0;
+    this.multiple = 0;
+    this._classname = "CocklainStruct.TNotifySnatchbanker";
 };
-CocklainStruct.TUserBolusConf._classname = "CocklainStruct.TUserBolusConf";
+CocklainStruct.TNotifySnatchbanker._classname = "CocklainStruct.TNotifySnatchbanker";
 
-CocklainStruct.TUserBolusConf._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserBolusConf._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserBolusConf._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserBolusConf();
-    tmp.uiChairIndex = is.readUInt32(0, true, 0);
-    tmp.uiBolus = is.readUInt32(1, true, 0);
+CocklainStruct.TNotifySnatchbanker._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifySnatchbanker._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifySnatchbanker._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifySnatchbanker();
+    tmp.chairNo = is.readUInt16(1, true, 0);
+    tmp.multiple = is.readUInt8(2, true, 0);
     return tmp;
 };
-CocklainStruct.TUserBolusConf.prototype._writeTo = function (os) {
-    os.writeUInt32(0, this.uiChairIndex);
-    os.writeUInt32(1, this.uiBolus);
+CocklainStruct.TNotifySnatchbanker.prototype._writeTo = function (os) {
+    os.writeUInt16(1, this.chairNo);
+    os.writeUInt8(2, this.multiple);
 };
-CocklainStruct.TUserBolusConf.prototype._equal = function (anItem) {
+CocklainStruct.TNotifySnatchbanker.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserBolusConf.prototype._genKey = function () {
+CocklainStruct.TNotifySnatchbanker.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserBolusConf.prototype.toObject = function() { 
+CocklainStruct.TNotifySnatchbanker.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.uiChairIndex = this.uiChairIndex;
-    tmp.uiBolus = this.uiBolus;
+    tmp.chairNo = this.chairNo;
+    tmp.multiple = this.multiple;
     
     return tmp;
 }
-CocklainStruct.TUserBolusConf.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("uiChairIndex") || (this.uiChairIndex = json.uiChairIndex);
-    !json.hasOwnProperty("uiBolus") || (this.uiBolus = json.uiBolus);
+CocklainStruct.TNotifySnatchbanker.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
+    !json.hasOwnProperty("multiple") || (this.multiple = json.multiple);
 }
-CocklainStruct.TUserBolusConf.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifySnatchbanker.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserBolusConf.new = function () {
-    return new CocklainStruct.TUserBolusConf();
+CocklainStruct.TNotifySnatchbanker.new = function () {
+    return new CocklainStruct.TNotifySnatchbanker();
 }
-CocklainStruct.TUserBolusConf.create = function (is) {
-    return CocklainStruct.TUserBolusConf._readFrom(is);
+CocklainStruct.TNotifySnatchbanker.create = function (is) {
+    return CocklainStruct.TNotifySnatchbanker._readFrom(is);
 }
-CocklainStruct.TBaseScoreConf = function() {
-    this.uiBaseScore1 = 0;
-    this.uiBaseScore2 = 0;
-    this.vecUserBolusConf = new TarsStream.List(CocklainStruct.TUserBolusConf);
-    this._classname = "CocklainStruct.TBaseScoreConf";
+CocklainStruct.TNotifySnatchbankerFinish = function() {
+    this.dealer = 0;
+    this._classname = "CocklainStruct.TNotifySnatchbankerFinish";
 };
-CocklainStruct.TBaseScoreConf._classname = "CocklainStruct.TBaseScoreConf";
+CocklainStruct.TNotifySnatchbankerFinish._classname = "CocklainStruct.TNotifySnatchbankerFinish";
 
-CocklainStruct.TBaseScoreConf._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TBaseScoreConf._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TBaseScoreConf._readFrom = function (is) {
-    var tmp = new CocklainStruct.TBaseScoreConf();
-    tmp.uiBaseScore1 = is.readUInt32(0, true, 0);
-    tmp.uiBaseScore2 = is.readUInt32(1, true, 0);
-    tmp.vecUserBolusConf = is.readList(2, true, TarsStream.List(CocklainStruct.TUserBolusConf));
+CocklainStruct.TNotifySnatchbankerFinish._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifySnatchbankerFinish._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifySnatchbankerFinish._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifySnatchbankerFinish();
+    tmp.dealer = is.readUInt16(0, true, 0);
     return tmp;
 };
-CocklainStruct.TBaseScoreConf.prototype._writeTo = function (os) {
-    os.writeUInt32(0, this.uiBaseScore1);
-    os.writeUInt32(1, this.uiBaseScore2);
-    os.writeList(2, this.vecUserBolusConf);
+CocklainStruct.TNotifySnatchbankerFinish.prototype._writeTo = function (os) {
+    os.writeUInt16(0, this.dealer);
 };
-CocklainStruct.TBaseScoreConf.prototype._equal = function (anItem) {
+CocklainStruct.TNotifySnatchbankerFinish.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TBaseScoreConf.prototype._genKey = function () {
+CocklainStruct.TNotifySnatchbankerFinish.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TBaseScoreConf.prototype.toObject = function() { 
+CocklainStruct.TNotifySnatchbankerFinish.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.uiBaseScore1 = this.uiBaseScore1;
-    tmp.uiBaseScore2 = this.uiBaseScore2;
-    tmp.vecUserBolusConf = this.vecUserBolusConf.toObject();
+    tmp.dealer = this.dealer;
     
     return tmp;
 }
-CocklainStruct.TBaseScoreConf.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("uiBaseScore1") || (this.uiBaseScore1 = json.uiBaseScore1);
-    !json.hasOwnProperty("uiBaseScore2") || (this.uiBaseScore2 = json.uiBaseScore2);
-    !json.hasOwnProperty("vecUserBolusConf") || (this.vecUserBolusConf.readFromObject(json.vecUserBolusConf));
+CocklainStruct.TNotifySnatchbankerFinish.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("dealer") || (this.dealer = json.dealer);
 }
-CocklainStruct.TBaseScoreConf.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifySnatchbankerFinish.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TBaseScoreConf.new = function () {
-    return new CocklainStruct.TBaseScoreConf();
+CocklainStruct.TNotifySnatchbankerFinish.new = function () {
+    return new CocklainStruct.TNotifySnatchbankerFinish();
 }
-CocklainStruct.TBaseScoreConf.create = function (is) {
-    return CocklainStruct.TBaseScoreConf._readFrom(is);
+CocklainStruct.TNotifySnatchbankerFinish.create = function (is) {
+    return CocklainStruct.TNotifySnatchbankerFinish._readFrom(is);
 }
-CocklainStruct.TUserChooseBaseScore = function() {
-    this.uiChairIndex = 0;
-    this.uiBaseScore = 0;
-    this._classname = "CocklainStruct.TUserChooseBaseScore";
+CocklainStruct.TUserBolus = function() {
+    this.chairNo = 0;
+    this.multiple = 0;
+    this._classname = "CocklainStruct.TUserBolus";
 };
-CocklainStruct.TUserChooseBaseScore._classname = "CocklainStruct.TUserChooseBaseScore";
+CocklainStruct.TUserBolus._classname = "CocklainStruct.TUserBolus";
 
-CocklainStruct.TUserChooseBaseScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserChooseBaseScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserChooseBaseScore._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserChooseBaseScore();
-    tmp.uiChairIndex = is.readUInt32(0, false, 0);
-    tmp.uiBaseScore = is.readUInt32(1, true, 0);
+CocklainStruct.TUserBolus._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TUserBolus._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TUserBolus._readFrom = function (is) {
+    var tmp = new CocklainStruct.TUserBolus();
+    tmp.chairNo = is.readUInt16(0, true, 0);
+    tmp.multiple = is.readUInt8(1, true, 0);
     return tmp;
 };
-CocklainStruct.TUserChooseBaseScore.prototype._writeTo = function (os) {
-    os.writeUInt32(0, this.uiChairIndex);
-    os.writeUInt32(1, this.uiBaseScore);
+CocklainStruct.TUserBolus.prototype._writeTo = function (os) {
+    os.writeUInt16(0, this.chairNo);
+    os.writeUInt8(1, this.multiple);
 };
-CocklainStruct.TUserChooseBaseScore.prototype._equal = function (anItem) {
+CocklainStruct.TUserBolus.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserChooseBaseScore.prototype._genKey = function () {
+CocklainStruct.TUserBolus.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserChooseBaseScore.prototype.toObject = function() { 
+CocklainStruct.TUserBolus.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.uiChairIndex = this.uiChairIndex;
-    tmp.uiBaseScore = this.uiBaseScore;
+    tmp.chairNo = this.chairNo;
+    tmp.multiple = this.multiple;
     
     return tmp;
 }
-CocklainStruct.TUserChooseBaseScore.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("uiChairIndex") || (this.uiChairIndex = json.uiChairIndex);
-    !json.hasOwnProperty("uiBaseScore") || (this.uiBaseScore = json.uiBaseScore);
+CocklainStruct.TUserBolus.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
+    !json.hasOwnProperty("multiple") || (this.multiple = json.multiple);
 }
-CocklainStruct.TUserChooseBaseScore.prototype.toBinBuffer = function () {
+CocklainStruct.TUserBolus.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserChooseBaseScore.new = function () {
-    return new CocklainStruct.TUserChooseBaseScore();
+CocklainStruct.TUserBolus.new = function () {
+    return new CocklainStruct.TUserBolus();
 }
-CocklainStruct.TUserChooseBaseScore.create = function (is) {
-    return CocklainStruct.TUserChooseBaseScore._readFrom(is);
+CocklainStruct.TUserBolus.create = function (is) {
+    return CocklainStruct.TUserBolus._readFrom(is);
 }
-CocklainStruct.TUserChooseBaseScoreRecord = function() {
-    this.vecUserBaseScore = new TarsStream.List(CocklainStruct.TUserChooseBaseScore);
-    this._classname = "CocklainStruct.TUserChooseBaseScoreRecord";
+CocklainStruct.TRespChooseScoreBegin = function() {
+    this.baseScore1 = 0;
+    this.baseScore2 = 0;
+    this.listTUserBolus = new TarsStream.List(CocklainStruct.TUserBolus);
+    this._classname = "CocklainStruct.TRespChooseScoreBegin";
 };
-CocklainStruct.TUserChooseBaseScoreRecord._classname = "CocklainStruct.TUserChooseBaseScoreRecord";
+CocklainStruct.TRespChooseScoreBegin._classname = "CocklainStruct.TRespChooseScoreBegin";
 
-CocklainStruct.TUserChooseBaseScoreRecord._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserChooseBaseScoreRecord._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserChooseBaseScoreRecord._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserChooseBaseScoreRecord();
-    tmp.vecUserBaseScore = is.readList(0, true, TarsStream.List(CocklainStruct.TUserChooseBaseScore));
+CocklainStruct.TRespChooseScoreBegin._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TRespChooseScoreBegin._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TRespChooseScoreBegin._readFrom = function (is) {
+    var tmp = new CocklainStruct.TRespChooseScoreBegin();
+    tmp.baseScore1 = is.readUInt8(0, true, 0);
+    tmp.baseScore2 = is.readUInt8(1, true, 0);
+    tmp.listTUserBolus = is.readList(2, true, TarsStream.List(CocklainStruct.TUserBolus));
     return tmp;
 };
-CocklainStruct.TUserChooseBaseScoreRecord.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecUserBaseScore);
+CocklainStruct.TRespChooseScoreBegin.prototype._writeTo = function (os) {
+    os.writeUInt8(0, this.baseScore1);
+    os.writeUInt8(1, this.baseScore2);
+    os.writeList(2, this.listTUserBolus);
 };
-CocklainStruct.TUserChooseBaseScoreRecord.prototype._equal = function (anItem) {
+CocklainStruct.TRespChooseScoreBegin.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserChooseBaseScoreRecord.prototype._genKey = function () {
+CocklainStruct.TRespChooseScoreBegin.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserChooseBaseScoreRecord.prototype.toObject = function() { 
+CocklainStruct.TRespChooseScoreBegin.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecUserBaseScore = this.vecUserBaseScore.toObject();
+    tmp.baseScore1 = this.baseScore1;
+    tmp.baseScore2 = this.baseScore2;
+    tmp.listTUserBolus = this.listTUserBolus.toObject();
     
     return tmp;
 }
-CocklainStruct.TUserChooseBaseScoreRecord.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecUserBaseScore") || (this.vecUserBaseScore.readFromObject(json.vecUserBaseScore));
+CocklainStruct.TRespChooseScoreBegin.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("baseScore1") || (this.baseScore1 = json.baseScore1);
+    !json.hasOwnProperty("baseScore2") || (this.baseScore2 = json.baseScore2);
+    !json.hasOwnProperty("listTUserBolus") || (this.listTUserBolus.readFromObject(json.listTUserBolus));
 }
-CocklainStruct.TUserChooseBaseScoreRecord.prototype.toBinBuffer = function () {
+CocklainStruct.TRespChooseScoreBegin.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserChooseBaseScoreRecord.new = function () {
-    return new CocklainStruct.TUserChooseBaseScoreRecord();
+CocklainStruct.TRespChooseScoreBegin.new = function () {
+    return new CocklainStruct.TRespChooseScoreBegin();
 }
-CocklainStruct.TUserChooseBaseScoreRecord.create = function (is) {
-    return CocklainStruct.TUserChooseBaseScoreRecord._readFrom(is);
+CocklainStruct.TRespChooseScoreBegin.create = function (is) {
+    return CocklainStruct.TRespChooseScoreBegin._readFrom(is);
 }
-CocklainStruct.TScoreSellBuyConf = function() {
+CocklainStruct.TReqChooseScore = function() {
+    this.chooseScore = 0;
+    this._classname = "CocklainStruct.TReqChooseScore";
+};
+CocklainStruct.TReqChooseScore._classname = "CocklainStruct.TReqChooseScore";
+
+CocklainStruct.TReqChooseScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TReqChooseScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TReqChooseScore._readFrom = function (is) {
+    var tmp = new CocklainStruct.TReqChooseScore();
+    tmp.chooseScore = is.readUInt8(0, true, 0);
+    return tmp;
+};
+CocklainStruct.TReqChooseScore.prototype._writeTo = function (os) {
+    os.writeUInt8(0, this.chooseScore);
+};
+CocklainStruct.TReqChooseScore.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+CocklainStruct.TReqChooseScore.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+CocklainStruct.TReqChooseScore.prototype.toObject = function() { 
+    var tmp = {};
+
+    tmp.chooseScore = this.chooseScore;
+    
+    return tmp;
+}
+CocklainStruct.TReqChooseScore.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chooseScore") || (this.chooseScore = json.chooseScore);
+}
+CocklainStruct.TReqChooseScore.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+CocklainStruct.TReqChooseScore.new = function () {
+    return new CocklainStruct.TReqChooseScore();
+}
+CocklainStruct.TReqChooseScore.create = function (is) {
+    return CocklainStruct.TReqChooseScore._readFrom(is);
+}
+CocklainStruct.TNotifyChooseScore = function() {
+    this.chairNo = 0;
+    this.chooseScore = 0;
+    this._classname = "CocklainStruct.TNotifyChooseScore";
+};
+CocklainStruct.TNotifyChooseScore._classname = "CocklainStruct.TNotifyChooseScore";
+
+CocklainStruct.TNotifyChooseScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyChooseScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyChooseScore._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyChooseScore();
+    tmp.chairNo = is.readUInt16(1, true, 0);
+    tmp.chooseScore = is.readUInt8(2, true, 0);
+    return tmp;
+};
+CocklainStruct.TNotifyChooseScore.prototype._writeTo = function (os) {
+    os.writeUInt16(1, this.chairNo);
+    os.writeUInt8(2, this.chooseScore);
+};
+CocklainStruct.TNotifyChooseScore.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+CocklainStruct.TNotifyChooseScore.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+CocklainStruct.TNotifyChooseScore.prototype.toObject = function() { 
+    var tmp = {};
+
+    tmp.chairNo = this.chairNo;
+    tmp.chooseScore = this.chooseScore;
+    
+    return tmp;
+}
+CocklainStruct.TNotifyChooseScore.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
+    !json.hasOwnProperty("chooseScore") || (this.chooseScore = json.chooseScore);
+}
+CocklainStruct.TNotifyChooseScore.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+CocklainStruct.TNotifyChooseScore.new = function () {
+    return new CocklainStruct.TNotifyChooseScore();
+}
+CocklainStruct.TNotifyChooseScore.create = function (is) {
+    return CocklainStruct.TNotifyChooseScore._readFrom(is);
+}
+CocklainStruct.TNotifyChooseScoreFinish = function() {
+    this.listUserScore = new TarsStream.List(CocklainStruct.TNotifyChooseScore);
+    this._classname = "CocklainStruct.TNotifyChooseScoreFinish";
+};
+CocklainStruct.TNotifyChooseScoreFinish._classname = "CocklainStruct.TNotifyChooseScoreFinish";
+
+CocklainStruct.TNotifyChooseScoreFinish._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyChooseScoreFinish._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyChooseScoreFinish._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyChooseScoreFinish();
+    tmp.listUserScore = is.readList(0, true, TarsStream.List(CocklainStruct.TNotifyChooseScore));
+    return tmp;
+};
+CocklainStruct.TNotifyChooseScoreFinish.prototype._writeTo = function (os) {
+    os.writeList(0, this.listUserScore);
+};
+CocklainStruct.TNotifyChooseScoreFinish.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+CocklainStruct.TNotifyChooseScoreFinish.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+CocklainStruct.TNotifyChooseScoreFinish.prototype.toObject = function() { 
+    var tmp = {};
+
+    tmp.listUserScore = this.listUserScore.toObject();
+    
+    return tmp;
+}
+CocklainStruct.TNotifyChooseScoreFinish.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("listUserScore") || (this.listUserScore.readFromObject(json.listUserScore));
+}
+CocklainStruct.TNotifyChooseScoreFinish.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+CocklainStruct.TNotifyChooseScoreFinish.new = function () {
+    return new CocklainStruct.TNotifyChooseScoreFinish();
+}
+CocklainStruct.TNotifyChooseScoreFinish.create = function (is) {
+    return CocklainStruct.TNotifyChooseScoreFinish._readFrom(is);
+}
+CocklainStruct.TRespSellBuyBegin = function() {
     this.vecSellBuyScores = new TarsStream.List(TarsStream.Int64);
-    this._classname = "CocklainStruct.TScoreSellBuyConf";
+    this._classname = "CocklainStruct.TRespSellBuyBegin";
 };
-CocklainStruct.TScoreSellBuyConf._classname = "CocklainStruct.TScoreSellBuyConf";
+CocklainStruct.TRespSellBuyBegin._classname = "CocklainStruct.TRespSellBuyBegin";
 
-CocklainStruct.TScoreSellBuyConf._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TScoreSellBuyConf._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TScoreSellBuyConf._readFrom = function (is) {
-    var tmp = new CocklainStruct.TScoreSellBuyConf();
+CocklainStruct.TRespSellBuyBegin._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TRespSellBuyBegin._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TRespSellBuyBegin._readFrom = function (is) {
+    var tmp = new CocklainStruct.TRespSellBuyBegin();
     tmp.vecSellBuyScores = is.readList(0, true, TarsStream.List(TarsStream.Int64));
     return tmp;
 };
-CocklainStruct.TScoreSellBuyConf.prototype._writeTo = function (os) {
+CocklainStruct.TRespSellBuyBegin.prototype._writeTo = function (os) {
     os.writeList(0, this.vecSellBuyScores);
 };
-CocklainStruct.TScoreSellBuyConf.prototype._equal = function (anItem) {
+CocklainStruct.TRespSellBuyBegin.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TScoreSellBuyConf.prototype._genKey = function () {
+CocklainStruct.TRespSellBuyBegin.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TScoreSellBuyConf.prototype.toObject = function() { 
+CocklainStruct.TRespSellBuyBegin.prototype.toObject = function() { 
     var tmp = {};
 
     tmp.vecSellBuyScores = this.vecSellBuyScores.toObject();
     
     return tmp;
 }
-CocklainStruct.TScoreSellBuyConf.prototype.readFromObject = function(json) { 
+CocklainStruct.TRespSellBuyBegin.prototype.readFromObject = function(json) { 
     !json.hasOwnProperty("vecSellBuyScores") || (this.vecSellBuyScores.readFromObject(json.vecSellBuyScores));
 }
-CocklainStruct.TScoreSellBuyConf.prototype.toBinBuffer = function () {
+CocklainStruct.TRespSellBuyBegin.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TScoreSellBuyConf.new = function () {
-    return new CocklainStruct.TScoreSellBuyConf();
+CocklainStruct.TRespSellBuyBegin.new = function () {
+    return new CocklainStruct.TRespSellBuyBegin();
 }
-CocklainStruct.TScoreSellBuyConf.create = function (is) {
-    return CocklainStruct.TScoreSellBuyConf._readFrom(is);
+CocklainStruct.TRespSellBuyBegin.create = function (is) {
+    return CocklainStruct.TRespSellBuyBegin._readFrom(is);
 }
-CocklainStruct.TUserScoreSellBuy = function() {
-    this.uiChairIndex = 0;
-    this.uiSellScore = 0;
-    this.bSelled = true;
-    this.uiBuyedScore = 0;
-    this._classname = "CocklainStruct.TUserScoreSellBuy";
+CocklainStruct.TReqSellScore = function() {
+    this.score = 0;
+    this._classname = "CocklainStruct.TReqSellScore";
 };
-CocklainStruct.TUserScoreSellBuy._classname = "CocklainStruct.TUserScoreSellBuy";
+CocklainStruct.TReqSellScore._classname = "CocklainStruct.TReqSellScore";
 
-CocklainStruct.TUserScoreSellBuy._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserScoreSellBuy._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserScoreSellBuy._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserScoreSellBuy();
-    tmp.uiChairIndex = is.readUInt32(0, true, 0);
-    tmp.uiSellScore = is.readUInt32(1, true, 0);
-    tmp.bSelled = is.readBoolean(2, true, true);
-    tmp.uiBuyedScore = is.readUInt32(3, true, 0);
+CocklainStruct.TReqSellScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TReqSellScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TReqSellScore._readFrom = function (is) {
+    var tmp = new CocklainStruct.TReqSellScore();
+    tmp.score = is.readUInt8(0, true, 0);
     return tmp;
 };
-CocklainStruct.TUserScoreSellBuy.prototype._writeTo = function (os) {
-    os.writeUInt32(0, this.uiChairIndex);
-    os.writeUInt32(1, this.uiSellScore);
-    os.writeBoolean(2, this.bSelled);
-    os.writeUInt32(3, this.uiBuyedScore);
+CocklainStruct.TReqSellScore.prototype._writeTo = function (os) {
+    os.writeUInt8(0, this.score);
 };
-CocklainStruct.TUserScoreSellBuy.prototype._equal = function (anItem) {
+CocklainStruct.TReqSellScore.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserScoreSellBuy.prototype._genKey = function () {
+CocklainStruct.TReqSellScore.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserScoreSellBuy.prototype.toObject = function() { 
+CocklainStruct.TReqSellScore.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.uiChairIndex = this.uiChairIndex;
-    tmp.uiSellScore = this.uiSellScore;
-    tmp.bSelled = this.bSelled;
-    tmp.uiBuyedScore = this.uiBuyedScore;
+    tmp.score = this.score;
     
     return tmp;
 }
-CocklainStruct.TUserScoreSellBuy.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("uiChairIndex") || (this.uiChairIndex = json.uiChairIndex);
-    !json.hasOwnProperty("uiSellScore") || (this.uiSellScore = json.uiSellScore);
-    !json.hasOwnProperty("bSelled") || (this.bSelled = json.bSelled);
-    !json.hasOwnProperty("uiBuyedScore") || (this.uiBuyedScore = json.uiBuyedScore);
+CocklainStruct.TReqSellScore.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("score") || (this.score = json.score);
 }
-CocklainStruct.TUserScoreSellBuy.prototype.toBinBuffer = function () {
+CocklainStruct.TReqSellScore.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserScoreSellBuy.new = function () {
-    return new CocklainStruct.TUserScoreSellBuy();
+CocklainStruct.TReqSellScore.new = function () {
+    return new CocklainStruct.TReqSellScore();
 }
-CocklainStruct.TUserScoreSellBuy.create = function (is) {
-    return CocklainStruct.TUserScoreSellBuy._readFrom(is);
+CocklainStruct.TReqSellScore.create = function (is) {
+    return CocklainStruct.TReqSellScore._readFrom(is);
 }
-CocklainStruct.TScoreSellBuyRecord = function() {
-    this.vecUserScoreSellBuy = new TarsStream.List(CocklainStruct.TUserScoreSellBuy);
-    this._classname = "CocklainStruct.TScoreSellBuyRecord";
+CocklainStruct.TNotifySellScore = function() {
+    this.chairNo = 0;
+    this.score = 0;
+    this._classname = "CocklainStruct.TNotifySellScore";
 };
-CocklainStruct.TScoreSellBuyRecord._classname = "CocklainStruct.TScoreSellBuyRecord";
+CocklainStruct.TNotifySellScore._classname = "CocklainStruct.TNotifySellScore";
 
-CocklainStruct.TScoreSellBuyRecord._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TScoreSellBuyRecord._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TScoreSellBuyRecord._readFrom = function (is) {
-    var tmp = new CocklainStruct.TScoreSellBuyRecord();
-    tmp.vecUserScoreSellBuy = is.readList(0, true, TarsStream.List(CocklainStruct.TUserScoreSellBuy));
+CocklainStruct.TNotifySellScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifySellScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifySellScore._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifySellScore();
+    tmp.chairNo = is.readUInt16(1, true, 0);
+    tmp.score = is.readUInt8(2, true, 0);
     return tmp;
 };
-CocklainStruct.TScoreSellBuyRecord.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecUserScoreSellBuy);
+CocklainStruct.TNotifySellScore.prototype._writeTo = function (os) {
+    os.writeUInt16(1, this.chairNo);
+    os.writeUInt8(2, this.score);
 };
-CocklainStruct.TScoreSellBuyRecord.prototype._equal = function (anItem) {
+CocklainStruct.TNotifySellScore.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TScoreSellBuyRecord.prototype._genKey = function () {
+CocklainStruct.TNotifySellScore.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TScoreSellBuyRecord.prototype.toObject = function() { 
+CocklainStruct.TNotifySellScore.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecUserScoreSellBuy = this.vecUserScoreSellBuy.toObject();
+    tmp.chairNo = this.chairNo;
+    tmp.score = this.score;
     
     return tmp;
 }
-CocklainStruct.TScoreSellBuyRecord.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecUserScoreSellBuy") || (this.vecUserScoreSellBuy.readFromObject(json.vecUserScoreSellBuy));
+CocklainStruct.TNotifySellScore.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
+    !json.hasOwnProperty("score") || (this.score = json.score);
 }
-CocklainStruct.TScoreSellBuyRecord.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifySellScore.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TScoreSellBuyRecord.new = function () {
-    return new CocklainStruct.TScoreSellBuyRecord();
+CocklainStruct.TNotifySellScore.new = function () {
+    return new CocklainStruct.TNotifySellScore();
 }
-CocklainStruct.TScoreSellBuyRecord.create = function (is) {
-    return CocklainStruct.TScoreSellBuyRecord._readFrom(is);
+CocklainStruct.TNotifySellScore.create = function (is) {
+    return CocklainStruct.TNotifySellScore._readFrom(is);
 }
-CocklainStruct.TUserRoundResult = function() {
-    this.userCard = new CocklainStruct.TUserCard();
-    this.eCardPattern = CocklainStruct.E_CARD_PATTERN.CP_Niu0;
-    this.vecNiuCards = new TarsStream.List(TarsStream.Int64);
-    this.iGainScore = 0;
-    this.iRemainScore = 0;
-    this.bBanker = true;
-    this._classname = "CocklainStruct.TUserRoundResult";
+CocklainStruct.TReqBuyScore = function() {
+    this.chairNo = 0;
+    this._classname = "CocklainStruct.TReqBuyScore";
 };
-CocklainStruct.TUserRoundResult._classname = "CocklainStruct.TUserRoundResult";
+CocklainStruct.TReqBuyScore._classname = "CocklainStruct.TReqBuyScore";
 
-CocklainStruct.TUserRoundResult._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserRoundResult._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserRoundResult._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserRoundResult();
-    tmp.userCard = is.readStruct(0, true, CocklainStruct.TUserCard);
-    tmp.eCardPattern = is.readInt32(1, false, CocklainStruct.E_CARD_PATTERN.CP_Niu0);
-    tmp.vecNiuCards = is.readList(2, false, TarsStream.List(TarsStream.Int64));
-    tmp.iGainScore = is.readInt32(3, true, 0);
-    tmp.iRemainScore = is.readInt32(4, true, 0);
-    tmp.bBanker = is.readBoolean(5, true, true);
+CocklainStruct.TReqBuyScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TReqBuyScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TReqBuyScore._readFrom = function (is) {
+    var tmp = new CocklainStruct.TReqBuyScore();
+    tmp.chairNo = is.readUInt16(0, true, 0);
     return tmp;
 };
-CocklainStruct.TUserRoundResult.prototype._writeTo = function (os) {
-    os.writeStruct(0, this.userCard);
-    os.writeInt32(1, this.eCardPattern);
-    os.writeList(2, this.vecNiuCards);
-    os.writeInt32(3, this.iGainScore);
-    os.writeInt32(4, this.iRemainScore);
-    os.writeBoolean(5, this.bBanker);
+CocklainStruct.TReqBuyScore.prototype._writeTo = function (os) {
+    os.writeUInt16(0, this.chairNo);
 };
-CocklainStruct.TUserRoundResult.prototype._equal = function (anItem) {
+CocklainStruct.TReqBuyScore.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserRoundResult.prototype._genKey = function () {
+CocklainStruct.TReqBuyScore.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserRoundResult.prototype.toObject = function() { 
+CocklainStruct.TReqBuyScore.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.userCard = this.userCard.toObject();
-    tmp.eCardPattern = this.eCardPattern;
-    tmp.vecNiuCards = this.vecNiuCards.toObject();
-    tmp.iGainScore = this.iGainScore;
-    tmp.iRemainScore = this.iRemainScore;
-    tmp.bBanker = this.bBanker;
+    tmp.chairNo = this.chairNo;
     
     return tmp;
 }
-CocklainStruct.TUserRoundResult.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("userCard") || (this.userCard.readFromObject(json.userCard));
-    !json.hasOwnProperty("eCardPattern") || (this.eCardPattern = json.eCardPattern);
-    !json.hasOwnProperty("vecNiuCards") || (this.vecNiuCards.readFromObject(json.vecNiuCards));
-    !json.hasOwnProperty("iGainScore") || (this.iGainScore = json.iGainScore);
-    !json.hasOwnProperty("iRemainScore") || (this.iRemainScore = json.iRemainScore);
-    !json.hasOwnProperty("bBanker") || (this.bBanker = json.bBanker);
+CocklainStruct.TReqBuyScore.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
 }
-CocklainStruct.TUserRoundResult.prototype.toBinBuffer = function () {
+CocklainStruct.TReqBuyScore.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserRoundResult.new = function () {
-    return new CocklainStruct.TUserRoundResult();
+CocklainStruct.TReqBuyScore.new = function () {
+    return new CocklainStruct.TReqBuyScore();
 }
-CocklainStruct.TUserRoundResult.create = function (is) {
-    return CocklainStruct.TUserRoundResult._readFrom(is);
+CocklainStruct.TReqBuyScore.create = function (is) {
+    return CocklainStruct.TReqBuyScore._readFrom(is);
+}
+CocklainStruct.TNotifyBuyScore = function() {
+    this.chairNo = 0;
+    this.chairNoFrom = 0;
+    this._classname = "CocklainStruct.TNotifyBuyScore";
+};
+CocklainStruct.TNotifyBuyScore._classname = "CocklainStruct.TNotifyBuyScore";
+
+CocklainStruct.TNotifyBuyScore._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyBuyScore._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyBuyScore._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyBuyScore();
+    tmp.chairNo = is.readUInt16(0, true, 0);
+    tmp.chairNoFrom = is.readUInt16(1, true, 0);
+    return tmp;
+};
+CocklainStruct.TNotifyBuyScore.prototype._writeTo = function (os) {
+    os.writeUInt16(0, this.chairNo);
+    os.writeUInt16(1, this.chairNoFrom);
+};
+CocklainStruct.TNotifyBuyScore.prototype._equal = function (anItem) {
+    assert(false, 'this structure not define key operation');
+}
+CocklainStruct.TNotifyBuyScore.prototype._genKey = function () {
+    if (!this._proto_struct_name_) {
+        this._proto_struct_name_ = 'STRUCT' + Math.random();
+    }
+    return this._proto_struct_name_;
+}
+CocklainStruct.TNotifyBuyScore.prototype.toObject = function() { 
+    var tmp = {};
+
+    tmp.chairNo = this.chairNo;
+    tmp.chairNoFrom = this.chairNoFrom;
+    
+    return tmp;
+}
+CocklainStruct.TNotifyBuyScore.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("chairNo") || (this.chairNo = json.chairNo);
+    !json.hasOwnProperty("chairNoFrom") || (this.chairNoFrom = json.chairNoFrom);
+}
+CocklainStruct.TNotifyBuyScore.prototype.toBinBuffer = function () {
+    var os = new TarsStream.TarsOutputStream();
+    this._writeTo(os);
+    return os.getBinBuffer();
+}
+CocklainStruct.TNotifyBuyScore.new = function () {
+    return new CocklainStruct.TNotifyBuyScore();
+}
+CocklainStruct.TNotifyBuyScore.create = function (is) {
+    return CocklainStruct.TNotifyBuyScore._readFrom(is);
 }
 CocklainStruct.TRoundResult = function() {
-    this.vecUserResult = new TarsStream.List(CocklainStruct.TUserRoundResult);
+    this.cardInfo = new CocklainStruct.TCardInfo();
+    this.cardPattern = 0;
+    this.winScore = 0;
+    this.remainScore = 0;
     this._classname = "CocklainStruct.TRoundResult";
 };
 CocklainStruct.TRoundResult._classname = "CocklainStruct.TRoundResult";
@@ -755,11 +857,17 @@ CocklainStruct.TRoundResult._write = function (os, tag, value) { os.writeStruct(
 CocklainStruct.TRoundResult._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
 CocklainStruct.TRoundResult._readFrom = function (is) {
     var tmp = new CocklainStruct.TRoundResult();
-    tmp.vecUserResult = is.readList(0, true, TarsStream.List(CocklainStruct.TUserRoundResult));
+    tmp.cardInfo = is.readStruct(0, true, CocklainStruct.TCardInfo);
+    tmp.cardPattern = is.readUInt8(1, false, 0);
+    tmp.winScore = is.readInt32(2, true, 0);
+    tmp.remainScore = is.readInt32(3, true, 0);
     return tmp;
 };
 CocklainStruct.TRoundResult.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecUserResult);
+    os.writeStruct(0, this.cardInfo);
+    os.writeUInt8(1, this.cardPattern);
+    os.writeInt32(2, this.winScore);
+    os.writeInt32(3, this.remainScore);
 };
 CocklainStruct.TRoundResult.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
@@ -773,12 +881,18 @@ CocklainStruct.TRoundResult.prototype._genKey = function () {
 CocklainStruct.TRoundResult.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecUserResult = this.vecUserResult.toObject();
+    tmp.cardInfo = this.cardInfo.toObject();
+    tmp.cardPattern = this.cardPattern;
+    tmp.winScore = this.winScore;
+    tmp.remainScore = this.remainScore;
     
     return tmp;
 }
 CocklainStruct.TRoundResult.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecUserResult") || (this.vecUserResult.readFromObject(json.vecUserResult));
+    !json.hasOwnProperty("cardInfo") || (this.cardInfo.readFromObject(json.cardInfo));
+    !json.hasOwnProperty("cardPattern") || (this.cardPattern = json.cardPattern);
+    !json.hasOwnProperty("winScore") || (this.winScore = json.winScore);
+    !json.hasOwnProperty("remainScore") || (this.remainScore = json.remainScore);
 }
 CocklainStruct.TRoundResult.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
@@ -791,69 +905,55 @@ CocklainStruct.TRoundResult.new = function () {
 CocklainStruct.TRoundResult.create = function (is) {
     return CocklainStruct.TRoundResult._readFrom(is);
 }
-CocklainStruct.TUserGameResult = function() {
-    this.uiUserID = 0;
-    this.iRemainScore = 0;
-    this.strNickname = "";
-    this.strHeadImgURL = "";
-    this._classname = "CocklainStruct.TUserGameResult";
+CocklainStruct.TNotifyGameFinish = function() {
+    this.listRoundResult = new TarsStream.List(CocklainStruct.TRoundResult);
+    this._classname = "CocklainStruct.TNotifyGameFinish";
 };
-CocklainStruct.TUserGameResult._classname = "CocklainStruct.TUserGameResult";
+CocklainStruct.TNotifyGameFinish._classname = "CocklainStruct.TNotifyGameFinish";
 
-CocklainStruct.TUserGameResult._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserGameResult._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserGameResult._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserGameResult();
-    tmp.uiUserID = is.readUInt32(0, true, 0);
-    tmp.iRemainScore = is.readInt32(1, true, 0);
-    tmp.strNickname = is.readString(2, true, "");
-    tmp.strHeadImgURL = is.readString(3, true, "");
+CocklainStruct.TNotifyGameFinish._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyGameFinish._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyGameFinish._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyGameFinish();
+    tmp.listRoundResult = is.readList(0, true, TarsStream.List(CocklainStruct.TRoundResult));
     return tmp;
 };
-CocklainStruct.TUserGameResult.prototype._writeTo = function (os) {
-    os.writeUInt32(0, this.uiUserID);
-    os.writeInt32(1, this.iRemainScore);
-    os.writeString(2, this.strNickname);
-    os.writeString(3, this.strHeadImgURL);
+CocklainStruct.TNotifyGameFinish.prototype._writeTo = function (os) {
+    os.writeList(0, this.listRoundResult);
 };
-CocklainStruct.TUserGameResult.prototype._equal = function (anItem) {
+CocklainStruct.TNotifyGameFinish.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserGameResult.prototype._genKey = function () {
+CocklainStruct.TNotifyGameFinish.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserGameResult.prototype.toObject = function() { 
+CocklainStruct.TNotifyGameFinish.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.uiUserID = this.uiUserID;
-    tmp.iRemainScore = this.iRemainScore;
-    tmp.strNickname = this.strNickname;
-    tmp.strHeadImgURL = this.strHeadImgURL;
+    tmp.listRoundResult = this.listRoundResult.toObject();
     
     return tmp;
 }
-CocklainStruct.TUserGameResult.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("uiUserID") || (this.uiUserID = json.uiUserID);
-    !json.hasOwnProperty("iRemainScore") || (this.iRemainScore = json.iRemainScore);
-    !json.hasOwnProperty("strNickname") || (this.strNickname = json.strNickname);
-    !json.hasOwnProperty("strHeadImgURL") || (this.strHeadImgURL = json.strHeadImgURL);
+CocklainStruct.TNotifyGameFinish.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("listRoundResult") || (this.listRoundResult.readFromObject(json.listRoundResult));
 }
-CocklainStruct.TUserGameResult.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifyGameFinish.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserGameResult.new = function () {
-    return new CocklainStruct.TUserGameResult();
+CocklainStruct.TNotifyGameFinish.new = function () {
+    return new CocklainStruct.TNotifyGameFinish();
 }
-CocklainStruct.TUserGameResult.create = function (is) {
-    return CocklainStruct.TUserGameResult._readFrom(is);
+CocklainStruct.TNotifyGameFinish.create = function (is) {
+    return CocklainStruct.TNotifyGameFinish._readFrom(is);
 }
 CocklainStruct.TGameResult = function() {
-    this.vecUserGameResult = new TarsStream.List(CocklainStruct.TUserGameResult);
+    this.userID = 0;
+    this.remainScore = 0;
     this._classname = "CocklainStruct.TGameResult";
 };
 CocklainStruct.TGameResult._classname = "CocklainStruct.TGameResult";
@@ -862,11 +962,13 @@ CocklainStruct.TGameResult._write = function (os, tag, value) { os.writeStruct(t
 CocklainStruct.TGameResult._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
 CocklainStruct.TGameResult._readFrom = function (is) {
     var tmp = new CocklainStruct.TGameResult();
-    tmp.vecUserGameResult = is.readList(0, true, TarsStream.List(CocklainStruct.TUserGameResult));
+    tmp.userID = is.readUInt32(0, true, 0);
+    tmp.remainScore = is.readInt32(1, true, 0);
     return tmp;
 };
 CocklainStruct.TGameResult.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecUserGameResult);
+    os.writeUInt32(0, this.userID);
+    os.writeInt32(1, this.remainScore);
 };
 CocklainStruct.TGameResult.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
@@ -880,12 +982,14 @@ CocklainStruct.TGameResult.prototype._genKey = function () {
 CocklainStruct.TGameResult.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.vecUserGameResult = this.vecUserGameResult.toObject();
+    tmp.userID = this.userID;
+    tmp.remainScore = this.remainScore;
     
     return tmp;
 }
 CocklainStruct.TGameResult.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecUserGameResult") || (this.vecUserGameResult.readFromObject(json.vecUserGameResult));
+    !json.hasOwnProperty("userID") || (this.userID = json.userID);
+    !json.hasOwnProperty("remainScore") || (this.remainScore = json.remainScore);
 }
 CocklainStruct.TGameResult.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
@@ -898,218 +1002,127 @@ CocklainStruct.TGameResult.new = function () {
 CocklainStruct.TGameResult.create = function (is) {
     return CocklainStruct.TGameResult._readFrom(is);
 }
-CocklainStruct.TUserDetail = function() {
-    this.bBanker = true;
-    this.uiSnatchbankerMutiple = 0;
-    this.uiBaseScore = 0;
-    this.iRemainScore = 0;
-    this._classname = "CocklainStruct.TUserDetail";
+CocklainStruct.TNotifyGameOver = function() {
+    this.listGameResult = new TarsStream.List(CocklainStruct.TGameResult);
+    this._classname = "CocklainStruct.TNotifyGameOver";
 };
-CocklainStruct.TUserDetail._classname = "CocklainStruct.TUserDetail";
+CocklainStruct.TNotifyGameOver._classname = "CocklainStruct.TNotifyGameOver";
 
-CocklainStruct.TUserDetail._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TUserDetail._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TUserDetail._readFrom = function (is) {
-    var tmp = new CocklainStruct.TUserDetail();
-    tmp.bBanker = is.readBoolean(0, true, true);
-    tmp.uiSnatchbankerMutiple = is.readUInt32(1, true, 0);
-    tmp.uiBaseScore = is.readUInt32(2, true, 0);
-    tmp.iRemainScore = is.readInt32(3, true, 0);
+CocklainStruct.TNotifyGameOver._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TNotifyGameOver._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TNotifyGameOver._readFrom = function (is) {
+    var tmp = new CocklainStruct.TNotifyGameOver();
+    tmp.listGameResult = is.readList(0, true, TarsStream.List(CocklainStruct.TGameResult));
     return tmp;
 };
-CocklainStruct.TUserDetail.prototype._writeTo = function (os) {
-    os.writeBoolean(0, this.bBanker);
-    os.writeUInt32(1, this.uiSnatchbankerMutiple);
-    os.writeUInt32(2, this.uiBaseScore);
-    os.writeInt32(3, this.iRemainScore);
+CocklainStruct.TNotifyGameOver.prototype._writeTo = function (os) {
+    os.writeList(0, this.listGameResult);
 };
-CocklainStruct.TUserDetail.prototype._equal = function (anItem) {
+CocklainStruct.TNotifyGameOver.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TUserDetail.prototype._genKey = function () {
+CocklainStruct.TNotifyGameOver.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TUserDetail.prototype.toObject = function() { 
+CocklainStruct.TNotifyGameOver.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.bBanker = this.bBanker;
-    tmp.uiSnatchbankerMutiple = this.uiSnatchbankerMutiple;
-    tmp.uiBaseScore = this.uiBaseScore;
-    tmp.iRemainScore = this.iRemainScore;
+    tmp.listGameResult = this.listGameResult.toObject();
     
     return tmp;
 }
-CocklainStruct.TUserDetail.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("bBanker") || (this.bBanker = json.bBanker);
-    !json.hasOwnProperty("uiSnatchbankerMutiple") || (this.uiSnatchbankerMutiple = json.uiSnatchbankerMutiple);
-    !json.hasOwnProperty("uiBaseScore") || (this.uiBaseScore = json.uiBaseScore);
-    !json.hasOwnProperty("iRemainScore") || (this.iRemainScore = json.iRemainScore);
+CocklainStruct.TNotifyGameOver.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("listGameResult") || (this.listGameResult.readFromObject(json.listGameResult));
 }
-CocklainStruct.TUserDetail.prototype.toBinBuffer = function () {
+CocklainStruct.TNotifyGameOver.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TUserDetail.new = function () {
-    return new CocklainStruct.TUserDetail();
+CocklainStruct.TNotifyGameOver.new = function () {
+    return new CocklainStruct.TNotifyGameOver();
 }
-CocklainStruct.TUserDetail.create = function (is) {
-    return CocklainStruct.TUserDetail._readFrom(is);
+CocklainStruct.TNotifyGameOver.create = function (is) {
+    return CocklainStruct.TNotifyGameOver._readFrom(is);
 }
-CocklainStruct.TMsgCountdownTime = function() {
-    this.msg = CocklainStruct.E_SERVER_MSG.SM_SendCard;
-    this.uiTime = 0;
-    this._classname = "CocklainStruct.TMsgCountdownTime";
+CocklainStruct.TRespGameData = function() {
+    this.gameConfig = new CocklainStruct.TNotifyGameConfig();
+    this.gameStatus = 0;
+    this.dealer = 0;
+    this.listCardInfo = new TarsStream.List(CocklainStruct.TCardInfo);
+    this.multiple = -1;
+    this.chooseScoreConf = new CocklainStruct.TRespChooseScoreBegin();
+    this.listUserScore = new TarsStream.List(CocklainStruct.TNotifyChooseScore);
+    this._classname = "CocklainStruct.TRespGameData";
 };
-CocklainStruct.TMsgCountdownTime._classname = "CocklainStruct.TMsgCountdownTime";
+CocklainStruct.TRespGameData._classname = "CocklainStruct.TRespGameData";
 
-CocklainStruct.TMsgCountdownTime._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TMsgCountdownTime._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TMsgCountdownTime._readFrom = function (is) {
-    var tmp = new CocklainStruct.TMsgCountdownTime();
-    tmp.msg = is.readInt32(0, true, CocklainStruct.E_SERVER_MSG.SM_SendCard);
-    tmp.uiTime = is.readUInt32(1, true, 0);
+CocklainStruct.TRespGameData._write = function (os, tag, value) { os.writeStruct(tag, value); }
+CocklainStruct.TRespGameData._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
+CocklainStruct.TRespGameData._readFrom = function (is) {
+    var tmp = new CocklainStruct.TRespGameData();
+    tmp.gameConfig = is.readStruct(1, true, CocklainStruct.TNotifyGameConfig);
+    tmp.gameStatus = is.readUInt8(2, true, 0);
+    tmp.dealer = is.readUInt16(5, false, 0);
+    tmp.listCardInfo = is.readList(6, false, TarsStream.List(CocklainStruct.TCardInfo));
+    tmp.multiple = is.readUInt8(7, true, -1);
+    tmp.chooseScoreConf = is.readStruct(10, false, CocklainStruct.TRespChooseScoreBegin);
+    tmp.listUserScore = is.readList(11, false, TarsStream.List(CocklainStruct.TNotifyChooseScore));
     return tmp;
 };
-CocklainStruct.TMsgCountdownTime.prototype._writeTo = function (os) {
-    os.writeInt32(0, this.msg);
-    os.writeUInt32(1, this.uiTime);
+CocklainStruct.TRespGameData.prototype._writeTo = function (os) {
+    os.writeStruct(1, this.gameConfig);
+    os.writeUInt8(2, this.gameStatus);
+    os.writeUInt16(5, this.dealer);
+    os.writeList(6, this.listCardInfo);
+    os.writeUInt8(7, this.multiple);
+    os.writeStruct(10, this.chooseScoreConf);
+    os.writeList(11, this.listUserScore);
 };
-CocklainStruct.TMsgCountdownTime.prototype._equal = function (anItem) {
+CocklainStruct.TRespGameData.prototype._equal = function (anItem) {
     assert(false, 'this structure not define key operation');
 }
-CocklainStruct.TMsgCountdownTime.prototype._genKey = function () {
+CocklainStruct.TRespGameData.prototype._genKey = function () {
     if (!this._proto_struct_name_) {
         this._proto_struct_name_ = 'STRUCT' + Math.random();
     }
     return this._proto_struct_name_;
 }
-CocklainStruct.TMsgCountdownTime.prototype.toObject = function() { 
+CocklainStruct.TRespGameData.prototype.toObject = function() { 
     var tmp = {};
 
-    tmp.msg = this.msg;
-    tmp.uiTime = this.uiTime;
+    tmp.gameConfig = this.gameConfig.toObject();
+    tmp.gameStatus = this.gameStatus;
+    tmp.dealer = this.dealer;
+    tmp.listCardInfo = this.listCardInfo.toObject();
+    tmp.multiple = this.multiple;
+    tmp.chooseScoreConf = this.chooseScoreConf.toObject();
+    tmp.listUserScore = this.listUserScore.toObject();
     
     return tmp;
 }
-CocklainStruct.TMsgCountdownTime.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("msg") || (this.msg = json.msg);
-    !json.hasOwnProperty("uiTime") || (this.uiTime = json.uiTime);
+CocklainStruct.TRespGameData.prototype.readFromObject = function(json) { 
+    !json.hasOwnProperty("gameConfig") || (this.gameConfig.readFromObject(json.gameConfig));
+    !json.hasOwnProperty("gameStatus") || (this.gameStatus = json.gameStatus);
+    !json.hasOwnProperty("dealer") || (this.dealer = json.dealer);
+    !json.hasOwnProperty("listCardInfo") || (this.listCardInfo.readFromObject(json.listCardInfo));
+    !json.hasOwnProperty("multiple") || (this.multiple = json.multiple);
+    !json.hasOwnProperty("chooseScoreConf") || (this.chooseScoreConf.readFromObject(json.chooseScoreConf));
+    !json.hasOwnProperty("listUserScore") || (this.listUserScore.readFromObject(json.listUserScore));
 }
-CocklainStruct.TMsgCountdownTime.prototype.toBinBuffer = function () {
+CocklainStruct.TRespGameData.prototype.toBinBuffer = function () {
     var os = new TarsStream.TarsOutputStream();
     this._writeTo(os);
     return os.getBinBuffer();
 }
-CocklainStruct.TMsgCountdownTime.new = function () {
-    return new CocklainStruct.TMsgCountdownTime();
+CocklainStruct.TRespGameData.new = function () {
+    return new CocklainStruct.TRespGameData();
 }
-CocklainStruct.TMsgCountdownTime.create = function (is) {
-    return CocklainStruct.TMsgCountdownTime._readFrom(is);
-}
-CocklainStruct.TGameData = function() {
-    this.vecMsgCountdownTime = new TarsStream.List(CocklainStruct.TMsgCountdownTime);
-    this.vecOdds = new TarsStream.List(TarsStream.Int64);
-    this.uiCurrRound = 0;
-    this.eGameStatus = CocklainStruct.E_GAME_STATUS.GS_SendCard;
-    this.uiCurrCountdownTime = 0;
-    this.vecUserDetail = new TarsStream.List(CocklainStruct.TUserDetail);
-    this.sendCardData = new CocklainStruct.TSendCardData();
-    this.baseScoreConf = new CocklainStruct.TBaseScoreConf();
-    this.scoreSellBuyConf = new CocklainStruct.TScoreSellBuyConf();
-    this.scoreSellBuyRecord = new CocklainStruct.TScoreSellBuyRecord();
-    this.roundResult = new CocklainStruct.TRoundResult();
-    this.uiChairIndex = 0;
-    this._classname = "CocklainStruct.TGameData";
-};
-CocklainStruct.TGameData._classname = "CocklainStruct.TGameData";
-
-CocklainStruct.TGameData._write = function (os, tag, value) { os.writeStruct(tag, value); }
-CocklainStruct.TGameData._read  = function (is, tag, def) { return is.readStruct(tag, true, def); }
-CocklainStruct.TGameData._readFrom = function (is) {
-    var tmp = new CocklainStruct.TGameData();
-    tmp.vecMsgCountdownTime = is.readList(0, true, TarsStream.List(CocklainStruct.TMsgCountdownTime));
-    tmp.vecOdds = is.readList(1, true, TarsStream.List(TarsStream.Int64));
-    tmp.uiCurrRound = is.readUInt32(2, true, 0);
-    tmp.eGameStatus = is.readInt32(3, true, CocklainStruct.E_GAME_STATUS.GS_SendCard);
-    tmp.uiCurrCountdownTime = is.readUInt32(4, true, 0);
-    tmp.vecUserDetail = is.readList(5, true, TarsStream.List(CocklainStruct.TUserDetail));
-    tmp.sendCardData = is.readStruct(6, false, CocklainStruct.TSendCardData);
-    tmp.baseScoreConf = is.readStruct(7, false, CocklainStruct.TBaseScoreConf);
-    tmp.scoreSellBuyConf = is.readStruct(8, false, CocklainStruct.TScoreSellBuyConf);
-    tmp.scoreSellBuyRecord = is.readStruct(9, false, CocklainStruct.TScoreSellBuyRecord);
-    tmp.roundResult = is.readStruct(10, true, CocklainStruct.TRoundResult);
-    tmp.uiChairIndex = is.readUInt32(11, true, 0);
-    return tmp;
-};
-CocklainStruct.TGameData.prototype._writeTo = function (os) {
-    os.writeList(0, this.vecMsgCountdownTime);
-    os.writeList(1, this.vecOdds);
-    os.writeUInt32(2, this.uiCurrRound);
-    os.writeInt32(3, this.eGameStatus);
-    os.writeUInt32(4, this.uiCurrCountdownTime);
-    os.writeList(5, this.vecUserDetail);
-    os.writeStruct(6, this.sendCardData);
-    os.writeStruct(7, this.baseScoreConf);
-    os.writeStruct(8, this.scoreSellBuyConf);
-    os.writeStruct(9, this.scoreSellBuyRecord);
-    os.writeStruct(10, this.roundResult);
-    os.writeUInt32(11, this.uiChairIndex);
-};
-CocklainStruct.TGameData.prototype._equal = function (anItem) {
-    assert(false, 'this structure not define key operation');
-}
-CocklainStruct.TGameData.prototype._genKey = function () {
-    if (!this._proto_struct_name_) {
-        this._proto_struct_name_ = 'STRUCT' + Math.random();
-    }
-    return this._proto_struct_name_;
-}
-CocklainStruct.TGameData.prototype.toObject = function() { 
-    var tmp = {};
-
-    tmp.vecMsgCountdownTime = this.vecMsgCountdownTime.toObject();
-    tmp.vecOdds = this.vecOdds.toObject();
-    tmp.uiCurrRound = this.uiCurrRound;
-    tmp.eGameStatus = this.eGameStatus;
-    tmp.uiCurrCountdownTime = this.uiCurrCountdownTime;
-    tmp.vecUserDetail = this.vecUserDetail.toObject();
-    tmp.sendCardData = this.sendCardData.toObject();
-    tmp.baseScoreConf = this.baseScoreConf.toObject();
-    tmp.scoreSellBuyConf = this.scoreSellBuyConf.toObject();
-    tmp.scoreSellBuyRecord = this.scoreSellBuyRecord.toObject();
-    tmp.roundResult = this.roundResult.toObject();
-    tmp.uiChairIndex = this.uiChairIndex;
-    
-    return tmp;
-}
-CocklainStruct.TGameData.prototype.readFromObject = function(json) { 
-    !json.hasOwnProperty("vecMsgCountdownTime") || (this.vecMsgCountdownTime.readFromObject(json.vecMsgCountdownTime));
-    !json.hasOwnProperty("vecOdds") || (this.vecOdds.readFromObject(json.vecOdds));
-    !json.hasOwnProperty("uiCurrRound") || (this.uiCurrRound = json.uiCurrRound);
-    !json.hasOwnProperty("eGameStatus") || (this.eGameStatus = json.eGameStatus);
-    !json.hasOwnProperty("uiCurrCountdownTime") || (this.uiCurrCountdownTime = json.uiCurrCountdownTime);
-    !json.hasOwnProperty("vecUserDetail") || (this.vecUserDetail.readFromObject(json.vecUserDetail));
-    !json.hasOwnProperty("sendCardData") || (this.sendCardData.readFromObject(json.sendCardData));
-    !json.hasOwnProperty("baseScoreConf") || (this.baseScoreConf.readFromObject(json.baseScoreConf));
-    !json.hasOwnProperty("scoreSellBuyConf") || (this.scoreSellBuyConf.readFromObject(json.scoreSellBuyConf));
-    !json.hasOwnProperty("scoreSellBuyRecord") || (this.scoreSellBuyRecord.readFromObject(json.scoreSellBuyRecord));
-    !json.hasOwnProperty("roundResult") || (this.roundResult.readFromObject(json.roundResult));
-    !json.hasOwnProperty("uiChairIndex") || (this.uiChairIndex = json.uiChairIndex);
-}
-CocklainStruct.TGameData.prototype.toBinBuffer = function () {
-    var os = new TarsStream.TarsOutputStream();
-    this._writeTo(os);
-    return os.getBinBuffer();
-}
-CocklainStruct.TGameData.new = function () {
-    return new CocklainStruct.TGameData();
-}
-CocklainStruct.TGameData.create = function (is) {
-    return CocklainStruct.TGameData._readFrom(is);
+CocklainStruct.TRespGameData.create = function (is) {
+    return CocklainStruct.TRespGameData._readFrom(is);
 }
 
 
