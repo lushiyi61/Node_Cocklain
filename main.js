@@ -5,7 +5,7 @@ var tarsLogs = require("@tars/logs");
 var logger = new tarsLogs('TarsDate');
 
 var svr = new TarsServer();
-svr.initialize(process.env.TARS_CONFIG || "./TARS.NodeTarsServer.config.conf", function (server){
+svr.initialize(process.env.TARS_CONFIG || "./JFGame.NodeCocklain.config.conf", function (server){
     server.addServant(TarsGame.IGameMessageImp, server.Application + "." + server.ServerName + ".CocklainObj");
     logger.info("==============Cocklain server started=================");
 });
